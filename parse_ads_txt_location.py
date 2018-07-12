@@ -36,7 +36,7 @@ def create_single_txt_location(entry_line):
 		print("Something went wrong in creating the Url. Please investigate")
 
 	ad_txt_name = 'ads.txt'
-	return website[0] + package[0] + ad_txt_name
+	return website[0] + '/' + package[0] + '/' + ad_txt_name
 
 def open_file_create_dict(file_path):
 	'''
@@ -76,12 +76,14 @@ def write_dict_to_new_file(file_name, dict_name):
 
 	with open(file_name, 'w') as f:
 		for key in dict_name:
-			
+			f.write("Market Url: " + key + ", Ads Txt URL: " + dict_name[key] + "\n")
+
+		f.close()
 
 def main(args):
 	data_entries_file = args[1]
 	market_url_to_ads_txt_dict = open_file_create_dict(data_entries_file)
-	print(market_url_to_ads_txt_dict)
+	write_dict_to_new_file('parsed_out_urls.txt', market_url_to_ads_txt_dict)
 	return
 	#TODO
 
