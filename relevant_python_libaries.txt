@@ -1,0 +1,9 @@
+Python Libraries used:
+celery
+	vine
+	amqp
+	kombu
+	billiard
+	pytz
+	
+	
