@@ -7,4 +7,8 @@ celery (to schedule regularly timed tasks)
 	billiard
 	pytz
 
-	
+requests (to check if a url is valid)
+	urllib3
+	chardet
+	certifi
+	idna
