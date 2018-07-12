@@ -1,9 +1,10 @@
-Python Libraries used:
-celery
+Python Libraries used apart from standard:
+
+celery (to schedule regularly timed tasks)
 	vine
 	amqp
 	kombu
 	billiard
 	pytz
-	
+
 	
