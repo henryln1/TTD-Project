@@ -12,3 +12,8 @@ requests (to check if a url is valid)
 	chardet
 	certifi
 	idna
+	
+pandas (to interact from csv files)
+	numpy
+	six
+	python-dateutil
