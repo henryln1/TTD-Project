@@ -33,7 +33,7 @@ def create_single_txt_location(entry_line):
 	package = parse_for_specific_parameter('package_name', entry_line)
 
 	if len(website) != 1 or len(package) != 1:
-		print("Something went wrong in creating the Url. Please investigate")
+		print("Something went wrong in creating the Url. Please investigate.")
 
 	ad_txt_name = 'ads.txt'
 	return website[0] + '/' + package[0] + '/' + ad_txt_name
@@ -73,6 +73,10 @@ def open_file_create_dict(file_path):
 	return market_url_to_ads_txt_dict
 
 def write_dict_to_new_file(file_name, dict_name):
+	'''
+	Writes a dictionary to new file, each line being a key/value pair
+
+	'''
 
 	with open(file_name, 'w') as f:
 		for key in dict_name:
@@ -83,7 +87,7 @@ def write_dict_to_new_file(file_name, dict_name):
 def main(args):
 	data_entries_file = args[1]
 	market_url_to_ads_txt_dict = open_file_create_dict(data_entries_file)
-	write_dict_to_new_file('parsed_out_urls.txt', market_url_to_ads_txt_dict)
+	write_dict_to_new_file('../parsed_out_urls.txt', market_url_to_ads_txt_dict)
 	return
 	#TODO
 
