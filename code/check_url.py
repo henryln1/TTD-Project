@@ -28,7 +28,6 @@ def extensive_check_for_ads_txt(request):
 	return False
 
 
-
 def check_valid_url_ad_txt(url_path):
 	'''
 	Given a url, we try to check if it is valid. Returns a boolean 
@@ -38,3 +37,18 @@ def check_valid_url_ad_txt(url_path):
 		return extensive_check_for_ads_txt(request)
 	return False
 
+
+def extract_url_contents(url_list):
+	'''
+	Takes a list of urls (valid and invalid for now) and returns the dict structured as:
+
+	url : url_contents
+
+	'''
+	url_contents_dict = {}
+	for url in url_list:
+		if check_valid_url_ad_txt(url):
+			url_contents_dict[url] = request.get(url_path).text
+		else:
+			url_contents_dict[url] = None
+	return url_contents_dict
