@@ -1,8 +1,8 @@
 import re
 import sys
 from collections import defaultdict
-
-
+from check_url import *
+from utils import *
 '''
 The purpose of this file is to take in a file with a list of entries from the 
 playstore, parse that information, and then return a list of urls to check 
@@ -36,7 +36,11 @@ def create_single_txt_location(entry_line):
 		print("Something went wrong in creating the Url. Please investigate.")
 
 	ad_txt_name = 'ads.txt'
-	return website[0] + '/' + package[0] + '/' + ad_txt_name
+	if website[0][-1] != '/':
+		website[0] += '/'
+	if package[0][-1] != '/':
+		package[0] += '/'
+	return website[0] + package[0] + ad_txt_name
 
 def open_file_create_dict(file_path):
 	'''
@@ -84,10 +88,34 @@ def write_dict_to_new_file(file_name, dict_name):
 
 		f.close()
 
+def write_urls_to_file(file_name, dict_name, check_validity = False, no_duplicates = False):
+	'''
+	writes only the urls to a text file
+	'''
+
+	urls = [dict_name[key] for key in dict_name]
+	if no_duplicates:
+		urls = remove_duplicates_from_list(urls)
+	with open(file_name, 'w') as f:
+
+		for urlIndex in range(len(urls)):
+			print(urls[urlIndex])
+			if not check_validity:
+				f.write("Url " + str(urlIndex) + ": " + urls[urlIndex] + '\n')
+			else:
+				validity = check_valid_url_ad_txt(urls[urlIndex])
+				f.write("Url " + str(urlIndex) + ": " + urls[urlIndex] + ' is ' + str(validity) + '\n')
+		f.close()
+
+
 def main(args):
 	data_entries_file = args[1]
 	market_url_to_ads_txt_dict = open_file_create_dict(data_entries_file)
+	
+	urls_only_txt_file_name = '../urls_validity.txt'
 	write_dict_to_new_file('../parsed_out_urls.txt', market_url_to_ads_txt_dict)
+	write_urls_to_file(urls_only_txt_file_name, market_url_to_ads_txt_dict, check_validity = True, no_duplicates = False)
+
 	return
 	#TODO
 
