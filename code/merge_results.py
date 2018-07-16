@@ -44,10 +44,10 @@ def create_change_list(app_ids_to_urls_dict):
 	'''
 	change_set = []
 
-	for app_id in apps_ids_to_urls_dict:
+	for app_id in app_ids_to_urls_dict:
 		app_id_ads_txt_locations = []
-		for url in apps_ids_to_urls_dict[app_id]:
-			if check_valid_url_ad_text(url):
+		for url in app_ids_to_urls_dict[app_id]:
+			if check_valid_url_ad_txt(url):
 				app_id_ads_txt_locations.append(url)
 
 		if not app_id_ads_txt_locations: #no valid url
@@ -131,7 +131,7 @@ def merge_into_file(file_name, list_of_changes):
 		
 
 
-	if os.path.isfile(file_name) and os.access(file_na,e os.R_OK):
+	if os.path.isfile(file_name) and os.access(file_name, os.R_OK):
 		print("Found existing csv file, modifying...")
 		#open file and modify it
 		csv_dataframe = modify_existing_csv()
