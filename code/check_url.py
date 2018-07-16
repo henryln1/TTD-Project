@@ -1,11 +1,16 @@
 import requests
 import re
 
+'''
+File contains code to look at an url and determine whether or not there is a text file present
+
+'''
+
 
 def extensive_check_for_ads_txt(request):
 	'''
-	After performing the initial status code check, we now need to check for soft 404s and other annoying things
-	to verify whether or not there is a ads.txt file present. Boolean function
+	After performing the initial status code check, we now need to check for soft 404s and other problematic things
+	to verify whether or not there is a ads.txt file present.
 
 	'''
 	content = request.text

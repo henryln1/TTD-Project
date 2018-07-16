@@ -126,7 +126,7 @@ if __name__ == "__main__":
 	sys args contains the arguments you pass in when running this file:
 	file.py arg0 arg1 arg2
 
-	arg1 should be a path to the entries
+	arg1 should be a path to the data entries
 
 
 	'''
