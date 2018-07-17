@@ -36,11 +36,21 @@ def create_single_txt_location(entry_line):
 		print("Something went wrong in creating the Url. Please investigate.")
 
 	ad_txt_name = 'ads.txt'
+
+	#inconsistent website url inclusion of / so this part helps piece them together
 	if website[0][-1] != '/':
 		website[0] += '/'
 	if package[0][-1] != '/':
 		package[0] += '/'
 	return website[0] + package[0] + ad_txt_name
+
+def open_file(file_path):
+	
+	with open(file_path, 'r', encoding = 'utf-8') as f:
+		all_lines = f.readlines()
+		all_lines = [line.rstrip('\n') for line in all_lines]
+		f.close()
+	return all_lines
 
 def open_file_create_dict(file_path):
 	'''
@@ -53,11 +63,8 @@ def open_file_create_dict(file_path):
 
 	'''
 
-	with open(file_path, 'r', encoding = 'utf-8') as f:
-		all_lines = f.readlines()
-		all_lines = [line.rstrip('\n') for line in all_lines]
-		f.close()
 
+	all_lines = open_file(file_path)
 	market_url_to_ads_txt_dict = defaultdict(str)
 
 	#print(all_lines[0])

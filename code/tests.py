@@ -19,6 +19,7 @@ def check_url_tests():
 	assert valid_url_check is True
 	fake_url_check = check_valid_url_ad_txt(example_fake_url)
 	assert fake_url_check is False
+
 	return
 
 def check_utils_tests():
@@ -27,8 +28,17 @@ def check_utils_tests():
 	removed_duplicates = remove_duplicates_from_list(example_list)
 	assert len(removed_duplicates) == 4
 
+	return
+
 def check_parse_ads_txt_location_tests():
-	pass
+	small_data_file_name = '../dummy_data/playstore-00'
+	lines = open_file(small_data_file_name)
+	assert len(lines) == 100 #check all lines are being loaded
+	assert """air.com.hypah.io.slither", "short_desc": "Play online with people all over the world! Can YOU become the longest player?""" in lines[0] #check first entry to make sure it's right
+	test_url = create_single_txt_location(lines[0])
+	assert test_url == 'http://slither.io/air.com.hypah.io.slither/ads.txt'
+
+	return
 
 
 def check_merge_results_tests():
@@ -38,7 +48,7 @@ def check_merge_results_tests():
 	correct_check_file_name = '../correct_output_test.csv' #file to compare against for first check
 	fully_completed_file_check = '../correct_output_test_complete_merge.csv' #file to compare against for second check
 
-	#checking if test file already exists (leftover from past test). If it does, we delete it
+	#checking if test file already exists (leftover from past test run). If it does, we delete it
 	if os.path.isfile(file_name) and os.access(file_name, os.R_OK):
 		os.remove(file_name)
 
@@ -72,15 +82,22 @@ def check_merge_results_tests():
 	full_expected_array = pd.read_csv(fully_completed_file_check)
 	modified_data_entries = pd.read_csv(file_name)
 	assert modified_data_entries.equals(full_expected_array)
+
 	return 
 
 
 def main():
+	#If the tests start taking a sizeable amount of time, add flags so tests can be run individually or in smaller groups - not needed currently.
+	print("Executing all tests.")
 	start_time = time.time()
 	check_url_tests()
+	print("url tests passed.")
 	check_utils_tests()
+	print("utils tests passed.")
 	check_parse_ads_txt_location_tests()
+	print("locations tests passed.")
 	check_merge_results_tests()
+	print("merge tests passed.")
 	print("All tests run. Time Elapsed: %s seconds. Program stopping. " % (time.time() - start_time))
 
 	#deleting created csv file
