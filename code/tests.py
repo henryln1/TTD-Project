@@ -4,6 +4,7 @@ from parse_ads_txt_location import *
 from utils import *
 import pandas as pd
 import time
+import os
 
 '''
 Contains tests written to make sure all the functions written 
@@ -31,41 +32,46 @@ def check_parse_ads_txt_location_tests():
 
 
 def check_merge_results_tests():
+
+
+	file_name = '../test_merge.csv' #test file program creates
+	correct_check_file_name = '../correct_output_test.csv' #file to compare against for first check
+	fully_completed_file_check = '../correct_output_test_complete_merge.csv' #file to compare against for second check
+
+	#checking if test file already exists (leftover from past test). If it does, we delete it
+	if os.path.isfile(file_name) and os.access(file_name, os.R_OK):
+		os.remove(file_name)
+
+
+	#test for when we create a new csv file
 	dummy_ids_to_urls_dict = {
 		'fruit_ninja': ['http://fruitninja.com/ads.txt', 'http://fruitninja.com/apps/ads.txt'],
 		'google_translate': ['http://google.com/ads.txt'],
 		'angry_birds': []
 	}
 	changes = create_change_list(dummy_ids_to_urls_dict)
-	assert ('fruit_ninja', ('http://fruitninja.com/ads.txt', 'http://fruitninja.com/apps/ads.txt')) in changes
-	assert('google_translate', ('http://google.com/ads.txt')) in changes
+	assert ('fruit_ninja', 'NONE') in changes
+	assert('google_translate', 'NONE') in changes
 	assert('angry_birds', 'NONE') in changes
 	assert len(changes) == 3
-
-	file_name = '../test_merge.csv'
 	merge_into_file(file_name, changes)
 	#file created, now time to load it and check if it is accurate
-
 	data_entries = pd.read_csv(file_name)
-	data_entries_array = data_entries.as_matrix()
-	expected_array = [['fruit_ninja', ('http://fruitninja.com/ads.txt', 'http://fruitninja.com/apps/ads.txt')], 
-					['google_translate', ('http://google.com/ads.txt')],
-					['angry_birds', 'No ads.txt found']]
+	expected_array = pd.read_csv(correct_check_file_name)
+	assert data_entries.equals(expected_array)
 
-	assert data_entries_array == np.asarray(expected_array)
+
 
 	#time to check if it works when modifying the file
 	new_dummy_ids_to_url_dict = {
-		'flappy_bird': ['http://flappybird.com/ads.txt']
+		'google': ['http://www.google.com/chrome/android/com.android.chrome/ads.txt'], #adding new entry to current file
+		'google_translate': ['http://www.google.com/chrome/android/com.android.chrome/ads.txt'] #test to update a current entry
 	}
-
 	changes = create_change_list(new_dummy_ids_to_url_dict)
 	merge_into_file(file_name, changes)
-	expected_array.append(['flappy_bird', ('http://flappybird.com/ads.txt')])
-
+	full_expected_array = pd.read_csv(fully_completed_file_check)
 	modified_data_entries = pd.read_csv(file_name)
-	modified_data_entries_array = modified_data_entries.as_matrix()
-	assert modified_data_entries_array == np.as_array(expected_array)
+	assert modified_data_entries.equals(full_expected_array)
 	return 
 
 
@@ -75,8 +81,10 @@ def main():
 	check_utils_tests()
 	check_parse_ads_txt_location_tests()
 	check_merge_results_tests()
-	print("All tests run. Time Elapsed: %s seconds. Program stopping. " % (time.time() - start.time))
+	print("All tests run. Time Elapsed: %s seconds. Program stopping. " % (time.time() - start_time))
 
+	#deleting created csv file
+	os.remove('../test_merge.csv')
 
 
 

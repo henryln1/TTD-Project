@@ -50,11 +50,15 @@ def create_change_list(app_ids_to_urls_dict):
 			if check_valid_url_ad_txt(url):
 				app_id_ads_txt_locations.append(url)
 
+
 		if not app_id_ads_txt_locations: #no valid url
 			change_set.append((app_id, 'NONE')) #NONE is just a marker telling us that there is no ads.txt file
 		else: #we found at least one valid location for ads.txt
-			tuple_form_locations = tuple(app_id_ads_txt_locations)
-			change_set.append((app_id, tuple_form_locations))
+			if len(app_id_ads_txt_locations) > 1:
+				tuple_form_locations = tuple(app_id_ads_txt_locations)
+				change_set.append((app_id, tuple_form_locations))
+			else:
+				change_set.append((app_id, app_id_ads_txt_locations[0]))
 
 	return change_set
 
@@ -73,12 +77,13 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		Checks if the csv file already contains the current app_id
 		'''
-		exists = (dataframe.index == app_id_name).any()
-		if exists:
+		column_name = 'app_id'
+		exists = dataframe[dataframe['app_id'] == app_id_name]
+		if not exists.empty:
 			print(app_id_name + " already exists in csv file. Updating...")
 		else:
 			print(app_id_name + " is a new entry. Adding...")
-		return exists
+		return not exists.empty
 
 
 	def modify_existing_csv():
@@ -91,20 +96,17 @@ def merge_into_file(file_name, list_of_changes):
 
 		for change in list_of_changes:
 			current_app_id, ads_txt_location = change
-
 			if ads_txt_location == 'NONE':
 				ads_txt_location = 'No ads.txt found.'
 
 			if check_existing_app_id(current_app_id, csv_dataframe): #app id already exists, so we have to update that row 
-
 				#looks for existing row and updates ads.txt location
+				app_id_column = 'app_id'
 				csv_dataframe.loc[csv_dataframe['app_id'] == current_app_id, 'ads.txt_location'] = ads_txt_location
-				
 			else: #adding a new entry to csv table
-				new_app_ids_list.append()
-
+				new_app_ids_list.append((current_app_id, ads_txt_location))
 		new_entries_dataframe = create_new_csv(new_app_ids_list)
-		csv_dataframe.append(new_entries_dataframe)
+		csv_dataframe = csv_dataframe.append(new_entries_dataframe)
 
 		return csv_dataframe
 
@@ -113,19 +115,21 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		No csv file so we have to create it from current info.
 		'''
-		def convert_to_array():
-			app_id_ads_txt_array = np.empty((2, len(changes)))
+		max_length = 50
+
+		def convert_to_list_of_list():
+			app_id_ads_txt_list = []
 			for change in range(len(changes)):
 				current_app_id, ads_txt_location = changes[change]
 				if ads_txt_location == 'NONE':
 					ads_txt_location = 'No ads.txt found.'
-				app_id_ads_txt_array[0][change] = current_app_id
-				app_id_ads_txt_array[1][change] = ads_txt_location
-			return app_id_ads_txt_array
+				curr_list = [current_app_id, ads_txt_location]
+				app_id_ads_txt_list.append(curr_list)
+			return app_id_ads_txt_list
 
 
 		column_names = ['app_id', 'ads.txt_location']
-		new_csv_dataframe = pd.DataFrame(data = convert_to_array(), columns = column_names)
+		new_csv_dataframe = pd.DataFrame(convert_to_list_of_list(), columns = column_names)
 
 		return new_csv_dataframe
 		
@@ -138,10 +142,10 @@ def merge_into_file(file_name, list_of_changes):
 	else: 
 		print("No csv file found. Creating new csv file...")
 		#no existing file so creating a new one
-		csv_dataframe = create_new_csv()
+		csv_dataframe = create_new_csv(list_of_changes)
 	
 	#saving a csv file now
-	csv_dataframe.to_csv(file_name)
+	csv_dataframe.to_csv(file_name, index = False)
 	print("CSV file complete. File updated with latest information from data.")
 	return
 
