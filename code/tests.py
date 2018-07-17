@@ -86,7 +86,8 @@ def check_merge_results_tests():
 	return 
 
 
-def main():
+
+def run_all_tests():
 	#If the tests start taking a sizeable amount of time, add flags so tests can be run individually or in smaller groups - not needed currently.
 	print("Executing all tests.")
 	start_time = time.time()
@@ -102,6 +103,9 @@ def main():
 
 	#deleting created csv file
 	os.remove('../test_merge.csv')
+
+def main():
+	run_all_tests()
 
 
 
