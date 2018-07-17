@@ -1,13 +1,8 @@
 # TTD-Project
-Summer intern project at TheTradeDesk. Will replace with a better name later. Initial commit to set up repository.
-
-The general goal of the project is to generate a text file that contains a line for each app with details about who is/isn't allowed to advertise on their platform. 
-
-The data will be regularly updated in AWS, and the code will be written in Python 3.x.
+Summer project at theTradeDesk. The goal is to generate a csv file that has a match between mobile app ids and a corresponding ads.txt location on the web.
 
 
-Current Notes:
-Not sure what the best data structure is to for storing the urls when we process them. Currently stored in a dictionary from market url to ad.txt url, but this can most likely be modified to just be a list of ad.txt url.
+The data will be stored in AWS and the code is being written in Python 3.7.0.
 
 
-Working on converting C# code Jud provided into Python syntax.
+The necessary Python libraries aside from the standard are listed in relevant_python_libraries.txt. Please install these before running.
