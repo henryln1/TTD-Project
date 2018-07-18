@@ -1,4 +1,5 @@
 import os
+import re
 
 
 '''
@@ -17,3 +18,25 @@ def validate_file(file):
 	if os.path.isfile(file) and os.access(file, os.R_OK):
 		return True
 	return False
+
+
+
+def parse_for_specific_parameter(parameter_name, search_string):
+	'''
+	Uses regexes to find a specific piece of information in the entry.
+
+	'''
+	#regex_pattern = r'market_url": "(.+?)",'
+	regex_pattern = re.escape(parameter_name) + r'": "(.+?)"'
+	parameter = re.findall(regex_pattern, search_string)
+	return parameter
+
+
+def check_missing_slash(string):
+	'''
+	Adds a slash to end of string if there is not one there already and then returns new string
+	'''
+
+	if string[-1] != '/':
+		string += '/'
+	return string
