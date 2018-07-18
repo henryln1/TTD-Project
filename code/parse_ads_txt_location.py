@@ -20,16 +20,6 @@ def reconstruct_urls_to_check():
 	'''
 
 
-def parse_for_specific_parameter(parameter_name, search_string):
-	'''
-	Uses regexes to find a specific piece of information in the entry.
-
-	'''
-	#regex_pattern = r'market_url": "(.+?)",'
-	regex_pattern = re.escape(parameter_name) + r'": "(.+?)"'
-	parameter = re.findall(regex_pattern, search_string)
-	return parameter
-
 def create_single_txt_location(entry_line):
 	'''
 	Takes in a single entry line and returns a string url with the format:
