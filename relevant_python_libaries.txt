@@ -7,13 +7,13 @@ celery (to schedule regularly timed tasks)
 	billiard
 	pytz
 
-requests (to check if a url is valid)
+requests (to check if a url is valid and handle website related processes)
 	urllib3
 	chardet
 	certifi
 	idna
 	
-pandas (to interact from csv files)
+pandas (to interact with csv files)
 	numpy
 	six
 	python-dateutil

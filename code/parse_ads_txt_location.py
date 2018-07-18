@@ -10,6 +10,8 @@ whether or not the ads.txt file exists for each one.
 
 '''
 
+
+
 def parse_for_specific_parameter(parameter_name, search_string):
 	'''
 	Uses regexes to find a specific piece of information in the entry.
@@ -33,7 +35,7 @@ def create_single_txt_location(entry_line):
 	package = parse_for_specific_parameter('package_name', entry_line)
 
 	if len(website) != 1 or len(package) != 1:
-		print("Something went wrong in creating the Url. Please investigate.")
+		print("Something went wrong in creating the url. Please investigate.")
 
 	ad_txt_name = 'ads.txt'
 
