@@ -1,11 +1,8 @@
 
 
 
-
-
 '''
 Place to keep functions that may be generally useful in the future
-
 
 '''
 
