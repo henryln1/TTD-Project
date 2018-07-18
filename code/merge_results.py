@@ -38,27 +38,24 @@ def create_change_list(app_ids_to_urls_dict):
 
 	'''
 	apps_ids_to_urls_dict is a dictionary from app id to the list of possible locations for ads.txt
-	This function goes through and checks if there's an ads.txt file. If there is, it will save it to a list 
-	and then process it later into the text file.	
+	This function goes through and checks if there's an ads.txt file. If there is, it continues and does not
+	check the remaining possible locations.
 	returns a list of changes 
 	'''
 	change_set = []
 
 	for app_id in app_ids_to_urls_dict:
-		app_id_ads_txt_locations = []
+		valid_url = ''
 		for url in app_ids_to_urls_dict[app_id]:
 			if check_valid_url_ad_txt(url):
-				app_id_ads_txt_locations.append(url)
+				valid_url = url
+				break
 
 
-		if not app_id_ads_txt_locations: #no valid url
+		if valid_url == '': #no valid url
 			change_set.append((app_id, 'NONE')) #NONE is just a marker telling us that there is no ads.txt file
 		else: #we found at least one valid location for ads.txt
-			if len(app_id_ads_txt_locations) > 1:
-				tuple_form_locations = tuple(app_id_ads_txt_locations)
-				change_set.append((app_id, tuple_form_locations))
-			else:
-				change_set.append((app_id, app_id_ads_txt_locations[0]))
+			change_set.append((app_id, valid_url))
 
 	return change_set
 
@@ -135,7 +132,7 @@ def merge_into_file(file_name, list_of_changes):
 		
 
 
-	if os.path.isfile(file_name) and os.access(file_name, os.R_OK):
+	if validate(file_name):
 		print("Found existing csv file, modifying...")
 		#open file and modify it
 		csv_dataframe = modify_existing_csv()

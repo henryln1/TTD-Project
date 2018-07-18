@@ -11,6 +11,14 @@ whether or not the ads.txt file exists for each one.
 '''
 
 
+def reconstruct_urls_to_check():
+	'''
+	First check if there is a valid ads.txt file defined in the metadata (probably will do in different function)
+	Next check site entry + ads.txt (e.g http://www.zynga.com/wordswithfriends/ads.txt)
+	Next check "http://{topleveldomain+1}/{appId}/ads.txt" (e.g http://zynga.com/com.zynga.words3/ads.txt)
+
+	'''
+
 
 def parse_for_specific_parameter(parameter_name, search_string):
 	'''
@@ -133,7 +141,7 @@ if __name__ == "__main__":
 	'''
 	Executes when running this file.
 	sys args contains the arguments you pass in when running this file:
-	file.py arg0 arg1 arg2
+	file.py arg1 arg2
 
 	arg1 should be a path to the data entries
 
