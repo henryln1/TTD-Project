@@ -17,16 +17,18 @@ def extensive_check_for_ads_txt(request):
 	def check_for_valid_ads_txt_entries(content):
 
 		'''
-		TODO TODO TODO TODO
 		needs to look at the contents of the webpage to see if it actually contains valid ads.txt entries
-		'''
-		valid_ads_txt_entry_regex = r'valid_entry'
 
-		return True
+		UPDATE: does not look like this function is needed. 
+		'''
+		valid_ads_txt_entry_regex = r'.+?, .*?, (DIRECT)|(RESELLER)'
+		if 'html' not in content and re.search(valid_ads_txt_entry_regex, content, re.IGNORECASE):
+			return True
+		return False
 
 	content = request.text
 
-	if ((
+	if (not (
 		'<!DOCTYPE' in content or 
 		'<!doctype' in content or 
 		'<html' in content or 
@@ -37,8 +39,8 @@ def extensive_check_for_ads_txt(request):
 		'RESELLER' in content or 
 		'direct' in content or 
 		'reseller' in content)
-	and (not re.search('Page not found', content, re.IGNORECASE))
-	and (check_for_valid_ads_txt_entries(content))):
+	and (not re.search('Page not found', content, re.IGNORECASE))):
+	#and (check_for_valid_ads_txt_entries(content))):
 		return True
 
 
@@ -49,10 +51,21 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	Given a url, we try to check if it is valid. Returns a boolean 
 	'''
-	print(url_path)
-	request = requests.get(url_path)
+
+
+	'''
+	try/except is to handle the errors when the website crashes the process. 
+	'''
+	
+	try:
+		request = requests.get(url_path)
+	except:
+		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt found.")
+		return False
 	if request.status_code == 200:
+		print(extensive_check_for_ads_txt(request))
 		return extensive_check_for_ads_txt(request)
+	print("False")
 	return False
 
 

@@ -21,11 +21,13 @@ def look_for_ads_txt_url(entry_line):
 		If a valid ads.txt file exists, use it.
 	
 		'''
-		ads_txt_regex = r' (http.+?/ads.txt)'
+		ads_txt_regex = r'(adstx.+?/ads.txt)'
 
 		if 'ads.txt' in entry_line:
 			#TODO, just a placeholder returning the entire line when ads.txt is found here. Will update with actual regex once I know format
-			return entry_line
+			find_ads_txt = re.search(ads_txt_regex, entry_line, re.IGNORECASE)
+			if find_ads_txt:
+				return find_ads_txt[0]
 
 		return ''
 
@@ -118,7 +120,6 @@ def open_file_create_dict(file_path):
 
 			current_entry = f.readline()
 		f.close()
-	print(ads_txt_location_dict.values())
 	return ads_txt_location_dict
 
 # def create_change_list(app_ids_to_location_dict):

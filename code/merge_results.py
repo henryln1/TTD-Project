@@ -102,20 +102,19 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		csv_dataframe = pd.read_csv(file_name)
 
-		new_app_ids_list = []
-
+		new_additions = []
 		for change in list_of_changes:
 			current_app_id, ads_txt_location = change
 			if ads_txt_location == 'NONE':
 				ads_txt_location = 'No ads.txt found.'
 
-			if check_existing_app_id(current_app_id, csv_dataframe): #app id already exists, so we have to update that row 
+			if check_existing_app_id(str(current_app_id), csv_dataframe): #app id already exists, so we have to update that row 
 				#looks for existing row and updates ads.txt location
 				app_id_column = 'app_id'
-				csv_dataframe.loc[csv_dataframe['app_id'] == current_app_id, 'ads.txt_location'] = ads_txt_location
+				csv_dataframe.loc[csv_dataframe['app_id'] == str(current_app_id), 'ads.txt_location'] = ads_txt_location
 			else: #adding a new entry to csv table
-				new_app_ids_list.append((current_app_id, ads_txt_location))
-		new_entries_dataframe = create_new_csv(new_app_ids_list)
+				new_additions.append((str(current_app_id), ads_txt_location))
+		new_entries_dataframe = create_new_csv(new_additions)
 		csv_dataframe = csv_dataframe.append(new_entries_dataframe)
 
 		return csv_dataframe
@@ -127,20 +126,19 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		max_length = 50
 
-		def convert_to_list_of_list():
-			app_id_ads_txt_list = []
-			for change in range(len(changes)):
-				current_app_id, ads_txt_location = changes[change]
-				if ads_txt_location == 'NONE':
-					ads_txt_location = 'No ads.txt found.'
-				curr_list = [current_app_id, ads_txt_location]
-				app_id_ads_txt_list.append(curr_list)
-			return app_id_ads_txt_list
+		# def convert_to_list_of_list():
+		# 	app_id_ads_txt_list = []
+		# 	for change in range(len(changes)):
+		# 		current_app_id, ads_txt_location = changes[change]
+		# 		if ads_txt_location == 'NONE':
+		# 			ads_txt_location = 'No ads.txt found.'
+		# 		curr_list = [current_app_id, ads_txt_location]
+		# 		app_id_ads_txt_list.append(curr_list)
+		# 	return app_id_ads_txt_list
 
 
 		column_names = ['app_id', 'ads.txt_location']
-		new_csv_dataframe = pd.DataFrame(convert_to_list_of_list(), columns = column_names)
-
+		new_csv_dataframe = pd.DataFrame(changes, columns = column_names)
 		return new_csv_dataframe
 		
 
@@ -155,6 +153,7 @@ def merge_into_file(file_name, list_of_changes):
 		csv_dataframe = create_new_csv(list_of_changes)
 	
 	#saving a csv file now
+	print(" complete: ", csv_dataframe)
 	csv_dataframe.to_csv(file_name, index = False)
 	print("CSV file complete. File updated with latest information from data.")
 	return
