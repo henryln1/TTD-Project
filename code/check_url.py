@@ -13,6 +13,17 @@ def extensive_check_for_ads_txt(request):
 	to verify whether or not there is a ads.txt file present.
 
 	'''
+
+	def check_for_valid_ads_txt_entries(content):
+
+		'''
+		TODO TODO TODO TODO
+		needs to look at the contents of the webpage to see if it actually contains valid ads.txt entries
+		'''
+		valid_ads_txt_entry_regex = r'valid_entry'
+
+		return True
+
 	content = request.text
 
 	if ((
@@ -26,7 +37,8 @@ def extensive_check_for_ads_txt(request):
 		'RESELLER' in content or 
 		'direct' in content or 
 		'reseller' in content)
-	and (not re.search('Page not found', content, re.IGNORECASE))):
+	and (not re.search('Page not found', content, re.IGNORECASE))
+	and (check_for_valid_ads_txt_entries(content))):
 		return True
 
 
@@ -37,6 +49,7 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	Given a url, we try to check if it is valid. Returns a boolean 
 	'''
+	print(url_path)
 	request = requests.get(url_path)
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)
