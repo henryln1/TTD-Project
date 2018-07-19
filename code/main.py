@@ -2,6 +2,7 @@ from check_url import *
 from merge_results import *
 import google_playstore_extraction as google
 from utils import *
+import sys
 
 possible_app_stores = ['Apple', 'Google', 'Tencent']
 

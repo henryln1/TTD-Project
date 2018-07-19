@@ -1,5 +1,5 @@
 from utils import *
-from parse_ads_txt_location import *
+#from parse_ads_txt_location import *
 import re
 import pandas as pd
 from check_url import *
@@ -153,7 +153,6 @@ def merge_into_file(file_name, list_of_changes):
 		csv_dataframe = create_new_csv(list_of_changes)
 	
 	#saving a csv file now
-	print(" complete: ", csv_dataframe)
 	csv_dataframe.to_csv(file_name, index = False)
 	print("CSV file complete. File updated with latest information from data.")
 	return
