@@ -121,6 +121,15 @@ def open_file_create_dict(file_path):
 	print(ads_txt_location_dict.values())
 	return ads_txt_location_dict
 
+# def create_change_list(app_ids_to_location_dict):
+# 	changes = []
+# 	for app in app_ids_to_location_dict:
+# 		if app_ids_to_location_dict[app] == '':
+# 			changes.append((app, 'NONE'))
+# 		else:
+# 			changes.append((app, app_ids_to_location_dict[app]))
+# 	return changes
+
 
 
 
