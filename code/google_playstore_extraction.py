@@ -1,6 +1,5 @@
 import re
 import sys
-from collections import defaultdict
 from check_url import *
 from utils import *
 
@@ -22,6 +21,7 @@ def look_for_ads_txt_url(entry_line):
 		If a valid ads.txt file exists, use it.
 	
 		'''
+		ads_txt_regex = r' (http.+?/ads.txt)'
 
 		if 'ads.txt' in entry_line:
 			#TODO, just a placeholder returning the entire line when ads.txt is found here. Will update with actual regex once I know format
@@ -59,10 +59,10 @@ def look_for_ads_txt_url(entry_line):
 		'''
 
 		site_entry_marker = 'website'
-		site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)
+		site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)[0]
 		site_entry = check_missing_slash(site_entry)
 		package_marker = 'package_name'
-		package = parse_for_specific_parameter(package_marker, entry_line)
+		package = parse_for_specific_parameter(package_marker, entry_line)[0]
 		package = check_missing_slash(package)
 		possible_url = site_entry + package + 'ads.txt'
 
@@ -93,6 +93,37 @@ def look_for_ads_txt_url(entry_line):
 	#3
 	possible_url = check_full_domain_url()
 	return possible_url
+
+
+def open_file_create_dict(file_path):
+	'''
+	Opens up the data file and starts processing the data into a dictionary with format
+
+	(app id, market url): ads.txt location
+
+	'''
+	ads_txt_location_dict = {}
+
+	with open(file_path, 'r', encoding = 'utf-8') as f:
+		current_entry = f.readline()
+
+		while current_entry:
+			app_id = parse_for_specific_parameter('title', current_entry)[0]
+			market_url = parse_for_specific_parameter('market_url', current_entry)[0]
+			if not app_id:
+				print("Could not find title of app. Please investigate.")
+			if not market_url:
+				print("Could not find market url of app. Please investigate.")
+			if app_id and market_url:
+				ads_txt_location_dict[(app_id, market_url)] = look_for_ads_txt_url(current_entry)
+
+			current_entry = f.readline()
+		f.close()
+
+	return ads_txt_location_dict
+
+
+
 
 
 

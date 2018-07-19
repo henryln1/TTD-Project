@@ -44,13 +44,9 @@ def create_single_txt_location(entry_line):
 		package[0] += '/'
 	return website[0] + package[0] + ad_txt_name
 
-def open_file(file_path):
-	
-	with open(file_path, 'r', encoding = 'utf-8') as f:
-		all_lines = f.readlines()
-		all_lines = [line.rstrip('\n') for line in all_lines]
-		f.close()
-	return all_lines
+
+
+
 
 def open_file_create_dict(file_path):
 	'''
