@@ -40,3 +40,12 @@ def check_missing_slash(string):
 	if string[-1] != '/':
 		string += '/'
 	return string
+
+
+def open_file(file_path):
+	
+	with open(file_path, 'r', encoding = 'utf-8') as f:
+		all_lines = f.readlines()
+		all_lines = [line.rstrip('\n') for line in all_lines]
+		f.close()
+	return all_lines
