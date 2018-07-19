@@ -34,30 +34,43 @@ def process_scan_results(scan_results, domains_that_404, untracked_supply_vendor
 	'''
 	pass
 
-def create_change_list(app_ids_to_urls_dict):
+# def create_change_list(app_ids_to_urls_dict):
 
-	'''
-	apps_ids_to_urls_dict is a dictionary from app id to the list of possible locations for ads.txt
-	This function goes through and checks if there's an ads.txt file. If there is, it continues and does not
-	check the remaining possible locations.
-	returns a list of changes 
-	'''
-	change_set = []
+# 	'''
+# 	apps_ids_to_urls_dict is a dictionary from app id to the list of possible locations for ads.txt
+# 	This function goes through and checks if there's an ads.txt file. If there is, it continues and does not
+# 	check the remaining possible locations.
+# 	returns a list of changes 
+# 	'''
+# 	change_set = []
 
-	for app_id in app_ids_to_urls_dict:
-		valid_url = ''
-		for url in app_ids_to_urls_dict[app_id]:
-			if check_valid_url_ad_txt(url):
-				valid_url = url
-				break
+# 	for app_id in app_ids_to_urls_dict:
+# 		# valid_url = ''
+# 		# for url in app_ids_to_urls_dict[app_id]:
+# 		# 	if check_valid_url_ad_txt(url):
+# 		# 		valid_url = url
+# 		# 		break
+# 		valid_url = ''
+# 		if check_valid_url_ad_txt(app_ids_to_urls_dict[app_id]):
+# 			valid_url = app_ids_to_urls_dict[app_id]
+
+# 		if valid_url == '': #no valid url
+# 			change_set.append((app_id, 'NONE')) #NONE is just a marker telling us that there is no ads.txt file
+# 		else: #we found at least one valid location for ads.txt
+# 			change_set.append((app_id, valid_url))
+# 	print("hello")
+# 	return change_set
 
 
-		if valid_url == '': #no valid url
-			change_set.append((app_id, 'NONE')) #NONE is just a marker telling us that there is no ads.txt file
-		else: #we found at least one valid location for ads.txt
-			change_set.append((app_id, valid_url))
 
-	return change_set
+def create_change_list(app_ids_to_location_dict):
+	changes = []
+	for app in app_ids_to_location_dict:
+		if app_ids_to_location_dict[app] == '':
+			changes.append((app, 'NONE'))
+		else:
+			changes.append((app, app_ids_to_location_dict[app]))
+	return changes
 
 
 
@@ -132,7 +145,7 @@ def merge_into_file(file_name, list_of_changes):
 		
 
 
-	if validate(file_name):
+	if validate_file(file_name):
 		print("Found existing csv file, modifying...")
 		#open file and modify it
 		csv_dataframe = modify_existing_csv()

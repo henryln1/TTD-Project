@@ -8,6 +8,10 @@ The purpose of this file is to take in a file with a list of entries from the
 playstore, parse that information, and then return a list of urls to check 
 whether or not the ads.txt file exists for each one.
 
+
+UPDATE 07/18/18: File will most likely be removed in the future due to different app store data requiring different extraction formats.
+Will be replaced by a separate .py file for each app store. 
+
 '''
 
 
@@ -18,6 +22,8 @@ def reconstruct_urls_to_check():
 	Next check "http://{topleveldomain+1}/{appId}/ads.txt" (e.g http://zynga.com/com.zynga.words3/ads.txt)
 
 	'''
+
+	pass
 
 
 def create_single_txt_location(entry_line):
