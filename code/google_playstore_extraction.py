@@ -40,7 +40,7 @@ def look_for_ads_txt_url(entry_line):
 
 		'''
 		site_entry_marker = 'website'
-		site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)
+		site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)[0]
 		site_entry = check_missing_slash(site_entry)
 		possible_url = site_entry + 'ads.txt'
 
@@ -65,7 +65,6 @@ def look_for_ads_txt_url(entry_line):
 		package = parse_for_specific_parameter(package_marker, entry_line)[0]
 		package = check_missing_slash(package)
 		possible_url = site_entry + package + 'ads.txt'
-
 		if check_valid_url_ad_txt(possible_url):
 			return possible_url
 		return ''
@@ -87,7 +86,7 @@ def look_for_ads_txt_url(entry_line):
 
 	#2
 	possible_url = check_entry_site_ads_txt_url()
-	if possible_url != '';
+	if possible_url != '':
 		return possible_url
 
 	#3
@@ -119,7 +118,7 @@ def open_file_create_dict(file_path):
 
 			current_entry = f.readline()
 		f.close()
-
+	print(ads_txt_location_dict.values())
 	return ads_txt_location_dict
 
 

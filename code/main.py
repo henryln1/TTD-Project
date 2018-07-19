@@ -1,6 +1,6 @@
 from check_url import *
 from merge_results import *
-from parse_ads_txt_location import *
+import google_playstore_extraction as google
 from utils import *
 
 possible_app_stores = ['Apple', 'Google', 'Tencent']
@@ -84,14 +84,14 @@ def main(args):
 	if validate_file(file_path) is False:
 		print("Unable to find data file. Please check your command and rerun.")
 		return
-	app_ids_to_location_dict = open_file_create_dict(file_path)
+	app_ids_to_location_dict = google.open_file_create_dict(file_path)
 	change_set = create_change_list(app_ids_to_location_dict)
 	#TODO need to write to different csv file depending on which app store the data comes from
 
 	if len(args) == 4: #csv file is given
 		csv_file_location = args[3]
 	else:
-		csv_file_location = get_csv_file_location(app_store)
+		csv_file_location = construct_csv_file_location(app_store)
 
 	merge_into_file(csv_file_location, change_set)
 
