@@ -17,7 +17,16 @@ check_url.py: Contains functions that validate a url (checking whether or not it
 merge_results.py: Takes the changes found and merges them into the csv file, will create a new file if not csv file exists
 
 
-parse_ads_txt_location.py: Functions to extract urls/locations to check for an ads.txt file
+parse_ads_txt_location.py: Functions to extract urls/locations to check for an ads.txt file - DEPRECATED
+
+
+google_playstore_extraction.py: Functions to extract urls/locations for data from google playstore specifically
+
+
+apple_store_extraction.py: Functions to extract urls/locations for data from apple store specifically
+
+
+write_to_dynamo.py: Functions to interact with local Dynamo DB using boto3.
 
 
 tests.py: Functions to test everything above.
@@ -35,15 +44,15 @@ main.py: Utilizes above functions to process a data file into csv form.
 
 
 
-TODO 07/18/18:
+TODO 07/23/18:
 
 
-Write regexes to extract information from data files.
+Write regexes to extract information from data files. (Waiting for data file from 42matters to arrive)
 
 
 Figure out how to automate process so that it runs periodically (whenever new data comes in)
 
 
-How will it interact with DynamoDB?
+Query the tables created in DynamoDB Local and set it up to be easily transferred to real DynamoDB Server
 
 
