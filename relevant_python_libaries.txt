@@ -17,3 +17,9 @@ pandas (to interact with csv files)
 	numpy
 	six
 	python-dateutil
+	
+boto3 (interacting with dynamodb)
+	jmespath
+	docutils
+	botocore
+	s3transfer

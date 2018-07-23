@@ -136,6 +136,10 @@ def merge_into_file(file_name, list_of_changes):
 		# 		app_id_ads_txt_list.append(curr_list)
 		# 	return app_id_ads_txt_list
 
+		for change_index in range(len(changes)):
+			app_id, location = changes[change_index]
+			if location == 'NONE':
+				changes[change_index] = (app_id, 'No ads.txt found.')
 
 		column_names = ['app_id', 'ads.txt_location']
 		new_csv_dataframe = pd.DataFrame(changes, columns = column_names)
