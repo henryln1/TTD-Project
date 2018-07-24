@@ -1,0 +1,7 @@
+Startup Instructions:
+
+Navigate to dynamodb_local directory and run:
+
+java -D"java.library.path"=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+This will start up the db and automatically hosts it on port 8000 for use by Python scripts.
