@@ -2,8 +2,8 @@ import boto3
 import time
 import pandas as pd 
 
-import os
-os.environ["TZ"] = "UTC"
+# import os
+# os.environ["TZ"] = "UTC"
 
 
 
@@ -133,19 +133,17 @@ def key_exists(keys, table):
 
 
 def process_csv_file(csv_file):
+	print("Processing " + csv_file + ".")
 	#csv_file.decode("utf-8")
 	dataframe = pd.read_csv(csv_file)
 	matrix = dataframe.values
 	#iterate through information and update database
 
 	table = find_table(csv_file) 
-
-	print(matrix.shape)
 	for i in range(1, matrix.shape[0]):
 		#skip first row because those are column labels.
 
 		key = matrix[i][0]
-		print(key)
 		value = matrix[i][1]
 		item_dict = {
 			'App_ID': key,
@@ -155,10 +153,7 @@ def process_csv_file(csv_file):
 			'''
 			update value for the key
 			'''
-			if value == 'No ads.txt found.':
-				delete_item(table, key)
-			else:
-				update_item(table, key)
+			update_item(table, key)
 
 		else:
 			'''
@@ -166,9 +161,9 @@ def process_csv_file(csv_file):
 			'''
 			add_item_to_table(table, item_dict)
 
-
+	print("Finished processing " + csv_file + " into DB.")
 	return 
-	pass
+	
 
 
 def print_all_items(table):
