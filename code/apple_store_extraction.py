@@ -3,6 +3,14 @@ Code to be written for extracting ads.txt location from ios apps.
 Function prototypes written here modeled after google_playstore_extraction.py
 Waiting to receive sample apple store data file to write these functions.
 
+
+
+Notes:
+sellerUrl in sample file seems probably be where we'll build our url from (website in playstore file)
+budleId also seems important (package name in playstore file)
+artistpreviewurl is the same as market url? (unsure), could also be trackViewUrl
+
+
 '''
 
 
