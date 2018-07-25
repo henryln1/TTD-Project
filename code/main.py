@@ -1,8 +1,10 @@
 from check_url import *
 from merge_results import *
-import google_playstore_extraction as google
+#import google_playstore_extraction as google
 from utils import *
 import sys
+
+from extractor import *
 
 possible_app_stores = ['Apple', 'Google', 'Tencent']
 
@@ -23,12 +25,12 @@ def determine_app_store(file_name):
 
 
 	#dummy strings for now until we get Apple/Tencent data
-	apple_ios_string = 'https://apple.com/store'
+	apple_ios_string = 'http://itunes.apple.com'
 	tencent_string = 'https://tencent.com/store'
 
 
 	#we just need to check the first line assuming one data file only contains info from one app store
-	with open(file_name, 'r') as f:
+	with open(file_name, 'r', encoding = 'utf-8') as f:
 		first_line = f.readline()
 		if google_play_string in first_line:
 			return 'Google'
@@ -80,12 +82,22 @@ def main(args):
 	else:
 		app_store = args[2]
 
+
+	store_keywords_dict =  {
+			'Google': ('title', 'market_url', 'website', 'package_name'),
+			'Apple': ('artistName', 'artistViewUrl', 'sellerUrl', 'bundleId')
+	}
+
+	app_id_marker, market_url, seller_url, package = store_keywords_dict[app_store]
+
+	extractor = Extractor(seller_url, package)
+
 	assert app_store in possible_app_stores
 	file_path = args[1]
 	if validate_file(file_path) is False:
 		print("Unable to find data file. Please check your command and rerun.")
 		return
-	app_ids_to_location_dict = google.open_file_create_dict(file_path)
+	app_ids_to_location_dict = open_file_create_dict(file_path, app_id_marker, market_url, extractor)
 	change_set = create_change_list(app_ids_to_location_dict)
 	#TODO need to write to different csv file depending on which app store the data comes from
 
