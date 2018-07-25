@@ -24,7 +24,6 @@ def look_for_ads_txt_url(entry_line):
 		ads_txt_regex = r'(adstx.+?/ads.txt)'
 
 		if 'ads.txt' in entry_line:
-			#TODO, just a placeholder returning the entire line when ads.txt is found here. Will update with actual regex once I know format
 			find_ads_txt = re.search(ads_txt_regex, entry_line, re.IGNORECASE)
 			if find_ads_txt:
 				return find_ads_txt[0]

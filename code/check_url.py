@@ -27,7 +27,6 @@ def extensive_check_for_ads_txt(request):
 		return False
 
 	content = request.text
-
 	if (not (
 		'<!DOCTYPE' in content or 
 		'<!doctype' in content or 
@@ -38,8 +37,8 @@ def extensive_check_for_ads_txt(request):
 		('DIRECT' in content or 
 		'RESELLER' in content or 
 		'direct' in content or 
-		'reseller' in content)
-	and (not re.search('Page not found', content, re.IGNORECASE))):
+		'reseller' in content)):
+	#and (not re.search('Page not found', content, re.IGNORECASE))):
 	#and (check_for_valid_ads_txt_entries(content))):
 		return True
 
@@ -56,9 +55,9 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	try/except is to handle the errors when the website crashes the process. 
 	'''
-
+	#print(url_path)
 	try:
-		request = requests.get(url_path)
+		request = requests.get(url_path, timeout = 5)
 	except:
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt found.")
 		return False

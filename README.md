@@ -20,10 +20,13 @@ merge_results.py: Takes the changes found and merges them into the csv file, wil
 parse_ads_txt_location.py: Functions to extract urls/locations to check for an ads.txt file - DEPRECATED
 
 
-google_playstore_extraction.py: Functions to extract urls/locations for data from google playstore specifically
+google_playstore_extraction.py: Functions to extract urls/locations for data from google playstore specifically - DEPRECATED
 
 
-apple_store_extraction.py: Functions to extract urls/locations for data from apple store specifically
+apple_store_extraction.py: Functions to extract urls/locations for data from apple store specifically - DEPRECATED
+
+
+extractor.py: Extractor class that processes data file for information
 
 
 write_to_dynamo.py: Functions to interact with local Dynamo DB using boto3.
