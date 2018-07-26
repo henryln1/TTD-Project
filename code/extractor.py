@@ -12,10 +12,6 @@ class Extractor:
 
 		self.ads_txt_regex = None
 
-		
-
-
-
 
 	def look_for_ads_txt_url(self, entry_line):
 
@@ -140,5 +136,4 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 			counter += 1
 			current_entry = f.readline()
 		f.close()
-	print("size of dict: ", len(ads_txt_location_dict))
 	return ads_txt_location_dict

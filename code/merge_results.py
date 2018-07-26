@@ -6,6 +6,7 @@ from check_url import *
 import os
 import os.path
 import numpy as np
+from config import *
 
 
 '''
@@ -16,50 +17,6 @@ will rely upon a dictionary from ad_text_url to ad_text_url_content.
 Need to figure out how to merge results into whatever text/csv file we have. 
 
 '''
-
-#output file where we will make changes
-output_file_name = '../generated_apps_info.txt'
-
-
-
-def process_scan_results(scan_results, domains_that_404, untracked_supply_vendor_domains):
-	'''
-	scan_results is a dictionary from domain name to value of domain
-	domains_that_404 is a list of domains that used to have an ads.txt file but no longer do (returned 404)
-	untracked_supply_vendor_domain are domains that we see in ads.txt files that aren't updated yet (not sure if this will be
-	relevant sine we no longer maintain a DB and use a public text/csv file)
-
-	Function takes all the crawl results that we receive, and creates a list of adds, mods, and deletes we need to do to update our file
-
-	'''
-	pass
-
-# def create_change_list(app_ids_to_urls_dict):
-
-# 	'''
-# 	apps_ids_to_urls_dict is a dictionary from app id to the list of possible locations for ads.txt
-# 	This function goes through and checks if there's an ads.txt file. If there is, it continues and does not
-# 	check the remaining possible locations.
-# 	returns a list of changes 
-# 	'''
-# 	change_set = []
-
-# 	for app_id in app_ids_to_urls_dict:
-# 		# valid_url = ''
-# 		# for url in app_ids_to_urls_dict[app_id]:
-# 		# 	if check_valid_url_ad_txt(url):
-# 		# 		valid_url = url
-# 		# 		break
-# 		valid_url = ''
-# 		if check_valid_url_ad_txt(app_ids_to_urls_dict[app_id]):
-# 			valid_url = app_ids_to_urls_dict[app_id]
-
-# 		if valid_url == '': #no valid url
-# 			change_set.append((app_id, 'NONE')) #NONE is just a marker telling us that there is no ads.txt file
-# 		else: #we found at least one valid location for ads.txt
-# 			change_set.append((app_id, valid_url))
-# 	print("hello")
-# 	return change_set
 
 
 
@@ -125,17 +82,6 @@ def merge_into_file(file_name, list_of_changes):
 		No csv file so we have to create it from current info.
 		'''
 		max_length = 50
-
-		# def convert_to_list_of_list():
-		# 	app_id_ads_txt_list = []
-		# 	for change in range(len(changes)):
-		# 		current_app_id, ads_txt_location = changes[change]
-		# 		if ads_txt_location == 'NONE':
-		# 			ads_txt_location = 'No ads.txt found.'
-		# 		curr_list = [current_app_id, ads_txt_location]
-		# 		app_id_ads_txt_list.append(curr_list)
-		# 	return app_id_ads_txt_list
-
 		for change_index in range(len(changes)):
 			app_id, location = changes[change_index]
 			if location == 'NONE':

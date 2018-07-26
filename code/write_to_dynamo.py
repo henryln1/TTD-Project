@@ -1,15 +1,5 @@
-import boto3
-import time
-import pandas as pd 
-
-# import os
-# os.environ["TZ"] = "UTC"
-
-
-
-
-dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://localhost:8000/')
-
+import pandas as pd
+from config import *
 
 '''
 

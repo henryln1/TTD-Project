@@ -5,15 +5,7 @@ from utils import *
 import sys
 
 from extractor import *
-
-possible_app_stores = ['Apple', 'Google', 'Tencent']
-
-app_store_to_csv_dict = {
-	'Apple': '../apple_apps.csv',
-	'Google': '../google_apps.csv',
-	'Tencent': '../tencent_apps.csv'
-}
-
+from config import *
 
 
 def construct_csv_file_location(app_store):
@@ -81,12 +73,6 @@ def main(args):
 		app_store = determine_app_store(file_path)
 	else:
 		app_store = args[2]
-
-
-	store_keywords_dict =  {
-			'Google': ('title', 'market_url', 'website', 'package_name'),
-			'Apple': ('artistName', 'artistViewUrl', 'sellerUrl', 'bundleId')
-	}
 
 	app_id_marker, market_url, seller_url, package = store_keywords_dict[app_store]
 
