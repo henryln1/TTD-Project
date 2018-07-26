@@ -110,12 +110,12 @@ def find_table(csv_file):
 	'''
 	if 'google' in csv_file:
 		table_name = 'Google_Play'
-	else:
+	elif 'apple' in csv_file:
 		table_name = 'Apple_Store'
 	
 	try:
 		# response = dynamodb.describe_table(TableName = table_name)
-		table = dynamodb.Table(table_name)
+		table = dynamodb.describe_table(TableName = table_name)
 	except:
 		table = create_new_table(table_name)
 
@@ -138,8 +138,9 @@ def process_csv_file(csv_file):
 	dataframe = pd.read_csv(csv_file)
 	matrix = dataframe.values
 	#iterate through information and update database
-
-	table = find_table(csv_file) 
+	print('about to find table')
+	table = find_table(csv_file)
+	print('found table') 
 	for i in range(1, matrix.shape[0]):
 		#skip first row because those are column labels.
 
