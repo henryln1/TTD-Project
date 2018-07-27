@@ -21,6 +21,11 @@ class Extractor:
 
 		'''
 
+		def check_possible_url_validity(url):
+			if 'http' in url.lower() and url != '':
+				return True
+			return False
+
 		def check_description_in_metadata():
 			'''
 			Check the description property of the metadata for a URL 
@@ -55,7 +60,7 @@ class Extractor:
 			site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)[0]
 			site_entry = check_missing_slash(site_entry)
 			possible_url = site_entry + 'ads.txt'
-			if check_valid_url_ad_txt(possible_url):
+			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
 			return ''
 			
@@ -76,7 +81,7 @@ class Extractor:
 			package = parse_for_specific_parameter(package_marker, entry_line)[0]
 			package = check_missing_slash(package)
 			possible_url = site_entry + package + 'ads.txt'
-			if check_valid_url_ad_txt(possible_url):
+			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
 			return ''
 			
@@ -87,6 +92,7 @@ class Extractor:
 		We can use this format to then determine if we need to keep looking
 
 		'''
+
 
 		possible_url = ''
 

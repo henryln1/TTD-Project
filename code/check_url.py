@@ -51,16 +51,20 @@ def check_valid_url_ad_txt(url_path):
 	Given a url, we try to check if it is valid. Returns a boolean 
 	'''
 
-
+	# if 'http' not in url_path:
+	# 	print(url_path + " is an invalid url.")
+	# 	return False
 	'''
 	try/except is to handle the errors when the website crashes the process. 
 	'''
-	#print(url_path)
+	print(url_path)
+	request = None
 	try:
 		request = requests.get(url_path, timeout = 5)
 	except:
-		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt found.")
+		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
 		return False
+
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)
 	return False
