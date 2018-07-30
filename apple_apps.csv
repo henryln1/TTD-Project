@@ -11,7 +11,7 @@ app_id,ads.txt_location
 "('OpenTable, Inc.', 'https://itunes.apple.com/us/developer/opentable-inc/id296581818?uo=4')",No ads.txt found.
 "('Target', 'https://itunes.apple.com/us/developer/target/id297430073?uo=4')",No ads.txt found.
 "('JPMorgan Chase & Co.', 'https://itunes.apple.com/us/developer/jpmorgan-chase-co/id298867250?uo=4')",No ads.txt found.
-"('AccuWeather International, Inc.', 'http://itunes.apple.com/artist/accuweather-international-inc/id300048140?uo=5')",No ads.txt found.
+"('AccuWeather International, Inc.', 'http://itunes.apple.com/artist/accuweather-international-inc/id300048140?uo=5')",http://accuweather.com/ads.txt
 "('Mint.com', 'https://itunes.apple.com/us/developer/mint-com/id300238553?uo=4')",No ads.txt found.
 "('Citibank', 'https://itunes.apple.com/us/developer/citibank/id301724683?uo=4')",No ads.txt found.
 "('Fandango', 'https://itunes.apple.com/us/developer/fandango/id307906544?uo=4')",No ads.txt found.

@@ -62,6 +62,10 @@ class Extractor:
 			possible_url = site_entry + 'ads.txt'
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
+			
+			possible_url = possible_url.replace('www.', '')
+			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+				return possible_url
 			return ''
 			
 
@@ -81,6 +85,9 @@ class Extractor:
 			package = parse_for_specific_parameter(package_marker, entry_line)[0]
 			package = check_missing_slash(package)
 			possible_url = site_entry + package + 'ads.txt'
+			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+				return possible_url
+			possible_url = possible_url.replace('www.', '')
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
 			return ''
