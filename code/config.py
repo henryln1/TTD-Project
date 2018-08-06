@@ -8,6 +8,7 @@ Contains the important variables needed across multiple python files
 import boto3
 
 dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://localhost:8000/')
+dynamodb_client = boto3.client('dynamodb', endpoint_url = "http://localhost:8000")
 
 
 possible_app_stores = ['Apple', 'Google', 'Tencent']
