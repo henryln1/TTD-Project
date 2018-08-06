@@ -57,11 +57,12 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	try/except is to handle the errors when the website crashes the process. 
 	'''
-	print(url_path)
+	#print(url_path)
 	request = None
 	try:
-		request = requests.get(url_path, timeout = 5)
+		request = requests.get(url_path, timeout = 2)
 	except:
+		print("Request timed out for " + url_path + ".")
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
 		return False
 

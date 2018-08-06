@@ -6,7 +6,8 @@ import sys
 
 from extractor import *
 from config import *
-
+from write_to_dynamo import *
+from query_dynamo import *
 
 def construct_csv_file_location(app_store):
 	return app_store_to_csv_dict[app_store]
@@ -92,7 +93,19 @@ def main(args):
 	else:
 		csv_file_location = construct_csv_file_location(app_store)
 
-	merge_into_file(csv_file_location, change_set)
+	try:
+		merge_into_file(csv_file_location, change_set)
+	except Exception as e:
+		print(e)
+		print("Unable to merge changes into csv file. Exiting. Please try again.")
+		return
+
+	try:
+		process_csv_file(csv_file_location)
+	except Exception as e:
+		print(e)
+		print("Unable to process csv file into DB. Exiting.")
+
 
 
 
