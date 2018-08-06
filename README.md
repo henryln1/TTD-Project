@@ -59,7 +59,7 @@ main.py: Utilizes above functions to process a data file into csv form.
 
 
 
-TODO 08/03/18:
+TODO 08/06/18:
 
 
 Consider how to scale this to full data file once it arrives. AWS Lambda has a limit of 5 minutes so the faster the code, the better it will be. Otherwise, look into chaining lambda functions together.
@@ -70,6 +70,8 @@ Look into zipping all the code into a file that we can push onto AWS Lambda for 
 
 Figure out how to log into 42matters from script and download data via automation.
 
+
+Lots of code to clean up, messy comments and unused variables left from 08/06/18
 
 
 
