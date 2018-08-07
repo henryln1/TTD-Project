@@ -3,6 +3,7 @@ from merge_results import *
 #import google_playstore_extraction as google
 from utils import *
 import sys
+import time
 
 from extractor import *
 from config import *
@@ -47,6 +48,7 @@ Notes: Could improve flexibility of argument intake if we swapped to regexes to 
 '''
 
 def main(args):
+
 	if len(args) == 1:
 		print("No arguments provided. Please execute: \"python main.py --help\" for instructions. ")
 		return
@@ -66,6 +68,8 @@ def main(args):
 			python main.py dummy_data.txt Apple output.csv
 			''')
 		return
+
+	start_time = time.time()
 
 	file_path = args[1]
 	app_store = ''
@@ -99,14 +103,14 @@ def main(args):
 		print(e)
 		print("Unable to merge changes into csv file. Exiting. Please try again.")
 		return
+	process_csv_file(csv_file_location)
+	# try:
+	# 	process_csv_file(csv_file_location)
+	# except Exception as e:
+	# 	print(e)
+	# 	print("Unable to process csv file into DB. Exiting.")
 
-	try:
-		process_csv_file(csv_file_location)
-	except Exception as e:
-		print(e)
-		print("Unable to process csv file into DB. Exiting.")
-
-
+	print("Processing file took ", time.time() - start_time, " seconds.")
 
 
 

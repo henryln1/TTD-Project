@@ -62,7 +62,6 @@ def add_item_to_table(table, key, value):
 	item_information is a dict form from key to value that we add to the table
 
 	'''
-	#table = dynamodb.Table(table_name)
 	item_information = {
 		'App_ID': key,
 		'FileLocation': value
@@ -70,9 +69,8 @@ def add_item_to_table(table, key, value):
 	try: 
 		table.put_item(Item = item_information)
 	except:
-		print("Unable to insert following entry into table.")
-		print("key: ", key)
-		print("value: ", value)
+		print("Unable to insert into table. Skipping.")
+
 
 
 def retrieve_item(table, keys):
@@ -81,7 +79,6 @@ def retrieve_item(table, keys):
 	table is a DynamoDB table
 	keys is the information in dict form used to retrieve the item
 	'''	
-	#table = dynamodb.Table(table_name)
 	try:
 		response = table.get_item(Key = keys)
 		item = response['Item']
@@ -97,22 +94,13 @@ def update_item(table, keys, values):
 	values: values to update
 
 	'''
-	#table = dynamodb.Table(table_name)
-	# print("table: ", table)
-	# print("values: ", values)
-	# print("keys: ", keys)
-	# table.update_item(
-	# 	Key = keys,
-	# 	AttributeUpdates = values
-	# 	)
 	key_dict_form = {
 		'App_ID': keys
 	}
 	values_dict_form = {
 		':val1': values
 	}
-	#print(key_dict_form)
-	#print(values_dict_form)
+
 	try:
 		response = table.update_item(
 			Key = key_dict_form,
@@ -120,8 +108,6 @@ def update_item(table, keys, values):
 			ExpressionAttributeValues = values_dict_form)
 	except Exception as e:
 		print("Unable to update table for key: " + keys + ". Skipping.")
-	#print("Response: ", response)
-
 
 
 def delete_item(table, keys):
@@ -165,43 +151,63 @@ def key_exists(keys, table):
 	return False
 
 
+def write_items_batch(items, table):
+	'''
+	uses built in batch writer to help speed up writing large number of items
+	items is a list of items we want to write, already in correct format and 
+	not exceeding max batch size
+	'''
+
+	assert len(items) <= MAX_BATCH_SIZE
+
+
+	'''
+	removes duplicate entries automatically before sending to Dynamo
+	'''
+	with table.batch_writer(overwrite_by_pkeys = ['partition_key', 'sort_key']) as batch:
+		for item in items:
+			batch.put_item(Item = item)
+
+
+
 def process_csv_file(csv_file):
-	print("Processing " + csv_file + ".")
-	#csv_file.decode("utf-8")
-	dataframe = pd.read_csv(csv_file)
-	matrix = dataframe.values
-	#iterate through information and update database
-	print('about to find table')
-	table = find_table(csv_file)
-	print('found table') 
-	print(table)
-	#print(table.keys())
-	for i in range(1, matrix.shape[0]):
-		#skip first row because those are column labels.
+	try:
+		print("Processing " + csv_file + ".")
+		#csv_file.decode("utf-8")
+		dataframe = pd.read_csv(csv_file)
+		matrix = dataframe.values
+		#iterate through information and update database
+		table = find_table(csv_file)
 
-		key = matrix[i][0]
-		value = matrix[i][1]
-		item_dict = {
-			'App_ID': key,
-			'FileLocation': value
-		}
-		key_dict_form = {
-			'App_ID': key
-		}
-		if key_exists(key, table):
-			'''
-			update value for the key
-			'''
-			update_item(table, key, value)
+		for i in range(1, matrix.shape[0]):
+			#skip first row because those are column labels.
 
-		else:
-			'''
-			insert a new item into the table
-			'''
-			#print(table)
-			add_item_to_table(table, key, value)
-		#print(retrieve_item(table, key_dict_form))
-	print("Finished processing " + csv_file + " into DB.")
+			key = matrix[i][0]
+			value = matrix[i][1]
+			item_dict = {
+				'App_ID': key,
+				'FileLocation': value
+			}
+			key_dict_form = {
+				'App_ID': key
+			}
+			if key_exists(key, table):
+				'''
+				update value for the key
+				'''
+				update_item(table, key, value)
+
+			else:
+				'''
+				insert a new item into the table
+				'''
+				#print(table)
+				add_item_to_table(table, key, value)
+			#print(retrieve_item(table, key_dict_form))
+		print("Finished processing " + csv_file + " into DB.")
+	except Exception as e:
+		print(e)
+		print("Unable to process csv file into DB. Exiting.")
 	return 
 	
 
