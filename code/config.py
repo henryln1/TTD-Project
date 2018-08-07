@@ -24,3 +24,7 @@ store_keywords_dict =  {
 		'Google': ('title', 'market_url', 'website', 'package_name'),
 		'Apple': ('artistName', 'artistViewUrl', 'sellerUrl', 'bundleId')
 }
+
+
+MAX_BATCH_SIZE = 1000
+LINES_PER_LAMBDA = 150

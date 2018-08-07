@@ -1,15 +1,11 @@
 import boto3
 import time
 from boto3.dynamodb.conditions import Attr, Key
+from config import *
 
 '''
 list of functions to query and look for information from a dynamo db table
 '''
-
-
-
-dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://localhost:8000/')
-
 
 
 def scan_ads_txt_location(table, key):
@@ -17,10 +13,15 @@ def scan_ads_txt_location(table, key):
 	'''
 	Given the key form of a mobile app id, we look in the table for it's ads.txt location
 	'''
+	try:
+		response = table.scan(FilterExpression = Attr('App_ID').eq(key))
+		items = response['Items']
+		return items
+	except Exception as e:
+		print(e)
+		print("Unable to query table for this mobile app id.")
+		return None
 
-	response = table.scan(FilterExpression = Attr('App_ID').eq(key))
-	items = response['Items']
-	return items
 
 def query_ads_txt_location(table, key):
 	'''
@@ -29,7 +30,11 @@ def query_ads_txt_location(table, key):
 
 	'''
 
-	response = table.query(
-		KeyConditionExpression = Key('App_ID').eq(key))
-
-	return response['Items']
+	try:
+		response = table.query(
+			KeyConditionExpression = Key('App_ID').eq(key)
+		)
+		return response['Items']
+	except Exception as e:
+		print(e)
+		print("Unable to query table for this mobile app id.")

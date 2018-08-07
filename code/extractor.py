@@ -133,7 +133,7 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 
 	with open(file_path, 'r', encoding = 'utf-8') as f:
 		current_entry = f.readline()
-		counter = 1
+		#counter = 1
 		while current_entry:
 			app_id = parse_for_specific_parameter(app_id_marker, current_entry)[0]
 			market_url = parse_for_specific_parameter(market_url_marker, current_entry)[0]
@@ -142,11 +142,11 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 			if not market_url:
 				print("Could not find market url of app. Please investigate.")
 			if app_id and market_url:
-				print(counter)
+				#print(counter)
 				if (app_id, market_url) in ads_txt_location_dict:
 					print("Duplicate!")
 				ads_txt_location_dict[(app_id, market_url)] = extractor.look_for_ads_txt_url(current_entry)
-			counter += 1
+			#counter += 1
 			current_entry = f.readline()
 		f.close()
 	return ads_txt_location_dict

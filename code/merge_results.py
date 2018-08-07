@@ -46,10 +46,15 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		column_name = 'app_id'
 		exists = dataframe[dataframe['app_id'] == app_id_name]
-		if not exists.empty:
-			print(str(app_id_name) + " already exists in csv file. Updating...")
-		else:
-			print(str(app_id_name) + " is a new entry. Adding...")
+
+
+		'''
+		COMMENTED OUT 08/07/18 to improve speed.
+		'''
+		# if not exists.empty:
+		# 	print(str(app_id_name) + " already exists in csv file. Updating...")
+		# else:
+		# 	print(str(app_id_name) + " is a new entry. Adding...")
 		return not exists.empty
 
 
