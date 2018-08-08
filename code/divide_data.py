@@ -28,7 +28,7 @@ def process_file(file):
 			with open('lambda_small_file_{0}.txt'.format(i * LINES_PER_LAMBDA), 'w') as fout:
 				fout.writelines(g)
 
-	pass
+	
 
 
 

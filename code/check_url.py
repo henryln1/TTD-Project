@@ -51,18 +51,21 @@ def check_valid_url_ad_txt(url_path):
 	Given a url, we try to check if it is valid. Returns a boolean 
 	'''
 
-	# if 'http' not in url_path:
-	# 	print(url_path + " is an invalid url.")
-	# 	return False
 	'''
 	try/except is to handle the errors when the website crashes the process. 
 	'''
-	#print(url_path)
+
+
 	request = None
+
+	'''
+	Tested timeout limits of 1-5 seconds and it seems that 3 is a good number to stick to for now.
+	'''
+	
 	try:
-		request = requests.get(url_path, timeout = 2)
+		request = requests.get(url_path, timeout = 3)
 	except:
-		print("Request timed out for " + url_path + ".")
+		#print("Request timed out for " + url_path + ".")
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
 		return False
 
