@@ -79,7 +79,7 @@ def main(args):
 	else:
 		app_store = args[2]
 
-	app_id_marker, market_url, seller_url, package = store_keywords_dict[app_store]
+	app_id_marker, market_url_marker, seller_url, package = store_keywords_dict[app_store]
 
 	extractor = Extractor(seller_url, package)
 
@@ -88,7 +88,7 @@ def main(args):
 	if validate_file(file_path) is False:
 		print("Unable to find data file. Please check your command and rerun.")
 		return
-	app_ids_to_location_dict = open_file_create_dict(file_path, app_id_marker, market_url, extractor)
+	app_ids_to_location_dict = open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor)
 	change_set = create_change_list(app_ids_to_location_dict)
 	#TODO need to write to different csv file depending on which app store the data comes from
 

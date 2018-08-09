@@ -6,12 +6,15 @@ into a csv file.
 '''
 
 from config import MAX_BATCH_SIZE, store_keywords_dict
+from config import dynamodb
 from check_url import *
 from extractor import *
 from write_to_dynamo import write_items_batch
 from utils import parse_for_specific_parameter
 
-
+import sys
+import time
+import boto3
 
 
 '''
@@ -36,15 +39,16 @@ def format_batch(batch):
 
 
 def process_file_into_dynamo(file_name):
-	app_store = 'Apple_Store'
-	app_id_marker, market_url, seller_url, package = store_keywords_dict[app_store]	
+	app_store = 'Apple'
+	app_id_marker, market_url_marker, seller_url, package = store_keywords_dict[app_store]	
 	extractor = Extractor(seller_url, package)
 
-	table = None
+	table = dynamodb.Table('Apple_Store')
 
 	with open(file_name, 'r', encoding = 'utf-8') as f:
 		current_entry = f.readline()
 		current_batch = []
+		#counter = 0
 		while current_entry:
 			app_id = parse_for_specific_parameter(app_id_marker, current_entry)[0]
 			market_url = parse_for_specific_parameter(market_url_marker, current_entry)[0]
@@ -57,8 +61,20 @@ def process_file_into_dynamo(file_name):
 				formatted_batch = format_batch(current_batch)
 				write_items_batch(formatted_batch, table)
 				current_batch = [] #empty out the current batch
+			#print(counter)
+			#counter += 1
+			current_entry = f.readline()
+		f.close()
 
 
+def main(args):
+	start_time = time.time()
+	process_file_into_dynamo(args[1])
+	print("Processing file took ", time.time() - start_time, " seconds.")
+
+
+if __name__ == "__main__":
+	main(sys.argv)
 
 
 
