@@ -164,7 +164,7 @@ def write_items_batch(items, table):
 	'''
 	removes duplicate entries automatically before sending to Dynamo
 	'''
-	with table.batch_writer(overwrite_by_pkeys = ['partition_key', 'sort_key']) as batch:
+	with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
 		for item in items:
 			batch.put_item(Item = item)
 
