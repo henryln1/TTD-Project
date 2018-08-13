@@ -11,7 +11,8 @@ def log_into_website(url, username, password):
 	}
 	session = requests.Session()
 
-	r = session.post(url, data = data)
+	r = session.post(url, data = login_data)
+	print(r.content)
 
 
 

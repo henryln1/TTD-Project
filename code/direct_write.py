@@ -30,6 +30,11 @@ def format_batch(batch):
 	formatted = []
 	for item in batch:
 		app_id, location = item
+		# if app_id == '':
+		# 	print("app_id: ", app_id)
+		# if location == '':
+		# 	print("app_id: ", app_id)
+		# 	print("location: ", location)
 		formatted_item = {
 			'App_ID': str(app_id),
 			'FileLocation': str(location) 
@@ -55,6 +60,12 @@ def process_file_into_dynamo(file_name):
 
 			if app_id and market_url:
 				corresponding_url = extractor.look_for_ads_txt_url(current_entry)
+			# else:
+			# 	corresponding_url = 'No ads.txt file found.'
+			if corresponding_url == '':
+				corresponding_url = 'No ads.txt file found.'
+
+			#print("corresponding_url: ", corresponding_url)
 			current_batch.append(((app_id, market_url), corresponding_url))
 
 			if len(current_batch) % MAX_BATCH_SIZE == 0:
