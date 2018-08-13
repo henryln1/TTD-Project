@@ -1,7 +1,7 @@
 from utils import *
 from check_url import *
 import re
-
+import time
 
 class Extractor:
 
@@ -129,7 +129,7 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 
 	'''
 	ads_txt_location_dict = {}
-
+	timing_dict = {}
 
 	with open(file_path, 'r', encoding = 'utf-8') as f:
 		current_entry = f.readline()
@@ -145,8 +145,15 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 				#print(counter)
 				if (app_id, market_url) in ads_txt_location_dict:
 					print("Duplicate!")
+				start_time = time.time()
 				ads_txt_location_dict[(app_id, market_url)] = extractor.look_for_ads_txt_url(current_entry)
+				timing_dict[(app_id, market_url)] = time.time() - start_time
+
 			#counter += 1
 			current_entry = f.readline()
+		f.close()
+	with open(file_path + 'url_timings_1' , 'w') as f:
+		for key in timing_dict:
+			f.write(str((key, timing_dict[key])) + '\n')
 		f.close()
 	return ads_txt_location_dict

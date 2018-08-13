@@ -26,5 +26,5 @@ store_keywords_dict =  {
 }
 
 
-MAX_BATCH_SIZE = 1000
+MAX_BATCH_SIZE = 50
 LINES_PER_LAMBDA = 150
