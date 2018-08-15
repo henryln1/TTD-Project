@@ -25,7 +25,7 @@ def extensive_check_for_ads_txt(request):
 		if 'html' not in content and re.search(valid_ads_txt_entry_regex, content, re.IGNORECASE):
 			return True
 		return False
-
+	#request.encoding = 'utf-8'
 	content = request.text
 	if (not (
 		'<!DOCTYPE' in content or 
@@ -63,7 +63,7 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	
 	try:
-		request = requests.get(url_path, timeout = 3)
+		request = requests.get(url_path, timeout = 3, stream = True)
 	except:
 		#print("Request timed out for " + url_path + ".")
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
