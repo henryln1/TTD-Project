@@ -1,5 +1,6 @@
 import requests
 import re
+import time
 
 '''
 File contains code to look at an url and determine whether or not there is a text file present
@@ -13,20 +14,9 @@ def extensive_check_for_ads_txt(request):
 	to verify whether or not there is a ads.txt file present.
 
 	'''
-
-	def check_for_valid_ads_txt_entries(content):
-
-		'''
-		needs to look at the contents of the webpage to see if it actually contains valid ads.txt entries
-
-		UPDATE: does not look like this function is needed. 
-		'''
-		valid_ads_txt_entry_regex = r'.+?, .*?, (DIRECT)|(RESELLER)'
-		if 'html' not in content and re.search(valid_ads_txt_entry_regex, content, re.IGNORECASE):
-			return True
-		return False
-	#request.encoding = 'utf-8'
+	
 	content = request.text
+
 	if (not (
 		'<!DOCTYPE' in content or 
 		'<!doctype' in content or 
@@ -38,8 +28,6 @@ def extensive_check_for_ads_txt(request):
 		'RESELLER' in content or 
 		'direct' in content or 
 		'reseller' in content)):
-	#and (not re.search('Page not found', content, re.IGNORECASE))):
-	#and (check_for_valid_ads_txt_entries(content))):
 		return True
 
 
@@ -61,14 +49,11 @@ def check_valid_url_ad_txt(url_path):
 	'''
 	Tested timeout limits of 1-5 seconds and it seems that 3 is a good number to stick to for now.
 	'''
-	
 	try:
-		request = requests.get(url_path, timeout = 3, stream = True)
+		request = requests.get(url_path, timeout = 2, stream = True)
 	except:
-		#print("Request timed out for " + url_path + ".")
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
 		return False
-
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)
 	return False
