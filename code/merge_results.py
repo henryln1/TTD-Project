@@ -46,8 +46,6 @@ def merge_into_file(file_name, list_of_changes):
 		'''
 		column_name = 'app_id'
 		exists = dataframe[dataframe['app_id'] == app_id_name]
-
-
 		'''
 		COMMENTED OUT 08/07/18 to improve speed.
 		'''

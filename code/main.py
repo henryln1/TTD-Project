@@ -1,10 +1,10 @@
-from check_url import *
-from merge_results import *
-#import google_playstore_extraction as google
-from utils import *
 import sys
 import time
 
+
+from check_url import *
+from merge_results import *
+from utils import *
 from extractor import *
 from config import *
 from write_to_dynamo import *
@@ -90,7 +90,7 @@ def main(args):
 		return
 	app_ids_to_location_dict = open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor)
 	change_set = create_change_list(app_ids_to_location_dict)
-	#TODO need to write to different csv file depending on which app store the data comes from
+
 
 	if len(args) == 4: #csv file is given
 		csv_file_location = args[3]
@@ -104,11 +104,6 @@ def main(args):
 		print("Unable to merge changes into csv file. Exiting. Please try again.")
 		return
 	process_csv_file(csv_file_location)
-	# try:
-	# 	process_csv_file(csv_file_location)
-	# except Exception as e:
-	# 	print(e)
-	# 	print("Unable to process csv file into DB. Exiting.")
 
 	print("Processing file took ", time.time() - start_time, " seconds.")
 

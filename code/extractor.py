@@ -60,12 +60,13 @@ class Extractor:
 			site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)[0]
 			site_entry = check_missing_slash(site_entry)
 			possible_url = site_entry + 'ads.txt'
-			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
-				return possible_url
-			
+			#if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+			#	return possible_url
+
 			possible_url = possible_url.replace('www.', '')
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
+
 			return ''
 			
 
@@ -85,11 +86,13 @@ class Extractor:
 			package = parse_for_specific_parameter(package_marker, entry_line)[0]
 			package = check_missing_slash(package)
 			possible_url = site_entry + package + 'ads.txt'
-			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
-				return possible_url
+
+			# if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+			# 	return possible_url
 			possible_url = possible_url.replace('www.', '')
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
+
 			return ''
 			
 
@@ -104,20 +107,15 @@ class Extractor:
 		possible_url = ''
 
 		#1
-		#print("1")
 		possible_url = check_description_in_metadata()
 		if possible_url != '':
 			return possible_url
 
 		#2
-		#print("2")
-
 		possible_url = check_entry_site_ads_txt_url()
 		if possible_url != '':
 			return possible_url
 		#3
-		#print("3")
-
 		possible_url = check_full_domain_url()
 		return possible_url
 
@@ -129,11 +127,9 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 
 	'''
 	ads_txt_location_dict = {}
-	timing_dict = {}
 
 	with open(file_path, 'r', encoding = 'utf-8') as f:
 		current_entry = f.readline()
-		#counter = 1
 		while current_entry:
 			app_id = parse_for_specific_parameter(app_id_marker, current_entry)[0]
 			market_url = parse_for_specific_parameter(market_url_marker, current_entry)[0]
@@ -142,18 +138,9 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 			if not market_url:
 				print("Could not find market url of app. Please investigate.")
 			if app_id and market_url:
-				#print(counter)
 				if (app_id, market_url) in ads_txt_location_dict:
 					print("Duplicate!")
-				start_time = time.time()
 				ads_txt_location_dict[(app_id, market_url)] = extractor.look_for_ads_txt_url(current_entry)
-				timing_dict[(app_id, market_url)] = time.time() - start_time
-
-			#counter += 1
 			current_entry = f.readline()
-		f.close()
-	with open(file_path + 'url_timings_1_request_streaming' , 'w') as f:
-		for key in timing_dict:
-			f.write(str((key, timing_dict[key])) + '\n')
 		f.close()
 	return ads_txt_location_dict

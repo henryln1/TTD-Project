@@ -1,12 +1,12 @@
 app_id,ads.txt_location
-"('WeatherBug', 'https://itunes.apple.com/us/developer/weatherbug/id281940295?uo=4')",https://www.weatherbug.com/ads.txt
+"('WeatherBug', 'https://itunes.apple.com/us/developer/weatherbug/id281940295?uo=4')",https://weatherbug.com/ads.txt
 "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')",No ads.txt found.
 "('Life.Church', 'https://itunes.apple.com/us/developer/life-church/id282935709?uo=4')",No ads.txt found.
-"('Pandora Media, Inc.', 'http://itunes.apple.com/artist/pandora-media-inc/id284035180?uo=5')",http://www.pandora.com/ads.txt
+"('Pandora Media, Inc.', 'http://itunes.apple.com/artist/pandora-media-inc/id284035180?uo=5')",http://pandora.com/ads.txt
 "('Google, Inc.', 'https://itunes.apple.com/us/developer/google-inc/id281956209?uo=4')",No ads.txt found.
 "('Facebook, Inc.', 'https://itunes.apple.com/us/developer/facebook-inc/id284882218?uo=4')",No ads.txt found.
 "('Yelp', 'https://itunes.apple.com/us/developer/yelp/id284910353?uo=4')",No ads.txt found.
-"('Shazam Entertainment Ltd.', 'https://itunes.apple.com/us/developer/shazam-entertainment-ltd/id284993479?uo=4')",http://www.shazam.com/ads.txt
+"('Shazam Entertainment Ltd.', 'https://itunes.apple.com/us/developer/shazam-entertainment-ltd/id284993479?uo=4')",http://shazam.com/ads.txt
 "('The Weather Channel Interactive', 'https://itunes.apple.com/us/developer/the-weather-channel-interactive/id295646464?uo=4')",No ads.txt found.
 "('OpenTable, Inc.', 'https://itunes.apple.com/us/developer/opentable-inc/id296581818?uo=4')",No ads.txt found.
 "('Target', 'https://itunes.apple.com/us/developer/target/id297430073?uo=4')",No ads.txt found.
@@ -23,7 +23,7 @@ app_id,ads.txt_location
 "('SIRIUS XM Radio Inc', 'https://itunes.apple.com/us/developer/sirius-xm-radio-inc/id317951439?uo=4')",No ads.txt found.
 "('Zynga Inc.', 'https://itunes.apple.com/us/developer/zynga-inc/id295913422?mt=8&uo=4')",No ads.txt found.
 "('Waze Inc.', 'https://itunes.apple.com/us/developer/waze-inc/id323229109?uo=4')",No ads.txt found.
-"('Spotify Ltd.', 'http://itunes.apple.com/artist/spotify-ltd/id324684583?uo=5')",https://www.spotify.com/ads.txt
+"('Spotify Ltd.', 'http://itunes.apple.com/artist/spotify-ltd/id324684583?uo=5')",https://spotify.com/ads.txt
 "('Starbucks Coffee Company', 'https://itunes.apple.com/us/developer/starbucks-coffee-company/id331177718?uo=4')",No ads.txt found.
 "('Weight Watchers International, Inc.', 'https://itunes.apple.com/us/developer/weight-watchers-international-inc/id331308917?uo=4')",No ads.txt found.
 "('GEICO', 'http://itunes.apple.com/artist/geico/id331763099?uo=5')",No ads.txt found.
@@ -48,7 +48,7 @@ app_id,ads.txt_location
 "('Imangi Studios, LLC', 'https://itunes.apple.com/us/developer/imangi-studios-llc/id284899742?uo=4')",No ads.txt found.
 "(""Domino's Pizza Group"", 'http://itunes.apple.com/artist/dominos-pizza-group/id426415756?uo=5')",No ads.txt found.
 "('Pinterest', 'http://itunes.apple.com/artist/pinterest/id328135727?uo=5')",No ads.txt found.
-"('Roblox Corporation', 'http://itunes.apple.com/artist/roblox-corporation/id431946155?uo=5')",http://www.roblox.com/ads.txt
+"('Roblox Corporation', 'http://itunes.apple.com/artist/roblox-corporation/id431946155?uo=5')",http://roblox.com/ads.txt
 "(""Domino's Pizza LLC"", 'https://itunes.apple.com/us/developer/dominos-pizza-llc/id436491865?uo=4')",No ads.txt found.
 "('Beijing Kingsoft Internet Security software Co.Ltd', 'https://itunes.apple.com/cn/developer/beijing-kingsoft-internet-security-software-co-ltd/id438883151?uo=4')",No ads.txt found.
 "('Snap, Inc.', 'http://itunes.apple.com/artist/snap-inc/id446889612?uo=5')",No ads.txt found.

@@ -116,7 +116,6 @@ def delete_item(table, keys):
 	NOTE: deleting the item does not remove the key from the table, so you can
 	still access this key without it causing an error. It will just return an empty list or nothing.
 	'''
-	#able = dynamodb.Table(table_name)
 	try:
 		table.delete_item(Key = keys)
 	except:
@@ -132,7 +131,6 @@ def find_table(csv_file):
 	elif 'apple' in csv_file:
 		table_name = 'Apple_Store'	
 	try:
-		# response = dynamodb.describe_table(TableName = table_name)
 		table = dynamodb_client.describe_table(TableName = table_name)
 		table = dynamodb.Table(table_name)
 	except:
@@ -173,7 +171,6 @@ def write_items_batch(items, table):
 def process_csv_file(csv_file):
 	try:
 		print("Processing " + csv_file + ".")
-		#csv_file.decode("utf-8")
 		dataframe = pd.read_csv(csv_file)
 		matrix = dataframe.values
 		#iterate through information and update database
@@ -201,9 +198,7 @@ def process_csv_file(csv_file):
 				'''
 				insert a new item into the table
 				'''
-				#print(table)
 				add_item_to_table(table, key, value)
-			#print(retrieve_item(table, key_dict_form))
 		print("Finished processing " + csv_file + " into DB.")
 	except Exception as e:
 		print(e)
