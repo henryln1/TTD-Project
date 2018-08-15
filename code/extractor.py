@@ -152,7 +152,7 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 			#counter += 1
 			current_entry = f.readline()
 		f.close()
-	with open(file_path + 'url_timings_1' , 'w') as f:
+	with open(file_path + 'url_timings_1_request_streaming' , 'w') as f:
 		for key in timing_dict:
 			f.write(str((key, timing_dict[key])) + '\n')
 		f.close()
