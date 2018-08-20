@@ -1,6 +1,7 @@
 import requests
 import re
 import time
+from config import NUMBER_ATTEMPTS
 
 '''
 File contains code to look at an url and determine whether or not there is a text file present
@@ -14,8 +15,20 @@ def extensive_check_for_ads_txt(request):
 	to verify whether or not there is a ads.txt file present.
 
 	'''
-	
-	content = request.text
+	retry_attempt_counter = 0
+	while retry_attempt_counter < NUMBER_ATTEMPTS:
+		try:
+			content = request.text
+			break
+		except Exception as e:
+			print(e)
+			if retry_attempt_counter == NUMBER_ATTEMPTS:
+				print("Request timed out too many times. Skipping")
+				break
+			else:
+				print("Request timed out. Retrying...")
+				retry_attempt_counter += 1
+
 
 	if (not (
 		'<!DOCTYPE' in content or 
@@ -43,14 +56,14 @@ def check_valid_url_ad_txt(url_path):
 	try/except is to handle the errors when the website crashes the process. 
 	'''
 
-
+	#print(url_path)
 	request = None
 
 	'''
 	Tested timeout limits of 1-5 seconds and it seems that 3 is a good number to stick to for now.
 	'''
 	try:
-		request = requests.get(url_path, timeout = 2, stream = True)
+		request = requests.get(url_path, timeout = 1, stream = True)
 	except:
 		print("Error encountered pinging " + url_path + ". Defaulting to no ads.txt here.")
 		return False
