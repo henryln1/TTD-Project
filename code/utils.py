@@ -1,6 +1,7 @@
 import os
 import re
-
+import time
+import datetime
 
 '''
 Place to keep functions that may be generally useful in the future
@@ -32,6 +33,21 @@ def parse_for_specific_parameter(parameter_name, search_string):
 	#print("entire thing: ", parameter[0])
 	#print("1st ", parameter[1])
 	return parameter[1]
+
+def write_exception_to_file(file_name, exception, information):
+
+	'''
+	Writes errors to a log file that can later be inspected to determine source of problem.
+	'''
+
+	ts = time.time()
+	timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+	with open(file_name, 'a') as f:
+		f.write(timestamp + '\n')
+		f.write(str(exception) + '\n')
+		f.write(information + '\n')
+		f.close()
+	return
 
 
 def check_missing_slash(string):

@@ -162,7 +162,6 @@ def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor
 				print("Could not find market url of app. Please investigate.")
 			if app_id and market_url:
 				if (app_id, market_url) in ads_txt_location_dict:
-					print("Duplicate!")
 				ads_txt_location_dict[(app_id, market_url)] = extractor.look_for_ads_txt_url(current_entry)
 			current_entry = f.readline()
 		f.close()
