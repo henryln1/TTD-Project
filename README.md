@@ -47,22 +47,20 @@ pull_data.py: Will write code to automatically log into 42matters and pull data 
 tests.py: Functions to test everything above.
 
 
-periodic_test.py: Using celery, attempts to automate the tests (precursor to automating everything in DynamoDB)
-
-
 utils.py: misc file that contains generally useful functions 
 
 
 main.py: Utilizes above functions to process a data file into csv form. 
 
 
+direct_write.py: Newer logic that uses dynamo batch write function to process a chunk of the data at a time and write it directly to dynamo, skipping the csv file. 
 
 
 
-TODO 08/06/18:
+TODO 08/20/18:
 
 
-Consider how to scale this to full data file once it arrives. AWS Lambda has a limit of 5 minutes so the faster the code, the better it will be. Otherwise, look into chaining lambda functions together.
+Consider how to scale this to full data file once it arrives. AWS Lambda has a limit of 5 minutes so the faster the code, the better it will be. Currently we are at about 0.9 seconds per data entry, and we will most likely break the data file into multiple smaller files that each trigger a lambda call.
 
 
 Look into zipping all the code into a file that we can push onto AWS Lambda for scheduled tasks.
@@ -71,7 +69,10 @@ Look into zipping all the code into a file that we can push onto AWS Lambda for 
 Figure out how to log into 42matters from script and download data via automation.
 
 
-Lots of code to clean up, messy comments and unused variables left from 08/06/18
+Always looking to clean up code and where to optimize
+
+
+Get code to start being reviewed
 
 
 

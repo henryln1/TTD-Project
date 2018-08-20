@@ -28,8 +28,10 @@ def parse_for_specific_parameter(parameter_name, search_string):
 	'''
 	#regex_pattern = r'market_url": "(.+?)",'
 	regex_pattern = re.escape(parameter_name) + r'": "(.+?)"'
-	parameter = re.findall(regex_pattern, search_string)
-	return parameter
+	parameter = re.search(regex_pattern, search_string)
+	#print("entire thing: ", parameter[0])
+	#print("1st ", parameter[1])
+	return parameter[1]
 
 
 def check_missing_slash(string):
@@ -38,7 +40,7 @@ def check_missing_slash(string):
 	'''
 
 	if string[-1] != '/':
-		string += '/'
+		return string + '/'
 	return string
 
 

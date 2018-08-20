@@ -9,9 +9,11 @@ from config import MAX_BATCH_SIZE, store_keywords_dict
 from config import dynamodb
 from check_url import *
 from extractor import *
-from write_to_dynamo import write_items_batch
+from write_to_dynamo import write_items_batch, find_table
 from utils import parse_for_specific_parameter
 
+
+from main import determine_app_store
 import sys
 import time
 import boto3
@@ -39,11 +41,11 @@ def format_batch(batch):
 
 
 def process_file_into_dynamo(file_name):
-	app_store = 'Apple'
+	app_store = determine_app_store(file_name)
 	app_id_marker, market_url_marker, seller_url, package = store_keywords_dict[app_store]	
 	extractor = Extractor(seller_url, package)
 
-	table = dynamodb.Table('Apple_Store')
+	table = find_table(file_name)
 
 	with open(file_name, 'r', encoding = 'utf-8') as f:
 		current_entry = f.readline()
@@ -64,7 +66,7 @@ def process_file_into_dynamo(file_name):
 				write_items_batch(formatted_batch, table)
 				current_batch = [] #empty out the current batch
 
-			current_entry = f.readline()
+			current_entry = f.readline() #read next line
 		f.close()
 
 

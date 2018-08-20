@@ -122,13 +122,13 @@ def delete_item(table, keys):
 		print("Unable to delete item.")
 
 
-def find_table(csv_file):
+def find_table(file):
 	'''
-	from the csv file name, we determine which table we are modifying with the changes
+	from the file name, we determine which table we are modifying with the changes
 	'''
-	if 'google' in csv_file:
+	if 'google' in file or 'playstore' in file:
 		table_name = 'Google_Play'
-	elif 'apple' in csv_file:
+	elif 'apple' in file or 'itunes' in file:
 		table_name = 'Apple_Store'	
 	try:
 		table = dynamodb_client.describe_table(TableName = table_name)
