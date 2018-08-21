@@ -1,7 +1,7 @@
 
 
 
-def handler(event, context):
+def file_download_lambda_handler(event, context):
 	'''
 	event is in the form of dict that passes event data to handler
 	context is of type LambdaContext, contains runtime information
@@ -10,3 +10,12 @@ def handler(event, context):
 	'''
 
 	return None
+
+
+def file_split_lambda_handler(event, context):
+
+	pass
+
+def process_into_dynamo_lambda_handler(event, context):
+
+	pass

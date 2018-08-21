@@ -1,0 +1,54 @@
+2018-08-21 09:43:33
+HTTPSConnectionPool(host='www.opentable.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://opentable.com/?forceWeb=1/com.contextoptional.OpenTable/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:43:34
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021554E86438>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:43:35
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/com.target.Target/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021554E86550>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/com.target.Target/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:43:44
+HTTPSConnectionPool(host='textplus.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://textPlus.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:43:46
+HTTPSConnectionPool(host='textplus.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://textPlus.com/com.gogii.textplus/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:08
+Exceeded 30 redirects.
+Error encountered pinging http://delta.com/app/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:08
+Exceeded 30 redirects.
+Error encountered pinging http://delta.com/app/com.delta.iphone.ver1/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:15
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:16
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/jp.co.rakuten.ichiba/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:34
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:38
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/com.FDGEntertainment.ClearVision/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:39
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021555F33DD8>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:40
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/com.topfreegames.bikeracefree/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021554E86B38>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/com.topfreegames.bikeracefree/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:44:58
+HTTPConnectionPool(host='line.me', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://line.me/ja/games/com.linecorp.LGTMTM/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:45:02
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021555F296D8>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:45:03
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/com.fungames.sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000021555F29780>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/com.fungames.sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:45:04
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/ads.txt. Defaulting to no ads.txt here.
+2018-08-21 09:45:05
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /art.sandbox.app/ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/art.sandbox.app/ads.txt. Defaulting to no ads.txt here.
