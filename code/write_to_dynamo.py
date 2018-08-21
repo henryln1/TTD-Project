@@ -3,6 +3,8 @@ import sys
 from config import *
 import time
 from query_dynamo import *
+from utils import write_exception_to_file
+
 
 '''
 
@@ -68,9 +70,9 @@ def add_item_to_table(table, key, value):
 	}
 	try: 
 		table.put_item(Item = item_information)
-	except:
-		print("Unable to insert into table. Skipping.")
-
+	except Exception as e:
+		error_info = "Unable to insert into table. Skipping " + str(key) + " with value: " + str(value)
+		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 
 
 def retrieve_item(table, keys):
@@ -107,7 +109,9 @@ def update_item(table, keys, values):
 			UpdateExpression = "set FileLocation = :val1",
 			ExpressionAttributeValues = values_dict_form)
 	except Exception as e:
-		print("Unable to update table for key: " + keys + ". Skipping.")
+		error_info = "Unable to update table. Skipping " + str(key) + " with value: " + str(value)
+		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
+		#print("Unable to update table for key: " + keys + ". Skipping.")
 
 
 def delete_item(table, keys):
