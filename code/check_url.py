@@ -1,6 +1,7 @@
 import requests
 import re
 import time
+
 from config import NUMBER_ATTEMPTS, ERROR_LOG_FILE
 from utils import write_exception_to_file
 

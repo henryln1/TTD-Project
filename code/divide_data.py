@@ -1,5 +1,6 @@
 import sys
-from config import *
+
+from config import LINES_PER_LAMBDA
 from itertools import zip_longest
 
 '''
@@ -8,7 +9,7 @@ Takes a file and subdivides it into chunks that we can process in a single Lambd
 '''
 
 
-def process_file(file):
+def process_file_to_smaller(file):
 
 	'''
 	Takes a file and breaks it up into smaller chunks so it can fit into Lambda 5 minute limit for running a process

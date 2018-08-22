@@ -4,19 +4,17 @@ Implementing so we can test the time it takes compared to first writing it
 into a csv file.
 
 '''
+import sys
+import time
+import boto3
 
-from config import MAX_BATCH_SIZE, store_keywords_dict
-from config import dynamodb
+from config import MAX_BATCH_SIZE, store_keywords_dict, dynamodb
 from check_url import *
 from extractor import *
 from write_to_dynamo import write_items_batch, find_table
 from utils import parse_for_specific_parameter
-
-
 from main import determine_app_store
-import sys
-import time
-import boto3
+
 
 
 '''
@@ -66,7 +64,7 @@ def process_file_into_dynamo(file_name):
 				write_items_batch(formatted_batch, table)
 				current_batch = [] #empty out the current batch
 
-			current_entry = f.readline() #read next line
+			current_entry = f.readline()
 		f.close()
 
 

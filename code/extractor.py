@@ -1,8 +1,9 @@
-from utils import *
-from check_url import *
 import re
 import time
+
 from config import top_level_domains
+from utils import *
+from check_url import *
 
 class Extractor:
 

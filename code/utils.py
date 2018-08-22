@@ -27,11 +27,8 @@ def parse_for_specific_parameter(parameter_name, search_string):
 	Uses regexes to find a specific piece of information in the entry.
 
 	'''
-	#regex_pattern = r'market_url": "(.+?)",'
 	regex_pattern = re.escape(parameter_name) + r'": "(.+?)"'
 	parameter = re.search(regex_pattern, search_string)
-	#print("entire thing: ", parameter[0])
-	#print("1st ", parameter[1])
 	return parameter[1]
 
 def write_exception_to_file(file_name, exception, information):
@@ -54,9 +51,8 @@ def check_missing_slash(string):
 	'''
 	Adds a slash to end of string if there is not one there already and then returns new string
 	'''
-
-	if string[-1] != '/':
-		return string + '/'
+	if not string.endswith('/'):
+		string += '/'
 	return string
 
 

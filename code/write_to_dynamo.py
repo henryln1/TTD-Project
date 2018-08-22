@@ -1,7 +1,8 @@
 import pandas as pd
 import sys
-from config import *
 import time
+
+from config import *
 from query_dynamo import *
 from utils import write_exception_to_file
 
