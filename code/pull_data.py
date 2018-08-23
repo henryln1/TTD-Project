@@ -1,5 +1,5 @@
 import requests
-
+from config import s3, S3_BUCKET_NAME
 
 
 
@@ -13,6 +13,26 @@ import requests
 
 # 	r = session.post(url, data = login_data)
 # 	print(r.content)
+
+def test_location_download(url):
+	request = requests.get(url, timeout = 5)
+	return request.content
+
+def push_to_s3(bucket_name, data):
+	bucket = s3.Bucket(Bucket = S3_BUCKET_NAME)
+	exists = True
+	try:
+		s3.meta.client.head_bucket(Bucket = S3_BUCKET_NAME)
+	except botocore.exceptions.ClientError as e:
+		error_code = int(e.response['Error']['Code'])
+		if error_code == 404:
+			exists = False
+	if not exists:
+		print("Unable to access S3 bucket to store data. Exiting.")
+		exit()
+	
+
+
 
 def download_data(location):
 	'''
