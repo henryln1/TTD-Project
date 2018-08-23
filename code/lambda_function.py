@@ -32,8 +32,9 @@ def file_download_lambda_handler(event, context):
 	possible username/password to download data?
 
 	'''
-
-	return None
+	data_location = event['data_location']
+	download_data(data_locationa)
+	return
 
 
 def file_split_lambda_handler(event, context):
@@ -46,6 +47,9 @@ def file_split_lambda_handler(event, context):
 	smaller_file_name_format - some indication of how the smaller files will be structured
 	'''
 
+	data_file = event['data_file']
+	process_file_to_smaller(data_file)
+	return
 	pass
 
 def process_into_dynamo_lambda_handler(event, context):
@@ -59,5 +63,6 @@ def process_into_dynamo_lambda_handler(event, context):
 	file_name - file that we are processing 
 
 	'''
-
+	small_data_file = event['lambda_data_file']
+	process_file_into_dynamo(small_data_file)
 	pass

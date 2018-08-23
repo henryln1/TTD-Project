@@ -56,6 +56,9 @@ main.py: Utilizes above functions to process a data file into csv form.
 direct_write.py: Newer logic that uses dynamo batch write function to process a chunk of the data at a time and write it directly to dynamo, skipping the csv file. 
 
 
+lambda_function.py: Contains handler functions when we upload code as a package up to AWS Lambda
+
+
 
 TODO 08/20/18:
 
@@ -73,6 +76,15 @@ Always looking to clean up code and where to optimize
 
 
 Get code to start being reviewed
+
+
+Other Notes:
+
+
+Use Cloudwatch on AWS Lambda to make a trigger for a regularly scheduled lambda task
+
+
+Create an S3 trigger that calls lambda function whenever a file we want is created
 
 
 

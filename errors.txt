@@ -52,3 +52,159 @@ Error encountered pinging https://sandbox.love/ads.txt. Defaulting to no ads.txt
 2018-08-21 09:45:05
 HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /art.sandbox.app/ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
 Error encountered pinging https://sandbox.love/art.sandbox.app/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:07
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CB8A58D0>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:08
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/com.target.Target/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CB8A5FD0>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/com.target.Target/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:22
+HTTPSConnectionPool(host='starbucks.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://starbucks.com/coffeehouse/mobile-apps/mystarbucks/com.starbucks.mystarbucks/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:36
+HTTPSConnectionPool(host='www.uber.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://uber.com/com.ubercab.UberClient/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:38
+Exceeded 30 redirects.
+Error encountered pinging http://delta.com/app/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:43
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:44
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/jp.co.rakuten.ichiba/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:22:59
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:02
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/com.FDGEntertainment.ClearVision/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:03
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CB8F8F98>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:05
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/com.topfreegames.bikeracefree/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CB8F84A8>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/com.topfreegames.bikeracefree/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:25
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CC914080>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:26
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/com.fungames.sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000001F4CC912D30>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/com.fungames.sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:28
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:23:28
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /art.sandbox.app/ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/art.sandbox.app/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:25:53
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808EE91160>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:25:54
+HTTPSConnectionPool(host='target.com', port=443): Max retries exceeded with url: /c/target-app/-/N-4th2r/com.target.Target/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808EE735F8>, 'Connection to target.com timed out. (connect timeout=1)'))
+Error encountered pinging https://target.com/c/target-app/-/N-4th2r/com.target.Target/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:22
+Exceeded 30 redirects.
+Error encountered pinging http://delta.com/app/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:26
+HTTPConnectionPool(host='flashmangames.com', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://flashmangames.com/games/smurfsvillage/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:28
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:29
+HTTPConnectionPool(host='www.rakuten.co.jp', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://rakuten.co.jp/jp.co.rakuten.ichiba/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:44
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:47
+HTTPSConnectionPool(host='www.fdg-entertainment.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://fdg-entertainment.com/en/iPhone-Games/Clear-Vision-iPhone.html/com.FDGEntertainment.ClearVision/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:48
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808FF0DE80>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:26:49
+HTTPSConnectionPool(host='topfreegames.com', port=443): Max retries exceeded with url: /games/bikerace/com.topfreegames.bikeracefree/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808FEF9DD8>, 'Connection to topfreegames.com timed out. (connect timeout=1)'))
+Error encountered pinging https://topfreegames.com/games/bikerace/com.topfreegames.bikeracefree/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:07
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808FF27C88>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:08
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/com.fungames.sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002808FEFF128>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/com.fungames.sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:09
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:09
+HTTPSConnectionPool(host='sandbox.love', port=443): Max retries exceeded with url: /art.sandbox.app/ads.txt (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1045)')))
+Error encountered pinging https://sandbox.love/art.sandbox.app/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:49
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5208>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:49
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /com.firsttouchgames.dls3/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5EB8>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/com.firsttouchgames.dls3/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:49
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5278>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:50
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /com.firsttouchgames.story/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5CC0>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/com.firsttouchgames.story/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:54
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000023C7FAC6E80>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:27:55
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/com.fungames.sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x0000023C7FAF5C18>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/com.fungames.sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:28:22
+HTTPSConnectionPool(host='picsart.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://picsart.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:28:24
+HTTPSConnectionPool(host='picsart.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://picsart.com/com.picsart.studio/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:28:25
+HTTPSConnectionPool(host='www.psafe.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://psafe.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:28:37
+HTTPConnectionPool(host='surpax.net', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5F60>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://surpax.net/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:28:37
+HTTPConnectionPool(host='surpax.net', port=80): Max retries exceeded with url: /com.surpax.ledflashlight.panel/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000023C7FAF5320>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://surpax.net/com.surpax.ledflashlight.panel/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:31
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699D834668>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:31
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /com.firsttouchgames.dls3/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699D834668>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/com.firsttouchgames.dls3/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:31
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699D834668>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:31
+HTTPConnectionPool(host='ftgames.com', port=80): Max retries exceeded with url: /com.firsttouchgames.story/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699D834668>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://ftgames.com/com.firsttouchgames.story/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:36
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002699D834908>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:29:37
+HTTPSConnectionPool(host='fungames-forfree.com', port=443): Max retries exceeded with url: /games/sniper3d/com.fungames.sniper3d/ads.txt (Caused by ConnectTimeoutError(<urllib3.connection.VerifiedHTTPSConnection object at 0x000002699D86AE10>, 'Connection to fungames-forfree.com timed out. (connect timeout=1)'))
+Error encountered pinging https://fungames-forfree.com/games/sniper3d/com.fungames.sniper3d/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:01
+HTTPSConnectionPool(host='picsart.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://picsart.com/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:03
+HTTPSConnectionPool(host='picsart.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging https://picsart.com/com.picsart.studio/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:05
+HTTPSConnectionPool(host='www.psafe.com', port=443): Read timed out. (read timeout=1)
+Error encountered pinging http://psafe.com/com.psafe.msuite/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:15
+HTTPConnectionPool(host='surpax.net', port=80): Max retries exceeded with url: /ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699E862438>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://surpax.net/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:15
+HTTPConnectionPool(host='surpax.net', port=80): Max retries exceeded with url: /com.surpax.ledflashlight.panel/ads.txt (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002699E8624E0>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+Error encountered pinging http://surpax.net/com.surpax.ledflashlight.panel/ads.txt. Defaulting to no ads.txt here.
+2018-08-22 14:30:29
+HTTPConnectionPool(host='www.socialpoint.es', port=80): Read timed out. (read timeout=1)
+Error encountered pinging http://socialpoint.es/ads.txt. Defaulting to no ads.txt here.

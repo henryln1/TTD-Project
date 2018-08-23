@@ -132,9 +132,9 @@ def find_table(file):
 	from the file name, we determine which table we are modifying with the changes
 	'''
 	if 'google' in file or 'playstore' in file:
-		table_name = 'Google_Play'
+		table_name = GOOGLE_PLAY_TABLE_NAME
 	elif 'apple' in file or 'itunes' in file:
-		table_name = 'Apple_Store'	
+		table_name = APPLE_STORE_TABLE_NAME	
 	try:
 		table = dynamodb_client.describe_table(TableName = table_name)
 		table = dynamodb.Table(table_name)

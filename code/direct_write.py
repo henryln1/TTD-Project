@@ -3,6 +3,10 @@ Experimental method of processing and writing directl into DynamoDB.
 Implementing so we can test the time it takes compared to first writing it
 into a csv file.
 
+Update: 08/21/18
+This has equal performance to  writing to a csv file, so we 
+can go with this since it removes the intermediate file 
+
 '''
 import sys
 import time
@@ -39,6 +43,7 @@ def format_batch(batch):
 
 
 def process_file_into_dynamo(file_name):
+	print("Processing file into Dynamo...")
 	app_store = determine_app_store(file_name)
 	app_id_marker, market_url_marker, seller_url, package = store_keywords_dict[app_store]	
 	extractor = Extractor(seller_url, package)
@@ -66,7 +71,7 @@ def process_file_into_dynamo(file_name):
 
 			current_entry = f.readline()
 		f.close()
-
+	print("Finished processing file into Dynamo.")
 
 def main(args):
 	start_time = time.time()

@@ -14,12 +14,15 @@ import requests
 # 	r = session.post(url, data = login_data)
 # 	print(r.content)
 
-def download_data():
+def download_data(location):
 	'''
 	should pull data from wherever it's located, then returns a 
 	way to find that file
 	'''
-	pass
+	print("Downloading data....")
+	# download data into S3 bucket
+	print("Data downloaded!")
+	return
 
 # def main(args):
 

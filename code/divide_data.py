@@ -19,6 +19,7 @@ def process_file_to_smaller(file):
 	https://stackoverflow.com/questions/16289859/splitting-large-text-file-into-smaller-text-files-by-line-numbers-using-python
 	'''
 
+	print("Breaking up data into smaller files...")
 
 	def grouper(n, iterable, fill_value = None):
 		args = [iter(iterable)] * n
@@ -28,6 +29,10 @@ def process_file_to_smaller(file):
 		for i, g in enumerate(grouper(LINES_PER_LAMBDA, f, fill_value = ''), 1):
 			with open('lambda_small_file_{0}.txt'.format(i * LINES_PER_LAMBDA), 'w') as fout:
 				fout.writelines(g)
+		f.close()
+		
+	print("Done splitting data.")
+	return
 
 	
 
