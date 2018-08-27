@@ -54,9 +54,8 @@ def process_file_into_dynamo(file_name):
 		current_entry = f.readline()
 		current_batch = []
 		while current_entry:
-			app_id = parse_for_specific_parameter(app_id_marker, current_entry)[0]
-			market_url = parse_for_specific_parameter(market_url_marker, current_entry)[0]
-
+			app_id = parse_for_specific_parameter(app_id_marker, current_entry)
+			market_url = parse_for_specific_parameter(market_url_marker, current_entry)
 			if app_id and market_url:
 				corresponding_url = extractor.look_for_ads_txt_url(current_entry)
 			if corresponding_url == '':
