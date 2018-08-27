@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 import time
 
-from config import *
+from config import MAX_BATCH_SIZE, dynamodb, dynamodb_client, ERROR_LOG_FILE, APPLE_STORE_TABLE_NAME, GOOGLE_PLAY_TABLE_NAME
 from query_dynamo import *
 from utils import write_exception_to_file
 
