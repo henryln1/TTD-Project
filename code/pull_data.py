@@ -1,22 +1,12 @@
 import requests
-from config import s3, S3_BUCKET_NAME
+#from boto3.s3.transfer import S3Transfer
+from config import s3, \
+				s3_client, \
+				S3_BUCKET_NAME,
+				DATA_ACCESS_KEY,
+				DATA_ACCESS_SECRET_KEY
 
 
-
-# def log_into_website(url, username, password):
-
-# 	login_data = {
-# 		'userName': username,
-# 		'password': password
-# 	}
-# 	session = requests.Session()
-
-# 	r = session.post(url, data = login_data)
-# 	print(r.content)
-
-def test_location_download(url):
-	request = requests.get(url, timeout = 5)
-	return request.content
 
 def push_to_s3(bucket_name, data):
 	bucket = s3.Bucket(Bucket = S3_BUCKET_NAME)
@@ -30,22 +20,25 @@ def push_to_s3(bucket_name, data):
 	if not exists:
 		print("Unable to access S3 bucket to store data. Exiting.")
 		exit()
-	
+	#INCOMPLETE, possibly unnecessary 
 
 
 
-def download_data(location):
+def download_data(s3_bucket, file_name, destination_bucket, new_file_name):
 	'''
-	should pull data from wherever it's located, then returns a 
-	way to find that file
+	The data we are using is hosted in a s3 bucket, so this function transfers
+	it from that bucket to a bucket of TTD. Have to figure out how to provide
+	the credentials to access that company's bucket
 	'''
 	print("Downloading data....")
-	# download data into S3 bucket
+	copy_source = {
+		'Bucket': s3_bucket,
+		'Key': file_name
+	}
+	try:
+		s3.meta.client.copy(copy_source, destination_bucket, new_file_name)
+	except Exception as e:
+		print("Unable to copy data to S3 bucket.. Exiting")
+		return
 	print("Data downloaded!")
 	return
-
-# def main(args):
-
-# 	website = args[1]
-# 	username = args[2]
-# 	password = args[3]

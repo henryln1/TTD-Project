@@ -1,0 +1,12 @@
+2018-08-28 08:57:05
+An error occurred (ValidationException) when calling the UpdateItem operation: The provided key element does not match the schema
+Unable to update table. Skipping {'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')"} with value: {':l': 'No ads.txt found modified.'}
+2018-08-28 08:57:16
+An error occurred (ValidationException) when calling the UpdateItem operation: The provided key element does not match the schema
+Unable to update table. Skipping {'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')"} with value: {':l': 'No ads.txt found modified.'}
+2018-08-28 09:15:24
+An error occurred (ValidationException) when calling the UpdateItem operation: The provided key element does not match the schema
+Unable to update table. Skipping {'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')"} with value: {':l': 'No ads.txt found modified.'}
+2018-08-28 11:02:43
+An error occurred (ValidationException) when calling the UpdateItem operation: The provided key element does not match the schema
+Unable to update table. Skipping {'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')"} with value: {':l': 'No ads.txt found modified.'}

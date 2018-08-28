@@ -110,7 +110,7 @@ def update_item(table, keys, values):
 			UpdateExpression = "set FileLocation = :val1",
 			ExpressionAttributeValues = values_dict_form)
 	except Exception as e:
-		error_info = "Unable to update table. Skipping " + str(key) + " with value: " + str(value)
+		error_info = "Unable to update table. Skipping " + str(keys) + " with value: " + str(values)
 		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 		#print("Unable to update table for key: " + keys + ". Skipping.")
 

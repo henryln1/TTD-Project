@@ -14,6 +14,78 @@ from divide_data import process_file_to_smaller
 #used in 3rd lambda handler
 from direct_write import process_file_into_dynamo
 
+from config import lmbda_client, \
+					S3_BUCKET_NAME, \
+					FILE_DOWNLOAD_FUNCTION_NAME, \
+					FILE_SPLIT_FUNCTION_NAME, \
+					FILE_PROCESS_FUNCTION_NAME, \
+					LAMBDA_ROLE, \
+					HANDLER_MODULE_NAME
+
+def create_file_download_lambda_function():
+
+	#documentation at https://boto3.readthedocs.io/en/latest/reference/services/lambda.html#Lambda.Client.create_function
+	response = lmbda_client.create_function(
+		FunctionName = FILE_DOWNLOAD_FUNCTION_NAME,
+		Runtime = 'python3.6',
+		Role = LAMBDA_ROLE,
+		Handler = HANDLER_MODULE_NAME + '.' + 'file_download_lambda_handler', #should match the function name of corresponding lambda handler function below
+		Code = {
+			#'ZipFile': b'bytes',
+			'S3Bucket': S3_BUCKET_NAME,
+			#'S3Key': 'string',
+			#'S3ObjectVersion': 'string'
+			#unsure if commented parameters are needed, need to look into more
+		},
+		Description = 'Downloads app data into S3 bucket periodically for ads.txt searching.',
+		Timeout = 300, #optional but documentation recommends setting this
+		# MemorySize = #optional but may put in later
+	)
+	pass
+
+
+def create_file_split_lambda_function():
+	response = lmbda_client.create_function(
+		FunctionName = FILE_SPLIT_FUNCTION_NAME,
+		Runtime = 'python3.6',
+		Role = LAMBDA_ROLE,
+		Handler = HANDLER_MODULE_NAME + '.' + 'file_split_lambda_handler',
+		Code = {
+			#'ZipFile': b'bytes',
+			'S3Bucket': S3_BUCKET_NAME,
+			#'S3Key': 'string',
+			#'S3ObjectVersion': 'string'
+			#unsure if commented parameters are needed, need to look into more
+		},
+		Description = 'Splits large data file into smaller files in S3 bucket.',
+		Timeout = 300
+	)
+
+	pass
+
+
+def create_file_process_into_dynamo_lambda_function():
+	response = lmbda_client.create_function(
+		FunctionName = FILE_PROCESS_FUNCTION_NAME,
+		Runtime = 'python3.6',
+		Role = LAMBDA_ROLE,
+		Handler = HANDLER_MODULE_NAME + '.' + 'process_into_dynamo_lambda_handler',
+		Code = {
+			#'ZipFile': b'bytes',
+			'S3Bucket': S3_BUCKET_NAME,
+			#'S3Key': 'string',
+			#'S3ObjectVersion': 'string'
+			#unsure if commented parameters are needed, need to look into more		
+		},
+		Description = 'Processes file into DynamoDB table.',
+		Timeout = 300
+
+	)
+	pass
+
+
+
+
 
 def file_download_lambda_handler(event, context):
 	'''
@@ -33,7 +105,7 @@ def file_download_lambda_handler(event, context):
 
 	'''
 	data_location = event['data_location']
-	download_data(data_locationa)
+	download_data(data_location)
 	return
 
 

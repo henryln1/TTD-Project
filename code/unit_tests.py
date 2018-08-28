@@ -11,6 +11,7 @@ from query_dynamo import *
 class test_url_methods(unittest.TestCase):
 
 	def test_valid_url(self):
+		print("Testing url methods...")
 		example_valid_url = 'http://slither.io/ads.txt'
 		example_fake_url = 'http://slither.io/air.com.hypah.io.slither/ads.txt'
 		valid_url_check = check_valid_url_ad_txt(example_valid_url)
@@ -34,6 +35,7 @@ class test_utils_methods(unittest.TestCase):
 class test_dynamo_methods(unittest.TestCase):
 
 	def test_single_item_write_and_query_dynamo(self):
+		print("Testing dynamo...")
 		table = find_table('apple')
 		item = {
 			'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')",
@@ -46,7 +48,7 @@ class test_dynamo_methods(unittest.TestCase):
 
 		key_dict_form = {
 			'App_ID': key
-		}	
+		}
 		retrieved_item = retrieve_item(table, key_dict_form)
 		self.assertEqual(item, retrieved_item)
 		values_to_update_dict_form = {
