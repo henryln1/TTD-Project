@@ -3,8 +3,6 @@
 
 
 #removes pre-existing copies
-rm project-lambda-package.zip
-
 
 mkdir package-project-dir
 rm -r code/*pycache*
@@ -39,6 +37,6 @@ cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packa
 
 
 #zip -r project-lambda-package package-project-dir
-Compress-Archive -Path package-project-dir/* -CompressionLevel Optimal -DestinationPath project-lambda-package.zip
+Compress-Archive -Force -Path package-project-dir/* -CompressionLevel Optimal -DestinationPath project-lambda-package.zip
 
 rm -r package-project-dir
