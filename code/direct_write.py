@@ -17,7 +17,7 @@ from check_url import *
 from extractor import *
 from write_to_dynamo import write_items_batch, find_table
 from utils import parse_for_specific_parameter
-from main import determine_app_store
+#from main import determine_app_store
 
 
 
@@ -25,6 +25,32 @@ from main import determine_app_store
 Functions include manually defined variables for now while we get set up and running.
 Will update to make it flexible later
 '''
+
+def determine_app_store(file_name):
+	google_play_string = 'https://play.google.com/store'
+
+
+	#dummy strings for now until we get Apple/Tencent data
+	apple_ios_string = 'http://itunes.apple.com'
+	tencent_string = 'https://tencent.com/store'
+
+
+	#we just need to check the first line assuming one data file only contains info from one app store
+	with open(file_name, 'r', encoding = 'utf-8') as f:
+		first_line = f.readline()
+		if google_play_string in first_line:
+			return 'Google'
+		if apple_ios_string in first_line:
+			return 'Apple'
+		if tencent_string in first_line:
+			return 'Tencent'
+
+	print("Please examine your data file. No valid app store detected.")
+	print("Exiting...")
+	exit()
+	return ''
+
+
 
 
 def format_batch(batch):

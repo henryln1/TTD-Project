@@ -1,4 +1,4 @@
-import pandas as pd
+#import pandas as pd
 import sys
 import time
 
@@ -173,42 +173,42 @@ def write_items_batch(items, table):
 
 
 
-def process_csv_file(csv_file):
-	try:
-		print("Processing " + csv_file + ".")
-		dataframe = pd.read_csv(csv_file)
-		matrix = dataframe.values
-		#iterate through information and update database
-		table = find_table(csv_file)
+# def process_csv_file(csv_file):
+# 	try:
+# 		print("Processing " + csv_file + ".")
+# 		dataframe = pd.read_csv(csv_file)
+# 		matrix = dataframe.values
+# 		#iterate through information and update database
+# 		table = find_table(csv_file)
 
-		for i in range(1, matrix.shape[0]):
-			#skip first row because those are column labels.
+# 		for i in range(1, matrix.shape[0]):
+# 			#skip first row because those are column labels.
 
-			key = matrix[i][0]
-			value = matrix[i][1]
-			item_dict = {
-				'App_ID': key,
-				'FileLocation': value
-			}
-			key_dict_form = {
-				'App_ID': key
-			}
-			if key_exists(key, table):
-				'''
-				update value for the key
-				'''
-				update_item(table, key, value)
+# 			key = matrix[i][0]
+# 			value = matrix[i][1]
+# 			item_dict = {
+# 				'App_ID': key,
+# 				'FileLocation': value
+# 			}
+# 			key_dict_form = {
+# 				'App_ID': key
+# 			}
+# 			if key_exists(key, table):
+# 				'''
+# 				update value for the key
+# 				'''
+# 				update_item(table, key, value)
 
-			else:
-				'''
-				insert a new item into the table
-				'''
-				add_item_to_table(table, key, value)
-		print("Finished processing " + csv_file + " into DB.")
-	except Exception as e:
-		print(e)
-		print("Unable to process csv file into DB. Exiting.")
-	return 
+# 			else:
+# 				'''
+# 				insert a new item into the table
+# 				'''
+# 				add_item_to_table(table, key, value)
+# 		print("Finished processing " + csv_file + " into DB.")
+# 	except Exception as e:
+# 		print(e)
+# 		print("Unable to process csv file into DB. Exiting.")
+# 	return 
 	
 
 

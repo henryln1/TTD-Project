@@ -22,66 +22,72 @@ from config import lmbda_client, \
 					LAMBDA_ROLE, \
 					HANDLER_MODULE_NAME
 
-def create_file_download_lambda_function():
 
-	#documentation at https://boto3.readthedocs.io/en/latest/reference/services/lambda.html#Lambda.Client.create_function
-	response = lmbda_client.create_function(
-		FunctionName = FILE_DOWNLOAD_FUNCTION_NAME,
-		Runtime = 'python3.6',
-		Role = LAMBDA_ROLE,
-		Handler = HANDLER_MODULE_NAME + '.' + 'file_download_lambda_handler', #should match the function name of corresponding lambda handler function below
-		Code = {
-			#'ZipFile': b'bytes',
-			'S3Bucket': S3_BUCKET_NAME,
-			#'S3Key': 'string',
-			#'S3ObjectVersion': 'string'
-			#unsure if commented parameters are needed, need to look into more
-		},
-		Description = 'Downloads app data into S3 bucket periodically for ads.txt searching.',
-		Timeout = 300, #optional but documentation recommends setting this
-		# MemorySize = #optional but may put in later
-	)
-	pass
+'''
+Since there is console access to set up lambda functions there, the sections below are no longer needed. Setting as comments for now
+'''
 
 
-def create_file_split_lambda_function():
-	response = lmbda_client.create_function(
-		FunctionName = FILE_SPLIT_FUNCTION_NAME,
-		Runtime = 'python3.6',
-		Role = LAMBDA_ROLE,
-		Handler = HANDLER_MODULE_NAME + '.' + 'file_split_lambda_handler',
-		Code = {
-			#'ZipFile': b'bytes',
-			'S3Bucket': S3_BUCKET_NAME,
-			#'S3Key': 'string',
-			#'S3ObjectVersion': 'string'
-			#unsure if commented parameters are needed, need to look into more
-		},
-		Description = 'Splits large data file into smaller files in S3 bucket.',
-		Timeout = 300
-	)
+# def create_file_download_lambda_function():
 
-	pass
+# 	#documentation at https://boto3.readthedocs.io/en/latest/reference/services/lambda.html#Lambda.Client.create_function
+# 	response = lmbda_client.create_function(
+# 		FunctionName = FILE_DOWNLOAD_FUNCTION_NAME,
+# 		Runtime = 'python3.6',
+# 		Role = LAMBDA_ROLE,
+# 		Handler = HANDLER_MODULE_NAME + '.' + 'file_download_lambda_handler', #should match the function name of corresponding lambda handler function below
+# 		Code = {
+# 			#'ZipFile': b'bytes',
+# 			'S3Bucket': S3_BUCKET_NAME,
+# 			#'S3Key': 'string',
+# 			#'S3ObjectVersion': 'string'
+# 			#unsure if commented parameters are needed, need to look into more
+# 		},
+# 		Description = 'Downloads app data into S3 bucket periodically for ads.txt searching.',
+# 		Timeout = 300, #optional but documentation recommends setting this
+# 		# MemorySize = #optional but may put in later
+# 	)
+# 	pass
 
 
-def create_file_process_into_dynamo_lambda_function():
-	response = lmbda_client.create_function(
-		FunctionName = FILE_PROCESS_FUNCTION_NAME,
-		Runtime = 'python3.6',
-		Role = LAMBDA_ROLE,
-		Handler = HANDLER_MODULE_NAME + '.' + 'process_into_dynamo_lambda_handler',
-		Code = {
-			#'ZipFile': b'bytes',
-			'S3Bucket': S3_BUCKET_NAME,
-			#'S3Key': 'string',
-			#'S3ObjectVersion': 'string'
-			#unsure if commented parameters are needed, need to look into more		
-		},
-		Description = 'Processes file into DynamoDB table.',
-		Timeout = 300
+# def create_file_split_lambda_function():
+# 	response = lmbda_client.create_function(
+# 		FunctionName = FILE_SPLIT_FUNCTION_NAME,
+# 		Runtime = 'python3.6',
+# 		Role = LAMBDA_ROLE,
+# 		Handler = HANDLER_MODULE_NAME + '.' + 'file_split_lambda_handler',
+# 		Code = {
+# 			#'ZipFile': b'bytes',
+# 			'S3Bucket': S3_BUCKET_NAME,
+# 			#'S3Key': 'string',
+# 			#'S3ObjectVersion': 'string'
+# 			#unsure if commented parameters are needed, need to look into more
+# 		},
+# 		Description = 'Splits large data file into smaller files in S3 bucket.',
+# 		Timeout = 300
+# 	)
 
-	)
-	pass
+# 	pass
+
+
+# def create_file_process_into_dynamo_lambda_function():
+# 	response = lmbda_client.create_function(
+# 		FunctionName = FILE_PROCESS_FUNCTION_NAME,
+# 		Runtime = 'python3.6',
+# 		Role = LAMBDA_ROLE,
+# 		Handler = HANDLER_MODULE_NAME + '.' + 'process_into_dynamo_lambda_handler',
+# 		Code = {
+# 			#'ZipFile': b'bytes',
+# 			'S3Bucket': S3_BUCKET_NAME,
+# 			#'S3Key': 'string',
+# 			#'S3ObjectVersion': 'string'
+# 			#unsure if commented parameters are needed, need to look into more		
+# 		},
+# 		Description = 'Processes file into DynamoDB table.',
+# 		Timeout = 300
+
+# 	)
+# 	pass
 
 
 
@@ -119,7 +125,9 @@ def file_split_lambda_handler(event, context):
 	smaller_file_name_format - some indication of how the smaller files will be structured
 	'''
 
-	data_file = event['data_file']
+	#data_file = event['data_file']
+	print("Handler is working!!!!")
+	return
 	process_file_to_smaller(data_file)
 	return
 	pass
