@@ -110,7 +110,9 @@ def file_download_lambda_handler(event, context):
 	possible username/password to download data?
 
 	'''
-	data_location = event['data_location']
+	print("Handler works")
+	return
+	#data_location = event['data_location']
 	download_data(data_location)
 	return
 
@@ -143,6 +145,8 @@ def process_into_dynamo_lambda_handler(event, context):
 	file_name - file that we are processing 
 
 	'''
-	small_data_file = event['lambda_data_file']
+	print("Handler works")
+	return
+	#small_data_file = event['lambda_data_file']
 	process_file_into_dynamo(small_data_file)
 	pass
