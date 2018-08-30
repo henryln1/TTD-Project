@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 import time
 
-from config import MAX_BATCH_SIZE, dynamodb, dynamodb_client, ERROR_LOG_FILE, APPLE_STORE_TABLE_NAME, GOOGLE_PLAY_TABLE_NAME
+from config import MAX_BATCH_SIZE, dynamodb_resource, dynamodb_client, ERROR_LOG_FILE, APPLE_STORE_TABLE_NAME, GOOGLE_PLAY_TABLE_NAME
 from query_dynamo import *
 from utils import write_exception_to_file
 
@@ -20,7 +20,7 @@ def create_new_table(table_name, primary_keys = None):
 	start_time = time.time()
 	if not primary_keys:
 		#default to two colum table of app_id and ads.txt location
-		table = dynamodb.create_table(
+		table = dynamodb_resource.create_table(
 			TableName = table_name,
 			KeySchema = [
 				{
@@ -137,7 +137,7 @@ def find_table(file):
 		table_name = APPLE_STORE_TABLE_NAME	
 	try:
 		table = dynamodb_client.describe_table(TableName = table_name)
-		table = dynamodb.Table(table_name)
+		table = dynamodb_resource.Table(table_name)
 	except:
 		print("No table found. Creating new table...")
 		table = create_new_table(table_name)

@@ -1,7 +1,7 @@
 import boto3
 import time
 from boto3.dynamodb.conditions import Attr, Key
-from config import *
+#from config import *
 
 '''
 list of functions to query and look for information from a dynamo db table

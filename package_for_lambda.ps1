@@ -18,7 +18,6 @@ cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packa
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/numpy* package-project-dir
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/six* package-project-dir
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/python-dateutil* package-project-dir
-cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/boto* package-project-dir
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/jmespath* package-project-dir
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/docutils* package-project-dir
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/s3transfer* package-project-dir

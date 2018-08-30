@@ -12,7 +12,7 @@ import sys
 import time
 import boto3
 
-from config import MAX_BATCH_SIZE, store_keywords_dict, dynamodb
+from config import MAX_BATCH_SIZE, store_keywords_dict
 from check_url import *
 from extractor import *
 from write_to_dynamo import write_items_batch, find_table
