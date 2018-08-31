@@ -25,7 +25,7 @@ def extensive_check_for_ads_txt(request):
 		except Exception as e:
 			if retry_attempt_counter == NUMBER_ATTEMPTS:
 				error_info = "Request timed out too many times. Skipping " + request.url 
-				write_exception_to_file(ERROR_LOG_FILE, e, error_info)
+				#write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 				break
 			else:
 				print("Request timed out. Retrying...")
@@ -68,7 +68,7 @@ def check_valid_url_ad_txt(url_path):
 	except Exception as e:
 
 		error_info = "Error encountered pinging " + url_path + ". Defaulting to no ads.txt here."
-		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
+		#write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 		return False
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)

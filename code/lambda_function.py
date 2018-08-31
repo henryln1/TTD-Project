@@ -9,12 +9,13 @@ in corresponding handler
 from pull_data import download_data
 
 #used in 2nd lambda handler
-from divide_data import process_file_to_smaller
+from divide_data import s3_break_up_file
 
 #used in 3rd lambda handler
-from direct_write import process_file_into_dynamo
+from direct_write import process_s3_object_into_dynamo
 
 from config import lmbda_client, \
+					s3_client, \
 					S3_BUCKET_NAME, \
 					FILE_DOWNLOAD_FUNCTION_NAME, \
 					FILE_SPLIT_FUNCTION_NAME, \
@@ -130,13 +131,17 @@ def file_split_lambda_handler(event, context):
 	'''
 
 	#data_file = event['data_file']
-	print("Handler works")
-	print("Event: ", event)
-	print("Context: ", context)
+	#print("Handler works")
+	file_key = event['Records'][0]['s3']['object']['key']
+	s3_bucket = event['Records'][0]['s3']['bucket']['name']
+
+	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
+
+	rows_of_data = obj['Body'].read().decode().split('\n')
+
+	#return
+	s3_break_up_file(rows_of_data, s3_bucket)
 	return
-	process_file_to_smaller(data_file)
-	return
-	pass
 
 def process_into_dynamo_lambda_handler(event, context):
 	'''
@@ -149,10 +154,15 @@ def process_into_dynamo_lambda_handler(event, context):
 	file_name - file that we are processing 
 
 	'''
-	print("Handler works")
-	print("Event: ", event)
-	print("Context: ", context)
+
+	file_key = event['Records'][0]['s3']['object']['key']
+	s3_bucket = event['Records'][0]['s3']['bucket']['name']
+	print("File key: ", file_key)
+	print("S3 bucket: ", s3_bucket)
+	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
+	rows_of_data = obj['Body'].read().decode().split('\n')
+	process_s3_object_into_dynamo(file_key, s3_bucket, rows_of_data)
 	return
 	#small_data_file = event['lambda_data_file']
-	process_file_into_dynamo(small_data_file)
-	pass
+	#process_file_into_dynamo(small_data_file)
+	#pass

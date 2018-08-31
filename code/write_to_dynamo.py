@@ -73,7 +73,9 @@ def add_item_to_table(table, key, value):
 		table.put_item(Item = item_information)
 	except Exception as e:
 		error_info = "Unable to insert into table. Skipping " + str(key) + " with value: " + str(value)
-		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
+		print(error_info)
+		print(e)
+		#write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 
 
 def retrieve_item(table, keys):
@@ -127,14 +129,18 @@ def delete_item(table, keys):
 		print("Unable to delete item.")
 
 
-def find_table(file):
+def find_table(app_store):
 	'''
 	from the file name, we determine which table we are modifying with the changes
 	'''
-	if 'google' in file or 'playstore' in file:
+	if app_store == 'Google':
 		table_name = GOOGLE_PLAY_TABLE_NAME
-	elif 'apple' in file or 'itunes' in file:
+	elif app_store == 'Apple':
 		table_name = APPLE_STORE_TABLE_NAME	
+	else:
+		print("Unable to determine which table.")
+		print("Exiting.")
+		exit()
 	try:
 		table = dynamodb_client.describe_table(TableName = table_name)
 		table = dynamodb_resource.Table(table_name)
