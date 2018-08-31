@@ -111,6 +111,8 @@ def file_download_lambda_handler(event, context):
 
 	'''
 	print("Handler works")
+	print("Event: ", event)
+	print("Context: ", context)
 	return
 	#data_location = event['data_location']
 	download_data(data_location)
@@ -128,7 +130,9 @@ def file_split_lambda_handler(event, context):
 	'''
 
 	#data_file = event['data_file']
-	print("Handler is working!!!!")
+	print("Handler works")
+	print("Event: ", event)
+	print("Context: ", context)
 	return
 	process_file_to_smaller(data_file)
 	return
@@ -146,6 +150,8 @@ def process_into_dynamo_lambda_handler(event, context):
 
 	'''
 	print("Handler works")
+	print("Event: ", event)
+	print("Context: ", context)
 	return
 	#small_data_file = event['lambda_data_file']
 	process_file_into_dynamo(small_data_file)
