@@ -141,6 +141,9 @@ def file_split_lambda_handler(event, context):
 
 	#return
 	s3_break_up_file(rows_of_data, s3_bucket)
+	print("Deleting file...")
+	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
+	print("File successfully deleted.")
 	return
 
 def process_into_dynamo_lambda_handler(event, context):
@@ -162,6 +165,9 @@ def process_into_dynamo_lambda_handler(event, context):
 	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
 	rows_of_data = obj['Body'].read().decode().split('\n')
 	process_s3_object_into_dynamo(file_key, s3_bucket, rows_of_data)
+	print("Deleting file...")
+	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
+	print("File successfully deleted.")
 	return
 	#small_data_file = event['lambda_data_file']
 	#process_file_into_dynamo(small_data_file)
