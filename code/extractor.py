@@ -3,7 +3,7 @@ import time
 
 from config import top_level_domains
 from utils import *
-from check_url import *
+from check_url import check_valid_url_ad_txt
 
 class Extractor:
 
@@ -16,13 +16,9 @@ class Extractor:
 
 
 	def look_for_ads_txt_url(self, entry_line):
-
-
 		'''
 		returns either a valid ads.txt location or an empty string ''
-
 		'''
-
 
 		def remove_subdomain(url):
 			url_split_by_dots = url.split('.')
@@ -41,10 +37,6 @@ class Extractor:
 							http = "http://"
 						return http + base_domain + '.' + tld
 			return url
-
-
-
-
 
 		def check_possible_url_validity(url):
 			if 'http' in url.lower() and url != '':
@@ -83,13 +75,10 @@ class Extractor:
 
 			'''
 			possible_url = site_entry + 'ads.txt'
-			#if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
-			#	return possible_url
-
 			possible_url = possible_url.replace('www.', '')
+
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
-
 			return ''
 			
 
@@ -102,16 +91,11 @@ class Extractor:
 			a valid ads.txt file.
 			'''
 			possible_url = site_entry + package + 'ads.txt'
-
-			# if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
-			# 	return possible_url
 			possible_url = possible_url.replace('www.', '')
+
 			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 				return possible_url
-
 			return ''
-			
-
 		
 		'''
 		all functions will either return a valid url or an empty string.
@@ -142,6 +126,7 @@ class Extractor:
 		#3
 		possible_url = check_full_domain_url(site_entry, package)
 		return possible_url
+
 
 def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor):
 	'''

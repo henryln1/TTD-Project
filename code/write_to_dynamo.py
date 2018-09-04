@@ -2,7 +2,14 @@
 import sys
 import time
 
-from config import MAX_BATCH_SIZE, dynamodb_resource, dynamodb_client, ERROR_LOG_FILE, APPLE_STORE_TABLE_NAME, GOOGLE_PLAY_TABLE_NAME
+from config import MAX_BATCH_SIZE, \
+					dynamodb_resource, \
+					dynamodb_client, \
+					ERROR_LOG_FILE, \
+					APPLE_STORE_TABLE_NAME, \
+					GOOGLE_PLAY_TABLE_NAME
+
+
 from query_dynamo import *
 from utils import write_exception_to_file
 
@@ -11,8 +18,6 @@ from utils import write_exception_to_file
 
 parition key helps distribute data evenly, choose something that has a large range of values 
 sort key can help sort additionally with the partition key
-
-probably want to insert each row of csv as an item
 '''
 
 
@@ -75,7 +80,6 @@ def add_item_to_table(table, key, value):
 		error_info = "Unable to insert into table. Skipping " + str(key) + " with value: " + str(value)
 		print(error_info)
 		print(e)
-		#write_exception_to_file(ERROR_LOG_FILE, e, error_info)
 
 
 def retrieve_item(table, keys):
@@ -113,8 +117,8 @@ def update_item(table, keys, values):
 			ExpressionAttributeValues = values_dict_form)
 	except Exception as e:
 		error_info = "Unable to update table. Skipping " + str(keys) + " with value: " + str(values)
-		write_exception_to_file(ERROR_LOG_FILE, e, error_info)
-		#print("Unable to update table for key: " + keys + ". Skipping.")
+		print(error_info)
+		print(e)
 
 
 def delete_item(table, keys):
@@ -176,47 +180,6 @@ def write_items_batch(items, table):
 	with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
 		for item in items:
 			batch.put_item(Item = item)
-
-
-
-# def process_csv_file(csv_file):
-# 	try:
-# 		print("Processing " + csv_file + ".")
-# 		dataframe = pd.read_csv(csv_file)
-# 		matrix = dataframe.values
-# 		#iterate through information and update database
-# 		table = find_table(csv_file)
-
-# 		for i in range(1, matrix.shape[0]):
-# 			#skip first row because those are column labels.
-
-# 			key = matrix[i][0]
-# 			value = matrix[i][1]
-# 			item_dict = {
-# 				'App_ID': key,
-# 				'FileLocation': value
-# 			}
-# 			key_dict_form = {
-# 				'App_ID': key
-# 			}
-# 			if key_exists(key, table):
-# 				'''
-# 				update value for the key
-# 				'''
-# 				update_item(table, key, value)
-
-# 			else:
-# 				'''
-# 				insert a new item into the table
-# 				'''
-# 				add_item_to_table(table, key, value)
-# 		print("Finished processing " + csv_file + " into DB.")
-# 	except Exception as e:
-# 		print(e)
-# 		print("Unable to process csv file into DB. Exiting.")
-# 	return 
-	
-
 
 def print_all_items(table):
 	print(table.scan())

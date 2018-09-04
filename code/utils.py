@@ -29,7 +29,10 @@ def parse_for_specific_parameter(parameter_name, search_string):
 	'''
 	regex_pattern = re.escape(parameter_name) + r'": "(.+?)"'
 	parameter = re.search(regex_pattern, search_string)
-	return parameter[1]
+	try:
+		return parameter[1]
+	except:
+		return None
 
 def write_exception_to_file(file_name, exception, information):
 
@@ -54,12 +57,3 @@ def check_missing_slash(string):
 	if not string.endswith('/'):
 		string += '/'
 	return string
-
-
-def open_file(file_path):
-	
-	with open(file_path, 'r', encoding = 'utf-8') as f:
-		all_lines = f.readlines()
-		all_lines = [line.rstrip('\n') for line in all_lines]
-		f.close()
-	return all_lines

@@ -1,7 +1,5 @@
 import boto3
-import time
 from boto3.dynamodb.conditions import Attr, Key
-#from config import *
 
 '''
 list of functions to query and look for information from a dynamo db table
@@ -18,8 +16,8 @@ def scan_ads_txt_location(table, key):
 		items = response['Items']
 		return items
 	except Exception as e:
-		print(e)
 		print("Unable to query table for this mobile app id.")
+		print(e)		
 		return None
 
 
@@ -36,5 +34,5 @@ def query_ads_txt_location(table, key):
 		)
 		return response['Items']
 	except Exception as e:
-		print(e)
 		print("Unable to query table for this mobile app id.")
+		print(e)

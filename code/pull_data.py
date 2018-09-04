@@ -2,9 +2,7 @@ import requests
 #from boto3.s3.transfer import S3Transfer
 from config import s3, \
 				s3_client, \
-				S3_BUCKET_NAME, \
-				DATA_ACCESS_KEY, \
-				DATA_ACCESS_SECRET_KEY
+				S3_BUCKET_NAME
 
 
 
