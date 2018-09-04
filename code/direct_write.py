@@ -59,7 +59,7 @@ def process_s3_object_into_dynamo(s3_object_key, s3_bucket, data):
 		if app_id and market_url:
 			corresponding_url = extractor.look_for_ads_txt_url(current_entry)
 		else:
-			#occurs when there's an empty line in my testing, there may be other cases
+			#occurs when there's an empty line in the file in my testing, there may be other cases
 			print("Unable to determine keys for this entry. Skipping..")
 			continue
 		if corresponding_url == '':
