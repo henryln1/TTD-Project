@@ -5,6 +5,9 @@ function whenever it occurs, so I just need to put what code I want to run
 in corresponding handler
 '''
 
+from datetime import datetime
+
+
 #used in 1st lambda handler
 from pull_data import download_data
 
@@ -21,7 +24,8 @@ from config import lmbda_client, \
 					FILE_SPLIT_FUNCTION_NAME, \
 					FILE_PROCESS_FUNCTION_NAME, \
 					LAMBDA_ROLE, \
-					HANDLER_MODULE_NAME
+					HANDLER_MODULE_NAME, \
+					DATA_S3_BUCKET_NAME
 
 def file_download_lambda_handler(event, context):
 	'''
@@ -35,13 +39,23 @@ def file_download_lambda_handler(event, context):
 	This handler should be on a scheduled trigger, occurrly either daily or weekly.
 	It should then download the data dump from 42matters.
 	'''
-
-	print("Handler works")
 	print("Event: ", event)
-	print("Context: ", context)
-	return
+	source_bucket = DATA_S3_BUCKET_NAME
+	destination_bucket = S3_BUCKET_NAME
+	destination_bucket = 'ttd-test-account-general-bucket'
+	app_store = event['app_store']
+	folder = ''
+	if app_store == 'Apple':
+		folder = 'itunes'
+	elif app_store == 'Google':
+		folder = 'playstore'
+
+	destination_file_key = 'app_metadata_' + str(datetime.now()) + '_' + folder
+	directory_root = '1/42apps/v0.1/production/'
+	source_file_key = directory_root + folder + '/lookup-weekly/2018-09-04/itunes-00.tar.gz'
+	print(source_file_key)
 	#data_location = event['data_location']
-	download_data(data_location)
+	download_data(source_bucket, source_file_key, destination_bucket, destination_file_key)
 	return
 
 
@@ -56,10 +70,11 @@ def file_split_lambda_handler(event, context):
 	file_key = event['Records'][0]['s3']['object']['key']
 	s3_bucket = event['Records'][0]['s3']['bucket']['name']
 	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
-	rows_of_data = obj['Body'].read().decode().split('\n')
+	#rows_of_data = obj['Body'].read().decode().split('\n')
 
+	data = obj['Body']
 
-	s3_break_up_file(rows_of_data, s3_bucket)
+	s3_break_up_file(data, s3_bucket)
 	print("Deleting file...")
 	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
 	print("File successfully deleted.")
