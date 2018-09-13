@@ -1,7 +1,7 @@
 import re
 import time
 
-from config import top_level_domains
+from config import top_level_domains, URL_CACHE
 from utils import *
 from check_url import check_valid_url_ad_txt
 
@@ -76,8 +76,14 @@ class Extractor:
 			'''
 			possible_url = site_entry + 'ads.txt'
 			possible_url = possible_url.replace('www.', '')
-
-			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+			if possible_url in URL_CACHE:
+				if URL_CACHE[possible_url] is True:
+					return possible_url
+				else:
+					return ''
+			valid = check_valid_url_ad_txt(possible_url)
+			URL_CACHE[possible_url] = valid
+			if check_possible_url_validity(possible_url) and valid:
 				return possible_url
 			return ''
 			
@@ -92,8 +98,14 @@ class Extractor:
 			'''
 			possible_url = site_entry + package + 'ads.txt'
 			possible_url = possible_url.replace('www.', '')
-
-			if check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
+			if possible_url in URL_CACHE:
+				if URL_CACHE[possible_url] is True:
+					return possible_url
+				else:
+					return ''
+			valid = check_valid_url_ad_txt(possible_url)
+			URL_CACHE[possible_url] = valid
+			if check_possible_url_validity(possible_url) and valid:
 				return possible_url
 			return ''
 		
@@ -108,11 +120,16 @@ class Extractor:
 
 		site_entry_marker = self.seller_website
 		site_entry = parse_for_specific_parameter(site_entry_marker, entry_line)
+		if not site_entry: #if we can't find original app creator, give up and go to next entry
+			return possible_url
 		site_entry = remove_subdomain(site_entry)
 		site_entry = check_missing_slash(site_entry)
 		package_marker = self.app_package_name
 		package = parse_for_specific_parameter(package_marker, entry_line)
-		package = check_missing_slash(package)
+		if package: #protect against error when it is None
+			package = check_missing_slash(package)
+		else:
+			package = ''
 
 		#1
 		possible_url = check_description_in_metadata()
@@ -126,29 +143,3 @@ class Extractor:
 		#3
 		possible_url = check_full_domain_url(site_entry, package)
 		return possible_url
-
-
-def open_file_create_dict(file_path, app_id_marker, market_url_marker, extractor):
-	'''
-	Opens up the data file and starts processing the data into a dictionary with format
-
-	(app id, market url): ads.txt location
-
-	'''
-	ads_txt_location_dict = {}
-
-	with open(file_path, 'r', encoding = 'utf-8') as f:
-		current_entry = f.readline()
-		while current_entry:
-			app_id = parse_for_specific_parameter(app_id_marker, current_entry)
-			market_url = parse_for_specific_parameter(market_url_marker, current_entry)
-			if not app_id:
-				print("Could not find title of app. Please investigate.")
-			if not market_url:
-				print("Could not find market url of app. Please investigate.")
-			if app_id and market_url:
-				if (app_id, market_url) not in ads_txt_location_dict:
-					ads_txt_location_dict[(app_id, market_url)] = extractor.look_for_ads_txt_url(current_entry)
-			current_entry = f.readline()
-		f.close()
-	return ads_txt_location_dict

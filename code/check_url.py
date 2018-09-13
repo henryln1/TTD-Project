@@ -1,6 +1,9 @@
 import requests
+from threading import Thread
+import functools
 
-from config import NUMBER_ATTEMPTS
+
+from config import NUMBER_ATTEMPTS, MAXIMUM_ADS_FILE_SIZE
 
 '''
 File contains code to look at an url and determine whether or not there is a text file present
@@ -8,26 +11,78 @@ File contains code to look at an url and determine whether or not there is a tex
 '''
 
 
+'''
+Below functioon comes from 
+https://stackoverflow.com/questions/21827874/timeout-a-python-function-in-windows
+'''
+def timeout(timeout):
+	def deco(func):
+		@functools.wraps(func)
+		def wrapper(*args, **kwargs):
+			res = [Exception('function [%s] timeout [%s seconds] exceeded!' % (func.__name__, timeout))]
+			def newFunc():
+				try:
+					res[0] = func(*args, **kwargs)
+				except Exception as e:
+					res[0] = e
+			t = Thread(target=newFunc)
+			t.daemon = True
+			try:
+				t.start()
+				t.join(timeout)
+			except Exception as je:
+				print('error starting thread')
+				raise je
+			ret = res[0]
+			if isinstance(ret, BaseException):
+				raise ret
+			return ret
+		return wrapper
+	return deco
+
+
 def extensive_check_for_ads_txt(request):
 	'''
 	After performing the initial status code check, we now need to check for soft 404s and other problematic things
 	to verify whether or not there is a ads.txt file present.
 	'''
+	def get_text_stream(request):
+		encoding = request.encoding
+		content = b''
+		size = 0
+		for chunk in request.iter_content(1024):
+			size += len(chunk)
+			if size > MAXIMUM_ADS_FILE_SIZE:
+				print("Contents too large, truncating...")
+				break
+			content += chunk
+		if encoding:
+			return content.decode(encoding)
+		else:
+			content.decode()
+
+	def get_text(request):
+		return request.text
 
 	retry_attempt_counter = 0
+	content = ''
 	while retry_attempt_counter < NUMBER_ATTEMPTS:
+		func_with_timeout = timeout(timeout = 2)(get_text_stream) #protection against extremely large contents that causes the process to hang
 		try:
-			content = request.text
+			content = func_with_timeout(request)
 			break
 		except Exception as e:
+			print(e)
+			retry_attempt_counter += 1
 			if retry_attempt_counter == NUMBER_ATTEMPTS:
-				error_info = "Request timed out too many times. Skipping " + request.url 
+				error_info = "Request failed too many times. Skipping " + request.url 
 				print(error_info)
 				break
 			else:
-				print("Request timed out. Retrying...")
-				retry_attempt_counter += 1
+				print("Request failed. Retrying...")
 
+	if not content:
+		content = ''
 	if (not (
 		'<!DOCTYPE' in content or 
 		'<!doctype' in content or 
@@ -58,7 +113,7 @@ def check_valid_url_ad_txt(url_path):
 	Request shouldn't take more than a second or two
 	'''
 	try:
-		request = requests.get(url_path, timeout = 1, stream = True)
+		request = requests.get(url_path, timeout = 1)
 	except Exception as e:
 
 		error_info = "Error encountered pinging " + url_path + ". Defaulting to no ads.txt here."
@@ -67,17 +122,3 @@ def check_valid_url_ad_txt(url_path):
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)
 	return False
-
-
-def extract_url_contents(url_list):
-	'''
-	Takes a list of urls (valid and invalid for now) and returns the dict structured as:
-	url : url_contents
-	'''
-	url_contents_dict = {}
-	for url in url_list:
-		if check_valid_url_ad_txt(url):
-			url_contents_dict[url] = request.get(url_path).text
-		else:
-			url_contents_dict[url] = None
-	return url_contents_dict

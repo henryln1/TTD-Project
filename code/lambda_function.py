@@ -5,16 +5,15 @@ function whenever it occurs, so I just need to put what code I want to run
 in corresponding handler
 '''
 
+import json
+
 from datetime import datetime
 
 
 #used in 1st lambda handler
-from pull_data import download_data
+from divide_data import s3_break_up_file, find_most_recent_object
 
 #used in 2nd lambda handler
-from divide_data import s3_break_up_file
-
-#used in 3rd lambda handler
 from direct_write import process_s3_object_into_dynamo
 
 from config import lmbda_client, \
@@ -25,38 +24,8 @@ from config import lmbda_client, \
 					FILE_PROCESS_FUNCTION_NAME, \
 					LAMBDA_ROLE, \
 					HANDLER_MODULE_NAME, \
-					DATA_S3_BUCKET_NAME
-
-def file_download_lambda_handler(event, context):
-	'''
-	event is in the form of dict that passes event data to handler
-	context is of type LambdaContext, contains runtime information
-
-	Documentation: https://docs.aws.amazon.com/lambda/latest/dg/python-programming-model-handler-types.html
-	'''
-
-	'''
-	This handler should be on a scheduled trigger, occurrly either daily or weekly.
-	It should then download the data dump from 42matters.
-	'''
-	print("Event: ", event)
-	source_bucket = DATA_S3_BUCKET_NAME
-	destination_bucket = S3_BUCKET_NAME
-	destination_bucket = 'ttd-test-account-general-bucket'
-	app_store = event['app_store']
-	folder = ''
-	if app_store == 'Apple':
-		folder = 'itunes'
-	elif app_store == 'Google':
-		folder = 'playstore'
-
-	destination_file_key = 'app_metadata_' + str(datetime.now()) + '_' + folder
-	directory_root = '1/42apps/v0.1/production/'
-	source_file_key = directory_root + folder + '/lookup-weekly/2018-09-04/itunes-00.tar.gz'
-	print(source_file_key)
-	#data_location = event['data_location']
-	download_data(source_bucket, source_file_key, destination_bucket, destination_file_key)
-	return
+					DATA_S3_BUCKET_NAME, \
+					data_s3_client
 
 
 def file_split_lambda_handler(event, context):
@@ -66,18 +35,40 @@ def file_split_lambda_handler(event, context):
 
 	'''
 
-	
-	file_key = event['Records'][0]['s3']['object']['key']
-	s3_bucket = event['Records'][0]['s3']['bucket']['name']
-	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
-	#rows_of_data = obj['Body'].read().decode().split('\n')
+	print("Event: ", event)
 
+	if 'app_store' not in event:
+		print("Unable to determine which app store to update. Exiting")
+		return
+	if event['app_store'] == 'Apple':
+		prefix = '1/42apps/v0.1/production/itunes/lookup-weekly/20'
+	else:
+		prefix = '1/42apps/v0.1/production/playstore/lookup-weekly/20'
+
+	file_key = find_most_recent_object(DATA_S3_BUCKET_NAME, prefix)
+	obj = data_s3_client.get_object(Bucket = DATA_S3_BUCKET_NAME, Key = file_key)
+	destination_s3_bucket = 'ttd-test-account-general-bucket'
 	data = obj['Body']
-
-	s3_break_up_file(data, s3_bucket)
-	print("Deleting file...")
-	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
-	print("File successfully deleted.")
+	if 'line_number' in event:
+		start_line_number = int(event['line_number'])
+	else:
+		start_line_number = 0
+	end_line_number = s3_break_up_file(data, destination_s3_bucket, start_line_number)
+	if end_line_number != 0:
+		print("Data splitting not completed in this lambda. Invoking again...")
+		event['line_number'] = str(end_line_number)
+		event_json = json.dumps(event)
+		response = lmbda_client.invoke(
+			FunctionName = 'file_split_lambda',
+			InvocationType = 'Event',
+			Payload = event_json.encode('utf-8')
+		)
+		print("Next lambda invoked..")
+	else:
+		print("Done processing.")
+		#print("Deleting file...")
+		#s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
+		#print("File successfully deleted.")
 	return
 
 def process_into_dynamo_lambda_handler(event, context):

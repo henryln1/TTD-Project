@@ -49,8 +49,8 @@ def create_new_table(table_name, primary_keys = None):
 				# },
 			],
 			ProvisionedThroughput = {
-				'ReadCapacityUnits': 100,
-				'WriteCapacityUnits': 100
+				'ReadCapacityUnits': 1000,
+				'WriteCapacityUnits': 2000
 			}
 		)
 	else:
@@ -173,13 +173,17 @@ def write_items_batch(items, table):
 
 	assert len(items) <= MAX_BATCH_SIZE
 
-
 	'''
 	removes duplicate entries automatically before sending to Dynamo
 	'''
-	with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
+	try:
+		with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
+			for item in items:
+				batch.put_item(Item = item)
+	except Exception as e:
+		print(e)
 		for item in items:
-			batch.put_item(Item = item)
+			print(item)
 
 def print_all_items(table):
 	print(table.scan())
