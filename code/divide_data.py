@@ -13,6 +13,10 @@ Takes a file and subdivides it into chunks that we can process in a single Lambd
 '''
 
 def find_most_recent_object(bucket, prefix):
+	'''
+	looks into an s3 bucket and finds the most recently modified object
+	'''
+
 	all_objects = data_s3_client.list_objects(Bucket = bucket, Prefix = prefix)
 	most_recent_key = ''
 	most_recent_datetime = datetime(2000, 1, 1)
@@ -27,7 +31,8 @@ def find_most_recent_object(bucket, prefix):
 	
 def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 	'''
-	Function to interact with splitting up an s3 object and then writing it into an s3 object instead of text files locally
+	Function to interact with splitting up an s3 object 
+	and then writing it into an s3 object instead of text files locally.
 	'''
 	print("Breaking up data into smaller files...")
 
@@ -55,7 +60,10 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 				curr_chunk_string = ''.join(curr_chunk)
 				curr_chunk_bytes = curr_chunk_string.encode('utf-8')
 				object_name = 'adstxt/app_lambda_file_' + app_store +'_' + str(line_number) + '.txt'
-				response = s3_client.put_object(Body = curr_chunk_bytes, Bucket = s3_bucket, Key = object_name)
+				response = s3_client.put_object(
+					Body = curr_chunk_bytes, 
+					Bucket = s3_bucket, 
+					Key = object_name)
 
 				#reset chunk
 				curr_chunk = []
@@ -66,13 +74,16 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 			else:
 				count += 1
 
-			if time.time() - start_time > 60 * 4 + 50 and len(curr_chunk) > 0: #time limit of 4 minutes 50 seconds for lambda function processing
-
+			if time.time() - start_time > 60 * 4 + 50 and len(curr_chunk) > 0: 
+				#time limit of 4 minutes 50 seconds for lambda function processing
 				#process this chunk into a text file
 				curr_chunk_string = ''.join(curr_chunk)
 				curr_chunk_bytes = curr_chunk_string.encode('utf-8')
 				object_name = 'adstxt/app_lambda_file_' + app_store +'_' + str(line_number) + '.txt'
-				response = s3_client.put_object(Body = curr_chunk_bytes, Bucket = s3_bucket, Key = object_name)
+				response = s3_client.put_object(
+					Body = curr_chunk_bytes, 
+					Bucket = s3_bucket, 
+					Key = object_name)
 
 				#return the line_number to start the next one at
 				return line_number
@@ -83,7 +94,10 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 		curr_chunk_string = ''.join(curr_chunk)
 		curr_chunk_bytes = curr_chunk_string.encode('utf-8')
 		object_name = 'adstxt/app_lambda_file_' + app_store +'_' + str(line_number) + '.txt'
-		response = s3_client.put_object(Body = curr_chunk_bytes, Bucket = s3_bucket, Key = object_name)
+		response = s3_client.put_object(
+			Body = curr_chunk_bytes, 
+			Bucket = s3_bucket, 
+			Key = object_name)
 
 	print("Done creating smaller files.")
-	return 0
+	return 0 #to keep consistent with what type we return

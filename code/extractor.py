@@ -11,7 +11,6 @@ class Extractor:
 	def __init__(self, seller_website, app_package_name, ads_txt_regex = None):
 		self.seller_website = seller_website
 		self.app_package_name = app_package_name
-
 		self.ads_txt_regex = None
 
 
@@ -21,6 +20,10 @@ class Extractor:
 		'''
 
 		def remove_subdomain(url):
+			'''
+			helps remove subdomains from an url, 
+			logic translated from current C# logic in prod
+			'''
 			url_split_by_dots = url.split('.')
 			for current_index, element in enumerate(url_split_by_dots):
 				front = url_split_by_dots[:current_index]

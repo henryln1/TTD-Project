@@ -5,7 +5,6 @@ import time
 from config import MAX_BATCH_SIZE, \
 					dynamodb_resource, \
 					dynamodb_client, \
-					ERROR_LOG_FILE, \
 					APPLE_STORE_TABLE_NAME, \
 					GOOGLE_PLAY_TABLE_NAME
 
@@ -50,7 +49,7 @@ def create_new_table(table_name, primary_keys = None):
 			],
 			ProvisionedThroughput = {
 				'ReadCapacityUnits': 1000,
-				'WriteCapacityUnits': 2000
+				'WriteCapacityUnits': 1000
 			}
 		)
 	else:
@@ -172,10 +171,10 @@ def write_items_batch(items, table):
 	'''
 
 	assert len(items) <= MAX_BATCH_SIZE
-
 	'''
 	removes duplicate entries automatically before sending to Dynamo
 	'''
+
 	try:
 		with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
 			for item in items:
@@ -184,6 +183,7 @@ def write_items_batch(items, table):
 		print(e)
 		for item in items:
 			print(item)
+
 
 def print_all_items(table):
 	print(table.scan())

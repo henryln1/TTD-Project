@@ -6,13 +6,14 @@ import functools
 from config import NUMBER_ATTEMPTS, MAXIMUM_ADS_FILE_SIZE
 
 '''
-File contains code to look at an url and determine whether or not there is a text file present
+File contains code to look at an url and determine 
+whether or not there is a valid ads.txt file present
 
 '''
 
 
 '''
-Below functioon comes from 
+Below function comes from 
 https://stackoverflow.com/questions/21827874/timeout-a-python-function-in-windows
 '''
 def timeout(timeout):
@@ -42,11 +43,18 @@ def timeout(timeout):
 
 
 def extensive_check_for_ads_txt(request):
+
 	'''
-	After performing the initial status code check, we now need to check for soft 404s and other problematic things
+	After performing the initial status code check, 
+	we now need to check for soft 404s and other problematic things
 	to verify whether or not there is a ads.txt file present.
 	'''
+
 	def get_text_stream(request):
+		'''
+		streams the content of webpage to avoid the request hanging (rare edge case)
+		'''
+
 		encoding = request.encoding
 		content = b''
 		size = 0
@@ -67,7 +75,9 @@ def extensive_check_for_ads_txt(request):
 	retry_attempt_counter = 0
 	content = ''
 	while retry_attempt_counter < NUMBER_ATTEMPTS:
-		func_with_timeout = timeout(timeout = 2)(get_text_stream) #protection against extremely large contents that causes the process to hang
+		
+		func_with_timeout = timeout(timeout = 2)(get_text_stream)
+		#protection against extremely large contents that causes the process to hang
 		try:
 			content = func_with_timeout(request)
 			break
@@ -103,15 +113,9 @@ def check_valid_url_ad_txt(url_path):
 	Given a url, we try to check if it is valid. Returns a boolean 
 	'''
 
-	'''
-	try/except is to handle the errors when the website crashes the process. 
-	'''
-
 	request = None
 
-	'''
-	Request shouldn't take more than a second or two
-	'''
+	#request shouldn't take more than a second or two.
 	try:
 		request = requests.get(url_path, timeout = 1)
 	except Exception as e:

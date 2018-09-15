@@ -1,12 +1,8 @@
 '''
 These are the handlers that will be used by AWS whenever there is a trigger
-From my current understanding, a trigger will execute the corresponding
-function whenever it occurs, so I just need to put what code I want to run
-in corresponding handler
 '''
 
 import json
-
 from datetime import datetime
 
 
@@ -14,7 +10,7 @@ from datetime import datetime
 from divide_data import s3_break_up_file, find_most_recent_object
 
 #used in 2nd lambda handler
-from direct_write import process_s3_object_into_dynamo
+from direct_write import process_s3_object_into_dynamo, write_to_text_file_in_s3
 
 from config import lmbda_client, \
 					s3_client, \
@@ -30,7 +26,7 @@ from config import lmbda_client, \
 
 def file_split_lambda_handler(event, context):
 	'''
-	This handler will execute upon the dump being downloaded. It takes the giant
+	This handler will execute . It takes the giant
 	file and splits it into smaller files that can each be processed separately.
 
 	'''
@@ -92,3 +88,22 @@ def process_into_dynamo_lambda_handler(event, context):
 	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
 	print("File successfully deleted.")
 	return
+
+
+def text_file_write_lambda_handler(event, context):
+
+	if 's3_bucket' not in event:
+		print("No S3 bucket detected. Exiting")
+		return
+	if 'app_store' not in event:
+		print("No app store identification detected. Exiting")
+		return
+
+	s3_bucket = event['s3_bucket']
+	app_store = event['app_store']
+	write_to_text_file_in_s3(s3_bucket, app_store)
+	print("Done writing table to text file.")
+	return
+
+
+
