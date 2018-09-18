@@ -1,52 +1,62 @@
 # TTD-Project
-Summer project at theTradeDesk. The goal is to generate a csv file that has a match between mobile app ids and a corresponding ads.txt location on the web.
+Summer project at theTradeDesk. The goal is to generate a txt file that has a match between mobile app ids and a corresponding ads.txt location on the web.
 
 
 The data will be stored in AWS and the code is being written in Python 3.7.0.
 
 
-The necessary Python libraries aside from the standard are listed in relevant_python_libraries.txt. Please install these before running.
+TODO 09/17/18:
 
 
-Overview of files in code/
+Add changes from CR
+
+Python setup instructions
+-------------------------
+
+[To be included in Readme]
 
 
-check_url.py: Contains functions that validate a url (checking whether or not it has an ads.txt file located there)
+Make sure you have Python 3 installed
 
 
-direct_write.py: Processes data into Dynamo Table
+> py
 
 
-divide_data.py: Splits a large data file into smaller files
+should run python 3.7. if it doesn't, install python 3.7 from https://www.python.org/downloads/
 
 
-extractor.py: Extractor class that processes data file for information
+cd into the project directory and make a virtual environment:
 
 
-lambda_function.py: Contains handler functions when we upload code as a package up to AWS Lambda
+	> cd D:\src\henry-ttd-project\
+	> py -m venv venv
 
 
-pull_data.py: Downloads data into s3 bucket
+Then activate that virtual environment:
 
 
-query_dynamo.py: Functions to query ads.txt location from Dynamo DB 
+    > . .\venv\Scripts\activate
 
 
-unit_tests.py: Testing bits and pieces of code
+"." works in bash and powershell. In plain command prompt, just execute the activate command directly:
 
 
-utils.py: misc file that contains generally useful functions 
+	d:\src\henry-ttd-project> venv\Scripts\activate
 
 
-write_to_dynamo.py: Functions to interact with local Dynamo DB using boto3.
+Your prompt should now tell you that you are in the `(venv)` environment:
 
 
+    (venv) D:\src\henry-ttd-project >
 
 
-TODO 09/04/18:
+Make sure you have the latest version of `pip` (Pythons package manager) installed:
 
 
-Write lambda with cloudwatch trigger to regularly download file into s3 bucket
+	(venv) D:\src\henry-ttd-project > python -m pip install --upgrade pip
 
 
-Code Review
+Once the virtual environment is active, install all the required packages:
+
+
+ 	(venv) D:\src\henry-ttd-project > pip install -r .\requirements.txt
