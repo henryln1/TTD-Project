@@ -14,8 +14,7 @@ from direct_write import process_s3_object_into_dynamo, write_to_text_file_in_s3
 
 from config import S3_BUCKET_NAME, \
 					DATA_S3_BUCKET_NAME, \
-					DATA_S3_PREFIX_GOOGLE, \
-					DATA_S3_PREFIX_APPLE
+					all_stores
 
 from clients import s3_client, data_s3_client, lambda_client
 
@@ -31,11 +30,10 @@ def file_split_lambda_handler(event, context):
 		if 'app_store' not in event:
 			print('Unable to determine which app store to update. Exiting')
 			return None, 0
+		app_store = event['app_store']
 		start_line_number = int(event.get('line_number', '0'))
-		if event['app_store'] == 'Apple':
-			prefix = DATA_S3_PREFIX_APPLE
-		else:
-			prefix = DATA_S3_PREFIX_GOOGLE
+		prefix = all_stores[app_store]['S3_prefix']
+
 		file_key = find_most_recent_object(DATA_S3_BUCKET_NAME, prefix)
 		obj = data_s3_client.get_object(Bucket = DATA_S3_BUCKET_NAME, Key = file_key)
 		return (obj['Body'], start_line_number)
@@ -55,12 +53,12 @@ def file_split_lambda_handler(event, context):
 	(data, start_line_number) = fetch_most_recent_data(event)
 	if not data:
 		return
-	end_line_number = s3_break_up_file(data, destination_s3_bucket, start_line_number)
+	end_line_number = s3_break_up_file(data, S3_BUCKET_NAME, start_line_number)
 	if end_line_number != 0:
 		reschedule_lambda(event, end_line_number)
 	else:
 		print('Done processing.')
-	return
+
 
 
 def process_into_dynamo_lambda_handler(event, context):
@@ -90,10 +88,12 @@ def process_into_dynamo_lambda_handler(event, context):
 	process_s3_object_into_dynamo(file_key, s3_bucket, rows_of_data)
 	delete_object(s3_bucket, file_key)
 
-	return
-
 
 def text_file_write_lambda_handler(event, context):
+	"""
+	Writes the contents of the DynamoDB tables to a text file hosted in a s3 bucket.
+	This function is triggered weekly via a CloudWatch Scheduled trigger
+	"""
 
 	if 's3_bucket' not in event:
 		print('No S3 bucket detected. Exiting.')
@@ -101,12 +101,11 @@ def text_file_write_lambda_handler(event, context):
 	if 'app_store' not in event:
 		print('No app store identification detected. Exiting.')
 		return
-
-	s3_bucket = event['s3_bucket']
+		
 	app_store = event['app_store']
-	write_to_text_file_in_s3(s3_bucket, app_store)
+	write_to_text_file_in_s3(S3_BUCKET_NAME, app_store)
 	print('Done writing table to text file.')
-	return
+
 
 
 

@@ -37,8 +37,7 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 	"""
 
 	def put_into_s3(chunk, app_store, line_number):
-		chunk_string = ''.join(chunk)
-		chunk_bytes = chunk_string.encode()
+		chunk_bytes = b''.join(chunk)
 		object_name = 'adstxt/app_lambda_file_' + app_store +'_' + str(line_number) + '.txt'
 		try:
 			response = s3_client.put_object(
@@ -47,22 +46,18 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 				Key = object_name)
 		except Exception as e:
 			print(e)
-			print('Unable to write ' + object_name + ' to s3. Skipping')
-		return
+			print('Unable to write ' + object_name + ' to s3. Skipping.')
+
 
 
 	print('Breaking up data into smaller files...')
 
 	start_time = time.time()
 
-	data_iterator = data.iter_lines()
-
-	tar = tarfile.open(mode = 'r|gz', fileobj = data)
+	tar = tarfile.open(mode = 'r|*', fileobj = data)
 
 	app_store = ''
 	curr_chunk = []
-	chunk_number = 0
-	count = 0
 	for entry in tar:
 		file_obj = tar.extractfile(entry)
 		line_number = 0
@@ -72,16 +67,10 @@ def s3_break_up_file(data, s3_bucket, start_line_number = 0):
 				continue
 			if app_store == '':
 				app_store = s3_determine_app_store(line.decode())
-			curr_chunk.append(line.decode())
-			if count == LINES_PER_LAMBDA:
+			curr_chunk.append(line)
+			if len(curr_chunk) == LINES_PER_LAMBDA:
 				put_into_s3(curr_chunk, app_store, line_number)
-				#reset chunk
 				curr_chunk = []
-				#reset count
-				count = 0
-				chunk_number += 1
-			else:
-				count += 1
 
 			if time.time() - start_time > BREAK_UP_TIME_LIMIT and len(curr_chunk) > 0: 
 				#process this chunk into a text file

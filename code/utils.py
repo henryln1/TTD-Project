@@ -20,14 +20,6 @@ def validate_file(file):
 	return False
 
 
-
-def parse_for_specific_parameter(parameter_name, search_string):
-	"""
-	Uses json format to find a specific piece of information in the entry.
-	"""
-	return search_string.get(parameter_name, '')
-
-
 def write_exception_to_file(file_name, exception_info, information):
 
 	"""
@@ -41,7 +33,6 @@ def write_exception_to_file(file_name, exception_info, information):
 		f.write(str(exception_info) + '\n')
 		f.write(information + '\n')
 		f.close()
-	return
 
 
 def check_missing_slash(s):

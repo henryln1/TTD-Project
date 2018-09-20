@@ -31,12 +31,6 @@ class test_utils_methods(unittest.TestCase):
 		removed_duplicates = remove_duplicates_from_list(example_list)
 		self.assertEqual(len(removed_duplicates), 4)
 
-	def test_parse_parameter(self):
-		parameter_name = 'bundleId'
-		search_string = '"bundleId": "com.aws.weatherbug.pro"'
-		self.assertEqual(parse_for_specific_parameter(parameter_name, search_string), 'com.aws.weatherbug.pro')
-
-
 class test_dynamo_methods(unittest.TestCase):
 
 	def test_single_item_write_and_query_dynamo(self):

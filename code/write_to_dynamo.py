@@ -1,8 +1,7 @@
 import time
 
 from config import MAX_BATCH_SIZE, \
-					APPLE_STORE_TABLE_NAME, \
-					GOOGLE_PLAY_TABLE_NAME, \
+					all_stores, \
 					TABLE_READ_CAPACITY, \
 					TABLE_WRITE_CAPACITY
 
@@ -22,7 +21,7 @@ sort key can help sort additionally with the partition key
 def create_new_table(table_name, primary_keys = None):
 	start_time = time.time()
 	if not primary_keys:
-		#default to two colum table of app_id and ads.txt location
+		#default to two column table of app_id and ads.txt location
 		table = dynamodb_resource.create_table(
 			TableName = table_name,
 			KeySchema = [
@@ -61,7 +60,7 @@ def add_item_to_table(table, key, value):
 	"""
 
 	item_information = {
-		'App_ID': key,
+		'App_ID': str(key),
 		'FileLocation': value
 	}
 	try: 
@@ -130,14 +129,12 @@ def find_table(app_store):
 	from the file name, we determine which table we are modifying with the changes
 	"""
 
-	if app_store == 'Google':
-		table_name = GOOGLE_PLAY_TABLE_NAME
-	elif app_store == 'Apple':
-		table_name = APPLE_STORE_TABLE_NAME	
+	if app_store in all_stores:
+		table_name = all_stores[app_store]['tableName']
 	else:
 		print('Unable to determine which table.')
 		print('Exiting.')
-		return
+		return None
 	try:
 		table = dynamodb_client.describe_table(TableName = table_name)
 		table = dynamodb_resource.Table(table_name)
@@ -157,29 +154,6 @@ def key_exists(keys, table):
 	if len(items) > 0:
 		return True
 	return False
-
-
-def write_items_batch(items, table):
-	"""
-	uses built in batch writer to help speed up writing large number of items
-	items is a list of items we want to write, already in correct format and 
-	not exceeding max batch size
-	"""
-
-	assert len(items) <= MAX_BATCH_SIZE
-	
-	"""
-	removes duplicate entries automatically before sending to Dynamo
-	"""
-
-	try:
-		with table.batch_writer(overwrite_by_pkeys = ['App_ID']) as batch:
-			for item in items:
-				batch.put_item(Item = item)
-	except Exception as e:
-		print(e)
-
-
 
 def print_all_items(table):
 	print(table.scan())

@@ -1,5 +1,5 @@
 # TTD-Project
-Summer project at theTradeDesk. The goal is to generate a txt file that has a match between mobile app ids and a corresponding ads.txt location on the web.
+Summer project at theTradeDesk. The goal is to generate a txt file that has a match between mobile app ids and a corresponding ads.txt location on the web. 
 
 
 The data will be stored in AWS and the code is being written in Python 3.7.0.
@@ -9,6 +9,13 @@ TODO 09/17/18:
 
 
 Add changes from CR
+
+
+Note about Expected Scale:
+
+
+With the current amount of data being processed, each weekly file is about 2-4GB compressed and 8-11GB uncompressed. The number of individual lines being processed ranges from 2 to 3.5 million for each file. To process this large amount of data using lambda, each weekly file is broken down into 100 line chunks that are processed individually. This leads to between 20k and 35k lambda invocations.
+
 
 Python setup instructions
 -------------------------
