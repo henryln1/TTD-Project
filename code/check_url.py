@@ -69,22 +69,14 @@ def get_url_text(request):
 	retry_attempt_counter = 0
 	content = ''
 	while retry_attempt_counter < NUMBER_ATTEMPTS:
-		
 		#timeout of 2 seconds for function
 		func_with_timeout = timeout(timeout = 2)(get_text_stream)
 		#protection against extremely large contents that causes the process to hang
 		try:
 			content = func_with_timeout(request)
-			break
 		except Exception as e:
 			print(e)
-			retry_attempt_counter += 1
-			if retry_attempt_counter == NUMBER_ATTEMPTS:
-				error_info = 'Request failed too many times. Skipping ' + request.url 
-				print(error_info)
-				break
-			else:
-				print('Request failed. Retrying...')
+		break
 	return content
 
 
