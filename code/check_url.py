@@ -1,6 +1,7 @@
 import requests
 from threading import Thread
 import functools
+import re
 
 
 from config import NUMBER_ATTEMPTS, MAXIMUM_ADS_FILE_SIZE, STREAM_SIZE
@@ -55,8 +56,8 @@ def get_url_text(request):
 		for chunk in request.iter_lines(chunk_size = STREAM_SIZE):
 			size += len(chunk)
 			if size > MAXIMUM_ADS_FILE_SIZE:
-				print('Contents too large, truncating...')
-				break
+				print('Contents too large. Assuming invalid ads.txt file.')
+				return ''
 			content += chunk
 		if encoding:
 			return content.decode(encoding)
@@ -66,19 +67,21 @@ def get_url_text(request):
 	def get_text(request):
 		return request.text
 
-	retry_attempt_counter = 0
 	content = ''
-	while retry_attempt_counter < NUMBER_ATTEMPTS:
-		#timeout of 2 seconds for function
-		func_with_timeout = timeout(timeout = 2)(get_text_stream)
-		#protection against extremely large contents that causes the process to hang
-		try:
-			content = func_with_timeout(request)
-		except Exception as e:
-			print(e)
-		break
+	#timeout of 2 seconds for function
+	func_with_timeout = timeout(timeout = 2)(get_text_stream)
+	#protection against extremely large contents that causes the process to hang
+	try:
+		content = func_with_timeout(request)
+	except Exception as e:
+		print(e)
 	return content
 
+def verify_contents(text):
+	check_for_valid_line_regex = r'.+?,.+?, ?(direct|reseller)'
+	if re.search(check_for_valid_line_regex, text, flags = re.IGNORECASE):
+		return True
+	return False
 
 
 def extensive_check_for_ads_txt(request):
@@ -98,12 +101,14 @@ def extensive_check_for_ads_txt(request):
 		'<html' in content or 
 		'<HTML' in content or 
 		'<content:encoded' in content) 
-	and
+	and #pretty sure this isn't needed anymore due to the regex verification
 		('DIRECT' in content or 
 		'RESELLER' in content or 
 		'direct' in content or 
-		'reseller' in content)):
+		'reseller' in content)
+	and verify_contents(content[:2000])): #don't want to check the entire file if it's too big
 		return True
+		
 	return False
 
 
@@ -111,9 +116,7 @@ def check_valid_url_ad_txt(url_path):
 	"""
 	Given a url, we try to check if it is valid. Returns a boolean 
 	"""
-
 	request = None
-
 	#request shouldn't take more than a second or two.
 	try:
 		request = requests.get(url_path, timeout = 1, stream = True)

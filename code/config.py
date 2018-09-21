@@ -20,7 +20,7 @@ all_stores = {
 		'tableName': 'AppStoreAdsTxt_IOS',
 		'storageBucketKeyName':'AppStoreAdsTxt_IOS.txt',
 		'S3_prefix': '1/42apps/v0.1/production/itunes/lookup-weekly/20', #prefix in 42matters bucket
-		'keywords': ('artistName', 'artistViewUrl', 'sellerUrl', 'bundleId')
+		'keywords': ('artistName', 'artistViewUrl', 'sellerUrl', 'trackId')
 	},
 	'Google': {
 		'identifyingString': 'play.google.com/store',
@@ -44,7 +44,7 @@ MAX_BATCH_SIZE = 50
 LINES_PER_LAMBDA = 100 #raising this number should be done with caution, can lead to Lambda function timeout
 NUMBER_ATTEMPTS = 2
 MAX_LENGTH_KEY = 300
-MAXIMUM_ADS_FILE_SIZE = 1024 * 100 #arbitrary max size to amount of bytes we will stream from webpage
+MAXIMUM_ADS_FILE_SIZE = 1024 * 200 #arbitrary max size to amount of bytes we will stream from webpage
 BREAK_UP_TIME_LIMIT = 290 #4 minutes 50 seconds
-STREAM_SIZE = 1024
+STREAM_SIZE = 1024 * 5
 

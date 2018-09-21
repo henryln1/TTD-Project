@@ -35,8 +35,8 @@ def process_s3_object_into_dynamo(s3_object_key, s3_bucket, data):
 	if app_store == '':
 		print('Exiting...')
 		return
-	app_id_marker, market_url_marker, seller_url, package = all_stores[app_store]['keywords']
-	extractor = Extractor(seller_url, package)
+	app_id_marker, market_url_marker, seller_url, package_marker = all_stores[app_store]['keywords']
+	extractor = Extractor(seller_url, package_marker)
 	table = find_table(app_store)
 	if not table:
 		return
@@ -49,19 +49,16 @@ def process_s3_object_into_dynamo(s3_object_key, s3_bucket, data):
 		except Exception as e:
 			print(e)
 			continue
-		app_id = current_entry_json.get(app_id_marker, '')
-		market_url = current_entry_json.get(market_url_marker, '')
-		if app_id and market_url:
+		package = str(current_entry_json.get(package_marker, ''))
+		if package != '':
 			corresponding_url = extractor.look_for_ads_txt_url(current_entry_json)
-			if len(market_url) > MAX_LENGTH_KEY: 
-				#truncating if market url is too long and crashes Dynamo processing
-				market_url = market_url[:MAX_LENGTH_KEY]
+			if len(package) > MAX_LENGTH_KEY:
+				package = package[:MAX_LENGTH_KEY]
 		else:
-			#occurs when there's an empty line in the file in my testing, there may be other cases
-			print('Unable to determine keys for this entry. Skipping..')
+			print('Unable to determine key for this entry. Skipping..')
 			continue
 		if corresponding_url != '':
-			add_item_to_table(table, (app_id, market_url), corresponding_url)		
+			add_item_to_table(table, package, corresponding_url)		
 	print('Finished processing s3 object into Dynamo.')
 
 
@@ -82,7 +79,6 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 
 	response_dynamo = dynamodb_client.scan(TableName = table_name)
 	byte_form = b''
-	#a bit iffy about having two for loops doing same thing but following structure of AWS documentation
 	#https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 
 	for item in response_dynamo['Items']:
