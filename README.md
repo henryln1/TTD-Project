@@ -2,13 +2,7 @@
 Summer project at theTradeDesk. The goal is to generate a txt file that has a match between mobile app ids and a corresponding ads.txt location on the web. 
 
 
-The data will be stored in AWS and the code is being written in Python 3.7.0.
-
-
-TODO 09/17/18:
-
-
-Add changes from CR
+The data is stored in AWS and the code is being written in Python 3.7.0.
 
 
 Note about Expected Scale:
