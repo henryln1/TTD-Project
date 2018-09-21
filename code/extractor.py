@@ -2,6 +2,7 @@ import re
 import time
 import json
 import functools
+from urllib.parse import urlparse
 
 from top_level_domains import top_level_domains
 from utils import check_missing_slash
@@ -30,7 +31,9 @@ class Extractor:
 		helps remove subdomains from an url, 
 		logic translated from current C# logic in prod
 		"""
-		url_split_by_dots = url.split('.')
+		parsed_url = urlparse(url)
+		domain = parsed_url.netloc
+		url_split_by_dots = domain.split('.')
 		for current_index, element in enumerate(url_split_by_dots):
 			front = url_split_by_dots[:current_index]
 			back = url_split_by_dots[current_index:]
@@ -38,13 +41,8 @@ class Extractor:
 			if tld in top_level_domains:
 				if len(front) > 1:
 					front = front[1:]
-					base_domain = '.'.join(front)
-					
-					if 'https' in url:
-						http = 'https://'
-					else:
-						http = 'http://'
-					return http + base_domain + '.' + tld
+				base_domain = '.'.join(front)
+				return parsed_url.scheme +'://' + base_domain + '.' + tld
 		return url
 
 
@@ -112,7 +110,7 @@ class Extractor:
 		site_entry = self._remove_subdomain(site_entry)
 		site_entry = check_missing_slash(site_entry)
 		package_marker = self.app_package_name
-		package = entry_line.get(package_marker, '')
+		package = str(entry_line.get(package_marker, ''))
 		if package: #protect against error when it is None
 			package = check_missing_slash(package)
 		else:
