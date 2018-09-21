@@ -1,23 +1,28 @@
-import pandas as pd 
-import time
-import os
 import unittest
 
-from utils import *
-from check_url import *
-from write_to_dynamo import *
-from query_dynamo import *
+from utils import remove_duplicates_from_list
+from check_url import check_valid_url_ad_txt
+from write_to_dynamo import find_table, \
+						add_item_to_table, \
+						update_item, \
+						delete_item, \
+						retrieve_item, \
+						key_exists
+
+from query_dynamo import scan_ads_txt_location
 
 class test_url_methods(unittest.TestCase):
 
 	def test_valid_url(self):
-		print("Testing url methods...")
 		example_valid_url = 'http://slither.io/ads.txt'
-		example_fake_url = 'http://slither.io/air.com.hypah.io.slither/ads.txt'
 		valid_url_check = check_valid_url_ad_txt(example_valid_url)
 		self.assertTrue(valid_url_check)
+
+	def test_invalid_url(self):
+		example_fake_url = 'http://slither.io/air.com.hypah.io.slither/ads.txt'
 		fake_url_check = check_valid_url_ad_txt(example_fake_url)
 		self.assertFalse(fake_url_check)
+
 
 class test_utils_methods(unittest.TestCase):
 
@@ -26,16 +31,10 @@ class test_utils_methods(unittest.TestCase):
 		removed_duplicates = remove_duplicates_from_list(example_list)
 		self.assertEqual(len(removed_duplicates), 4)
 
-	def test_parse_parameter(self):
-		parameter_name = 'bundleId'
-		search_string = '"bundleId": "com.aws.weatherbug.pro"'
-		self.assertEqual(parse_for_specific_parameter(parameter_name, search_string), 'com.aws.weatherbug.pro')
-
-
 class test_dynamo_methods(unittest.TestCase):
 
 	def test_single_item_write_and_query_dynamo(self):
-		print("Testing dynamo...")
+		#should have one assert per test, keep in mind
 		table = find_table('apple')
 		item = {
 			'App_ID': "('eBay Inc.', 'http://itunes.apple.com/artist/ebay-inc/id282614219?uo=5')",

@@ -6,14 +6,16 @@
 
 mkdir package-project-dir
 cp code/check_url.py package-project-dir
+cp code/clients.py package-project-dir
 cp code/config.py package-project-dir
 cp code/direct_write.py package-project-dir
 cp code/divide_data.py package-project-dir
 cp code/extractor.py package-project-dir
 cp code/lambda_function.py package-project-dir
+cp code/query_dynamo.py package-project-dir
+cp code/top_level_domains.py package-project-dir
 cp code/utils.py package-project-dir
 cp code/write_to_dynamo.py package-project-dir
-cp code/query_dynamo.py package-project-dir
 
 # copy modules into package
 cp -r C:/Users/v-henry.lin/AppData/Local/Programs/Python/Python37/lib/site-packages/requests* package-project-dir

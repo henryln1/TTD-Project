@@ -3,18 +3,20 @@ from threading import Thread
 import functools
 
 
-from config import NUMBER_ATTEMPTS, MAXIMUM_ADS_FILE_SIZE
+from config import NUMBER_ATTEMPTS, MAXIMUM_ADS_FILE_SIZE, STREAM_SIZE
 
-'''
-File contains code to look at an url and determine whether or not there is a text file present
+"""
+File contains code to look at an url and determine 
+whether or not there is a valid ads.txt file present
 
-'''
+"""
 
 
-'''
-Below functioon comes from 
+"""
+Below function comes from 
 https://stackoverflow.com/questions/21827874/timeout-a-python-function-in-windows
-'''
+"""
+
 def timeout(timeout):
 	def deco(func):
 		@functools.wraps(func)
@@ -40,26 +42,26 @@ def timeout(timeout):
 		return wrapper
 	return deco
 
+def get_url_text(request):
 
-def extensive_check_for_ads_txt(request):
-	'''
-	After performing the initial status code check, we now need to check for soft 404s and other problematic things
-	to verify whether or not there is a ads.txt file present.
-	'''
 	def get_text_stream(request):
+		"""
+		streams the content of webpage to avoid the request hanging (rare edge case)
+		"""
+
 		encoding = request.encoding
 		content = b''
 		size = 0
-		for chunk in request.iter_content(1024):
+		for chunk in request.iter_lines(chunk_size = STREAM_SIZE):
 			size += len(chunk)
 			if size > MAXIMUM_ADS_FILE_SIZE:
-				print("Contents too large, truncating...")
+				print('Contents too large, truncating...')
 				break
 			content += chunk
 		if encoding:
 			return content.decode(encoding)
 		else:
-			content.decode()
+			return content.decode()
 
 	def get_text(request):
 		return request.text
@@ -67,20 +69,27 @@ def extensive_check_for_ads_txt(request):
 	retry_attempt_counter = 0
 	content = ''
 	while retry_attempt_counter < NUMBER_ATTEMPTS:
-		func_with_timeout = timeout(timeout = 2)(get_text_stream) #protection against extremely large contents that causes the process to hang
+		#timeout of 2 seconds for function
+		func_with_timeout = timeout(timeout = 2)(get_text_stream)
+		#protection against extremely large contents that causes the process to hang
 		try:
 			content = func_with_timeout(request)
-			break
 		except Exception as e:
 			print(e)
-			retry_attempt_counter += 1
-			if retry_attempt_counter == NUMBER_ATTEMPTS:
-				error_info = "Request failed too many times. Skipping " + request.url 
-				print(error_info)
-				break
-			else:
-				print("Request failed. Retrying...")
+		break
+	return content
 
+
+
+def extensive_check_for_ads_txt(request):
+
+	"""
+	After performing the initial status code check, 
+	we now need to check for soft 404s and other problematic things
+	to verify whether or not there is a ads.txt file present.
+	"""
+
+	content = get_url_text(request)
 	if not content:
 		content = ''
 	if (not (
@@ -99,26 +108,22 @@ def extensive_check_for_ads_txt(request):
 
 
 def check_valid_url_ad_txt(url_path):
-	'''
+	"""
 	Given a url, we try to check if it is valid. Returns a boolean 
-	'''
-
-	'''
-	try/except is to handle the errors when the website crashes the process. 
-	'''
+	"""
 
 	request = None
 
-	'''
-	Request shouldn't take more than a second or two
-	'''
+	#request shouldn't take more than a second or two.
 	try:
-		request = requests.get(url_path, timeout = 1)
+		request = requests.get(url_path, timeout = 1, stream = True)
 	except Exception as e:
 
-		error_info = "Error encountered pinging " + url_path + ". Defaulting to no ads.txt here."
+		error_info = 'Error encountered pinging ' + url_path + '. Defaulting to no ads.txt here.'
 		print(error_info)
 		return False
+		
+	#preliminary check to make sure we get a valid webpage status
 	if request.status_code == 200:
 		return extensive_check_for_ads_txt(request)
 	return False

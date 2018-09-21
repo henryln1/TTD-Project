@@ -1,12 +1,8 @@
-'''
+"""
 These are the handlers that will be used by AWS whenever there is a trigger
-From my current understanding, a trigger will execute the corresponding
-function whenever it occurs, so I just need to put what code I want to run
-in corresponding handler
-'''
+"""
 
 import json
-
 from datetime import datetime
 
 
@@ -14,81 +10,102 @@ from datetime import datetime
 from divide_data import s3_break_up_file, find_most_recent_object
 
 #used in 2nd lambda handler
-from direct_write import process_s3_object_into_dynamo
+from direct_write import process_s3_object_into_dynamo, write_to_text_file_in_s3
 
-from config import lmbda_client, \
-					s3_client, \
-					S3_BUCKET_NAME, \
-					FILE_DOWNLOAD_FUNCTION_NAME, \
-					FILE_SPLIT_FUNCTION_NAME, \
-					FILE_PROCESS_FUNCTION_NAME, \
-					LAMBDA_ROLE, \
-					HANDLER_MODULE_NAME, \
+from config import S3_BUCKET_NAME, \
 					DATA_S3_BUCKET_NAME, \
-					data_s3_client
+					all_stores
+
+from clients import s3_client, data_s3_client, lambda_client
+
 
 
 def file_split_lambda_handler(event, context):
-	'''
-	This handler will execute upon the dump being downloaded. It takes the giant
+	"""
+	This handler will execute . It takes the giant
 	file and splits it into smaller files that can each be processed separately.
 
-	'''
+	"""
+	def fetch_most_recent_data(event):
+		if 'app_store' not in event:
+			print('Unable to determine which app store to update. Exiting')
+			return None, 0
+		app_store = event['app_store']
+		start_line_number = int(event.get('line_number', '0'))
+		prefix = all_stores[app_store]['S3_prefix']
 
-	print("Event: ", event)
+		file_key = find_most_recent_object(DATA_S3_BUCKET_NAME, prefix)
+		obj = data_s3_client.get_object(Bucket = DATA_S3_BUCKET_NAME, Key = file_key)
+		return (obj['Body'], start_line_number)
 
-	if 'app_store' not in event:
-		print("Unable to determine which app store to update. Exiting")
-		return
-	if event['app_store'] == 'Apple':
-		prefix = '1/42apps/v0.1/production/itunes/lookup-weekly/20'
-	else:
-		prefix = '1/42apps/v0.1/production/playstore/lookup-weekly/20'
-
-	file_key = find_most_recent_object(DATA_S3_BUCKET_NAME, prefix)
-	obj = data_s3_client.get_object(Bucket = DATA_S3_BUCKET_NAME, Key = file_key)
-	destination_s3_bucket = 'ttd-test-account-general-bucket'
-	data = obj['Body']
-	if 'line_number' in event:
-		start_line_number = int(event['line_number'])
-	else:
-		start_line_number = 0
-	end_line_number = s3_break_up_file(data, destination_s3_bucket, start_line_number)
-	if end_line_number != 0:
-		print("Data splitting not completed in this lambda. Invoking again...")
+	def reschedule_lambda(event, end_line_number):
+		print('Data splitting not completed in this lambda. Invoking again...')
 		event['line_number'] = str(end_line_number)
 		event_json = json.dumps(event)
-		response = lmbda_client.invoke(
+		response = lambda_client.invoke(
 			FunctionName = 'file_split_lambda',
 			InvocationType = 'Event',
 			Payload = event_json.encode('utf-8')
 		)
-		print("Next lambda invoked..")
+		print('Next lambda invoked..')		
+
+	print('Event: ', event)
+	(data, start_line_number) = fetch_most_recent_data(event)
+	if not data:
+		return
+	end_line_number = s3_break_up_file(data, S3_BUCKET_NAME, start_line_number)
+	if end_line_number != 0:
+		reschedule_lambda(event, end_line_number)
 	else:
-		print("Done processing.")
-		#print("Deleting file...")
-		#s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
-		#print("File successfully deleted.")
-	return
+		print('Done processing.')
+
+
 
 def process_into_dynamo_lambda_handler(event, context):
-	'''
+	"""
 	Triggers whenever a smaller file is occurred (from the above handler) and
 	runs url extraction and then writes that information into amazon dynamodb.
 	Since this triggers whenever a smaller file is created, there will be many of these
 	running concurrently, not in sequential order. 
+	"""
 
+	def get_data(s3_bucket, file_key):
+		print('File key: ', file_key)
+		print('S3 bucket: ', s3_bucket)
+		obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
+		rows_of_data = obj['Body'].read().decode().split('\n')
+		return rows_of_data
 
-	'''
+	def delete_object(s3_bucket, file_key):
+		print('Deleting file...')
+		s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
+		print('File successfully deleted.')
+
 
 	file_key = event['Records'][0]['s3']['object']['key']
 	s3_bucket = event['Records'][0]['s3']['bucket']['name']
-	print("File key: ", file_key)
-	print("S3 bucket: ", s3_bucket)
-	obj = s3_client.get_object(Bucket = s3_bucket, Key = file_key)
-	rows_of_data = obj['Body'].read().decode().split('\n')
+	rows_of_data = get_data(s3_bucket, file_key)
 	process_s3_object_into_dynamo(file_key, s3_bucket, rows_of_data)
-	print("Deleting file...")
-	s3_client.delete_object(Bucket = s3_bucket, Key = file_key)
-	print("File successfully deleted.")
-	return
+	delete_object(s3_bucket, file_key)
+
+
+def text_file_write_lambda_handler(event, context):
+	"""
+	Writes the contents of the DynamoDB tables to a text file hosted in a s3 bucket.
+	This function is triggered weekly via a CloudWatch Scheduled trigger
+	"""
+
+	if 's3_bucket' not in event:
+		print('No S3 bucket detected. Exiting.')
+		return
+	if 'app_store' not in event:
+		print('No app store identification detected. Exiting.')
+		return
+		
+	app_store = event['app_store']
+	write_to_text_file_in_s3(S3_BUCKET_NAME, app_store)
+	print('Done writing table to text file.')
+
+
+
+
