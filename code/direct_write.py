@@ -36,7 +36,7 @@ def process_s3_object_into_dynamo(s3_object_key, s3_bucket, data):
 		print('Exiting...')
 		return
 	app_id_marker, market_url_marker, seller_url, package_marker = all_stores[app_store]['keywords']
-	extractor = Extractor(seller_url, package_marker)
+	extractor = Extractor(seller_url)
 	table = find_table(app_store)
 	if not table:
 		return

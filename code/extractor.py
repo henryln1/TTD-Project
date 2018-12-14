@@ -15,9 +15,8 @@ class Extractor:
 	a format. It then pings these urls and checks their validity.
 	"""
 
-	def __init__(self, seller_website, app_package_name):
+	def __init__(self, seller_website):
 		self.seller_website = seller_website
-		self.app_package_name = app_package_name
 		self.ads_txt_regex = None
 
 
@@ -52,7 +51,7 @@ class Extractor:
 
 
 	@functools.lru_cache(maxsize=1024)
-	def _check_full_domain_url(self, site_entry, package):
+	def _check_full_domain_url(self, site_entry):
 		"""
 		If we don't find an ads.txt file there, then revert to 
 		checking for the file at "http://{topleveldomain+1}/{appId}/ads.txt". 
@@ -61,7 +60,7 @@ class Extractor:
 		a valid ads.txt file.
 		"""
 
-		possible_url = site_entry + package + 'ads.txt'
+		possible_url = site_entry + 'ads.txt'
 		possible_url = possible_url.replace('www.', '')
 		return self._check_url_all(possible_url)
 	
@@ -87,12 +86,6 @@ class Extractor:
 			return possible_url
 		site_entry = self._remove_subdomain(site_entry)
 		site_entry = check_missing_slash(site_entry)
-		package_marker = self.app_package_name
-		package = str(entry_line.get(package_marker, ''))
-		if package: #protect against error when it is None
-			package = check_missing_slash(package)
-		else:
-			package = ''
 
-		possible_url = self._check_full_domain_url(site_entry, package)
+		possible_url = self._check_full_domain_url(site_entry)
 		return possible_url
