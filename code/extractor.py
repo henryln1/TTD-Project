@@ -45,28 +45,6 @@ class Extractor:
 				return parsed_url.scheme +'://' + base_domain + '.' + tld
 		return url
 
-
-	def _check_description_in_metadata(self, entry_line):
-		"""
-		Check the description property of the metadata for a URL 
-		with an ads.txt scheme defined. e.g., 
-		"adstxt://zynga.com/wordswithfriends/ads.txt". 
-		If a valid ads.txt file exists, use it.
-		This function is untested because we have no examples of this.
-		"""
-
-		if self.ads_txt_regex:
-			ads_txt_regex = self.ads_txt_regex
-		else:
-			ads_txt_regex = r'adstx.+?/ads\.txt'
-
-		if 'ads.txt' in entry_line:
-			find_ads_txt = re.search(ads_txt_regex, entry_line, re.IGNORECASE)
-			if find_ads_txt:
-				return find_ads_txt[0]
-
-		return ''
-
 	def _check_url_all(self, possible_url):
 		if self._check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 			return possible_url
@@ -116,11 +94,5 @@ class Extractor:
 		else:
 			package = ''
 
-		#1
-		possible_url = self._check_description_in_metadata(entry_line)
-		if possible_url != '':
-			return possible_url
-
-		#2
 		possible_url = self._check_full_domain_url(site_entry, package)
 		return possible_url
