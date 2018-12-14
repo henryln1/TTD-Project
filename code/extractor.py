@@ -60,7 +60,7 @@ class Extractor:
 		a valid ads.txt file.
 		"""
 
-		possible_url = site_entry + 'ads.txt'
+		possible_url = site_entry + 'app-ads.txt'
 		possible_url = possible_url.replace('www.', '')
 		return self._check_url_all(possible_url)
 	
