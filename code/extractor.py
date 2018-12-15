@@ -25,7 +25,7 @@ class Extractor:
 	def _check_possible_url_validity(self, url):
 		return url and re.match('http', url, re.IGNORECASE)
 
-	def _remove_subdomain(self, url):
+	def _normalize_url(self, url, subdomains_to_leave=1):
 		"""
 		helps remove subdomains from an url, 
 		logic translated from current C# logic in prod
@@ -38,8 +38,8 @@ class Extractor:
 			back = url_split_by_dots[current_index:]
 			tld = '.'.join(back)
 			if tld in top_level_domains:
-				if len(front) > 1:
-					front = front[1:]
+				if len(front) > subdomains_to_leave:
+					front = front[len(front) - subdomains_to_leave:]
 				base_domain = '.'.join(front)
 				return parsed_url.scheme +'://' + base_domain + '.' + tld
 		return url
@@ -48,21 +48,6 @@ class Extractor:
 		if self._check_possible_url_validity(possible_url) and check_valid_url_ad_txt(possible_url):
 			return possible_url
 		return ''
-
-
-	@functools.lru_cache(maxsize=1024)
-	def _check_full_domain_url(self, site_entry):
-		"""
-		If we don't find an ads.txt file there, then revert to 
-		checking for the file at "http://{topleveldomain+1}/{appId}/ads.txt". 
-		For the example above, we would look at 
-		http://zynga.com/com.zynga.words3/ads.txt to see if there is 
-		a valid ads.txt file.
-		"""
-
-		possible_url = site_entry + 'app-ads.txt'
-		return self._check_url_all(possible_url)
-	
 
 
 	def look_for_ads_txt_url(self, entry_line):
@@ -83,8 +68,10 @@ class Extractor:
 		site_entry = entry_line.get(site_entry_marker, '')
 		if not site_entry: #if we can't find original app creator, give up and go to next entry
 			return possible_url
-		site_entry = self._remove_subdomain(site_entry)
-		site_entry = check_missing_slash(site_entry)
 
-		possible_url = self._check_full_domain_url(site_entry)
+		site_entry = check_missing_slash(self._normalize_url(site_entry, 2))
+		possible_url = self._check_url_all(site_entry + 'app-ads.txt')
+		if possible_url == '':
+			site_entry = check_missing_slash(self._normalize_url(site_entry, 1))
+			possible_url = self._check_url_all(site_entry + 'app-ads.txt')
 		return possible_url
