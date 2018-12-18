@@ -4,7 +4,7 @@ import json
 import functools
 from urllib.parse import urlparse
 
-from top_level_domains import top_level_domains
+from top_level_domains import top_level_domains, prefixs
 from utils import check_missing_slash
 from check_url import check_valid_url_ad_txt
 
@@ -25,7 +25,7 @@ class Extractor:
 	def _check_possible_url_validity(self, url):
 		return url and re.match('http', url, re.IGNORECASE)
 
-	def _normalize_url(self, url, subdomains_to_leave=1):
+	def _normalize_url(self, url, subdomains_to_leave=1, remove_prefix=True):
 		"""
 		helps remove subdomains from an url, 
 		logic translated from current C# logic in prod
@@ -33,6 +33,10 @@ class Extractor:
 		parsed_url = urlparse(url)
 		domain = parsed_url.netloc
 		url_split_by_dots = domain.split('.')
+		if remove_prefix:
+			for prefix in prefixs:
+				if prefix in url_split_by_dots:
+					url_split_by_dots.remove(prefix)
 		for current_index, element in enumerate(url_split_by_dots):
 			front = url_split_by_dots[:current_index]
 			back = url_split_by_dots[current_index:]
