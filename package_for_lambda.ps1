@@ -26,9 +26,7 @@ cp -r venv/lib/site-packages/idna* package-project-dir
 cp -r venv/lib/site-packages/six* package-project-dir
 cp -r venv/lib/site-packages/python-dateutil* package-project-dir
 cp -r venv/lib/site-packages/jmespath* package-project-dir
-cp -r venv/lib/site-packages/docutils* package-project-dir
 cp -r venv/lib/site-packages/s3transfer* package-project-dir
-cp -r venv/lib/site-packages/pytz* package-project-dir
 
 #removing unused packages
 #rm -r package-project-dir/wheel*
