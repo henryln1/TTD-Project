@@ -1,4 +1,4 @@
-import requests
+from botocore.vendored import requests
 from threading import Thread
 import functools
 import re
