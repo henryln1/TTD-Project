@@ -102,7 +102,8 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 			Body = byte_form,
 			Bucket = s3_bucket,
 			ContentLength = len(byte_form),
-			Key = file_key)
+			Key = file_key,
+			ACL='public-read')
 	except Exception as e:
 		print(e)
 		print('Unable to write to s3 object.')
