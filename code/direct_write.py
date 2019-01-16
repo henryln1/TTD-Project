@@ -84,7 +84,7 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 	for item in response_dynamo['Items']:
 		app_id = item['App_ID']['S']
 		file_location = item['FileLocation']['S']
-		new_line = app_id + ', ' + file_location + '\n'	
+		new_line = app_id + ',' + file_location + '\n'	
 		byte_form += new_line.encode('utf-8')	
 
 	while 'LastEvaluatedKey' in response_dynamo:
@@ -94,7 +94,7 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 		for item in response_dynamo['Items']:
 			app_id = item['App_ID']['S']
 			file_location = item['FileLocation']['S']
-			new_line = app_id + ', ' + file_location + '\n'	
+			new_line = app_id + ',' + file_location + '\n'	
 			byte_form += new_line.encode('utf-8')
 
 	try:
