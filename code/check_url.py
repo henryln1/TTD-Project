@@ -119,7 +119,7 @@ def check_valid_url_ad_txt(url_path):
 	request = None
 	#request shouldn't take more than a second or two.
 	try:
-		request = requests.get(url_path, timeout = 1, stream = True)
+		request = requests.get(url_path, timeout = 1, stream = True, headers = {'User-Agent': "Trade Desk ads.txt & sellers.json crawler"})
 	except Exception as e:
 
 		error_info = 'Error encountered pinging ' + url_path + '. Defaulting to no ads.txt here.'
