@@ -1,5 +1,9 @@
+prefixs = {
+		"www",
+		"m"
+}
 top_level_domains = {
-	     "ac",
+	    "ac",
 		"com.ac",
 		"edu.ac",
 		"gov.ac",

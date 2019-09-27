@@ -36,7 +36,7 @@ def process_s3_object_into_dynamo(s3_object_key, s3_bucket, data):
 		print('Exiting...')
 		return
 	app_id_marker, market_url_marker, seller_url, package_marker = all_stores[app_store]['keywords']
-	extractor = Extractor(seller_url, package_marker)
+	extractor = Extractor(seller_url)
 	table = find_table(app_store)
 	if not table:
 		return
@@ -84,7 +84,7 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 	for item in response_dynamo['Items']:
 		app_id = item['App_ID']['S']
 		file_location = item['FileLocation']['S']
-		new_line = app_id + ', ' + file_location + '\n'	
+		new_line = app_id + ',' + file_location + '\n'	
 		byte_form += new_line.encode('utf-8')	
 
 	while 'LastEvaluatedKey' in response_dynamo:
@@ -94,7 +94,7 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 		for item in response_dynamo['Items']:
 			app_id = item['App_ID']['S']
 			file_location = item['FileLocation']['S']
-			new_line = app_id + ', ' + file_location + '\n'	
+			new_line = app_id + ',' + file_location + '\n'	
 			byte_form += new_line.encode('utf-8')
 
 	try:
@@ -102,7 +102,8 @@ def write_to_text_file_in_s3(s3_bucket, app_store):
 			Body = byte_form,
 			Bucket = s3_bucket,
 			ContentLength = len(byte_form),
-			Key = file_key)
+			Key = file_key,
+			ACL='public-read')
 	except Exception as e:
 		print(e)
 		print('Unable to write to s3 object.')
